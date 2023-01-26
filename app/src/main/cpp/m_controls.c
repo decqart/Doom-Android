@@ -185,8 +185,6 @@ int joybspeed = 2;
 int joybstrafeleft = -1;
 int joybstraferight = -1;
 
-int joybjump = -1;
-
 int joybprevweapon = -1;
 int joybnextweapon = -1;
 
@@ -236,72 +234,6 @@ void M_BindBaseControls(void)
     M_BindVariable("dclick_use",         &dclick_use);
     M_BindVariable("key_pause",          &key_pause);
     M_BindVariable("key_message_refresh", &key_message_refresh);
-}
-
-void M_BindHereticControls(void)
-{
-    M_BindVariable("key_flyup",          &key_flyup);
-    M_BindVariable("key_flydown",        &key_flydown);
-    M_BindVariable("key_flycenter",      &key_flycenter);
-
-    M_BindVariable("key_lookup",         &key_lookup);
-    M_BindVariable("key_lookdown",       &key_lookdown);
-    M_BindVariable("key_lookcenter",     &key_lookcenter);
-
-    M_BindVariable("key_invleft",        &key_invleft);
-    M_BindVariable("key_invright",       &key_invright);
-    M_BindVariable("key_useartifact",    &key_useartifact);
-}
-
-void M_BindHexenControls(void)
-{
-    M_BindVariable("key_jump",           &key_jump);
-    M_BindVariable("mouseb_jump",        &mousebjump);
-    M_BindVariable("joyb_jump",          &joybjump);
-
-    M_BindVariable("key_arti_all",             &key_arti_all);
-    M_BindVariable("key_arti_health",          &key_arti_health);
-    M_BindVariable("key_arti_poisonbag",       &key_arti_poisonbag);
-    M_BindVariable("key_arti_blastradius",     &key_arti_blastradius);
-    M_BindVariable("key_arti_teleport",        &key_arti_teleport);
-    M_BindVariable("key_arti_teleportother",   &key_arti_teleportother);
-    M_BindVariable("key_arti_egg",             &key_arti_egg);
-    M_BindVariable("key_arti_invulnerability", &key_arti_invulnerability);
-}
-
-void M_BindStrifeControls(void)
-{
-    // These are shared with all games, but have different defaults:
-    key_message_refresh = '/';
-
-    // These keys are shared with Heretic/Hexen but have different defaults:
-    key_jump     = 'a';
-    key_lookup   = KEY_PGUP;
-    key_lookdown = KEY_PGDN;
-    key_invleft  = KEY_INS;
-    key_invright = KEY_DEL;
-
-    M_BindVariable("key_jump",           &key_jump);
-    M_BindVariable("key_lookUp",         &key_lookup);
-    M_BindVariable("key_lookDown",       &key_lookdown);
-    M_BindVariable("key_invLeft",        &key_invleft);
-    M_BindVariable("key_invRight",       &key_invright);
-
-    // Custom Strife-only Keys:
-    M_BindVariable("key_useHealth",      &key_usehealth);
-    M_BindVariable("key_invquery",       &key_invquery);
-    M_BindVariable("key_mission",        &key_mission);
-    M_BindVariable("key_invPop",         &key_invpop);
-    M_BindVariable("key_invKey",         &key_invkey);
-    M_BindVariable("key_invHome",        &key_invhome);
-    M_BindVariable("key_invEnd",         &key_invend);
-    M_BindVariable("key_invUse",         &key_invuse);
-    M_BindVariable("key_invDrop",        &key_invdrop);
-
-    // Strife also supports jump on mouse and joystick, and in the exact same
-    // manner as Hexen!
-    M_BindVariable("mouseb_jump",        &mousebjump);
-    M_BindVariable("joyb_jump",          &joybjump);
 }
 
 void M_BindWeaponControls(void)
@@ -379,19 +311,9 @@ void M_BindChatControls(unsigned int num_players)
 
     M_BindVariable("key_multi_msg",     &key_multi_msg);
 
-    for (i=0; i<num_players; ++i)
+    for (i = 0; i < num_players; ++i)
     {
         M_snprintf(name, sizeof(name), "key_multi_msgplayer%i", i + 1);
         M_BindVariable(name, &key_multi_msgplayer[i]);
     }
-}
-
-//
-// Apply custom patches to the default values depending on the
-// platform we are running on.
-//
-
-void M_ApplyPlatformDefaults(void)
-{
-    // no-op. Add your platform-specific patches here.
 }

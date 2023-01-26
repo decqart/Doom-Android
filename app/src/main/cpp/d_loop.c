@@ -217,26 +217,13 @@ void NetUpdate(void)
 
     // build new ticcmds for console player
 
-    for (i=0; i<newtics ; i++)
+    for (i = 0; i < newtics ; i++)
     {
         if (!BuildNewTic())
         {
             break;
         }
     }
-}
-
-static void D_Disconnected(void)
-{
-    // In drone mode, the game cannot continue once disconnected.
-
-    if (drone)
-    {
-        I_Error("Disconnected from server in drone mode.");
-    }
-
-    // disconnected from server
-    printf("Disconnected from server.\n");
 }
 
 //
@@ -281,7 +268,6 @@ static int oldnettics;
 
 static void OldNetSync(void)
 {
-    unsigned int i;
     int keyplayer = -1;
 
     frameon++;
@@ -289,7 +275,7 @@ static void OldNetSync(void)
     // ideally maketic should be 1 - 3 tics above lowtic
     // if we are consistantly slower, speed up time
 
-    for (i=0 ; i<NET_MAXPLAYERS ; i++)
+    for (int i = 0; i < NET_MAXPLAYERS; i++)
     {
         if (local_playeringame[i])
         {
@@ -363,7 +349,7 @@ static void TicdupSquash(ticcmd_set_t *set)
     ticcmd_t *cmd;
     unsigned int i;
 
-    for (i = 0; i < NET_MAXPLAYERS ; ++i)
+    for (i = 0; i < NET_MAXPLAYERS; ++i)
     {
         cmd = &set->cmds[i];
         cmd->chatchar = 0;

@@ -89,16 +89,13 @@ bool M_FileExists(char *filename)
 //
 
 long M_FileLength(FILE *handle)
-{ 
-    long savedpos;
-    long length;
-
+{
     // save the current position in the file
-    savedpos = ftell(handle);
+    long savedpos = ftell(handle);
     
     // jump to the end and find the length
     fseek(handle, 0, SEEK_END);
-    length = ftell(handle);
+    long length = ftell(handle);
 
     // go back to the old location
     fseek(handle, savedpos, SEEK_SET);
@@ -108,15 +105,12 @@ long M_FileLength(FILE *handle)
 
 bool M_WriteFile(char *name, void *source, int length)
 {
-    FILE *handle;
-    int	count;
-	
-    handle = fopen(name, "wb");
+    FILE *handle = fopen(name, "wb");
 
     if (handle == NULL)
         return false;
 
-    count = fwrite(source, 1, length, handle);
+    size_t count = fwrite(source, 1, length, handle);
     fclose(handle);
 	
     if (count < length)
@@ -140,9 +134,7 @@ char *M_TempFile(char *s)
     tempdir = getenv("TEMP");
 
     if (tempdir == NULL)
-    {
         tempdir = ".";
-    }
 #else
     // In Unix, just use /tmp.
     tempdir = "/tmp";
@@ -196,75 +188,10 @@ void M_ExtractFileBase(char *path, char *dest)
     }
 }
 
-//
-// String replace function.
-//
-char *M_StringReplace(const char *haystack, const char *needle,
-                      const char *replacement)
-{
-    char *result, *dst;
-    const char *p;
-    size_t needle_len = strlen(needle);
-    size_t result_len, dst_len;
-
-    // Iterate through occurrences of 'needle' and calculate the size of
-    // the new string.
-    result_len = strlen(haystack) + 1;
-    p = haystack;
-
-    while (1)
-    {
-        p = strstr(p, needle);
-        if (p == NULL)
-        {
-            break;
-        }
-
-        p += needle_len;
-        result_len += strlen(replacement) - needle_len;
-    }
-
-    // Construct new string.
-
-    result = malloc(result_len);
-    if (result == NULL)
-    {
-        I_Error("M_StringReplace: Failed to allocate new string");
-        return NULL;
-    }
-
-    dst = result; dst_len = result_len;
-    p = haystack;
-
-    while (*p != '\0')
-    {
-        if (!strncmp(p, needle, needle_len))
-        {
-            M_StringCopy(dst, replacement, dst_len);
-            p += needle_len;
-            dst += strlen(replacement);
-            dst_len -= strlen(replacement);
-        }
-        else
-        {
-            *dst = *p;
-            ++dst; --dst_len;
-            ++p;
-        }
-    }
-
-    *dst = '\0';
-
-    return result;
-}
-
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
-
 bool M_StringCopy(char *dest, const char *src, size_t dest_size)
 {
-    size_t len;
-
     if (dest_size >= 1)
     {
         dest[dest_size - 1] = '\0';
@@ -275,7 +202,7 @@ bool M_StringCopy(char *dest, const char *src, size_t dest_size)
         return false;
     }
 
-    len = strlen(dest);
+    size_t len = strlen(dest);
     return src[len] == '\0';
 }
 
@@ -284,9 +211,8 @@ bool M_StringCopy(char *dest, const char *src, size_t dest_size)
 
 bool M_StringConcat(char *dest, const char *src, size_t dest_size)
 {
-    size_t offset;
+    size_t offset = strlen(dest);
 
-    offset = strlen(dest);
     if (offset > dest_size)
     {
         offset = dest_size;
@@ -295,20 +221,12 @@ bool M_StringConcat(char *dest, const char *src, size_t dest_size)
     return M_StringCopy(dest + offset, src, dest_size - offset);
 }
 
-// Returns true if 's' begins with the specified prefix.
-
-bool M_StringStartsWith(const char *s, const char *prefix)
-{
-    return strlen(s) > strlen(prefix)
-        && strncmp(s, prefix, strlen(prefix)) == 0;
-}
-
 // Returns true if 's' ends with the specified suffix.
 
 bool M_StringEndsWith(const char *s, const char *suffix)
 {
     return strlen(s) >= strlen(suffix)
-        && strcmp(s + strlen(s) - strlen(suffix), suffix) == 0;
+        && !strcmp(s + strlen(s) - strlen(suffix), suffix);
 }
 
 // Return a newly-malloced string with all the strings given as arguments
@@ -328,9 +246,7 @@ char *M_StringJoin(const char *s, ...)
     {
         v = va_arg(args, const char *);
         if (v == NULL)
-        {
             break;
-        }
 
         result_len += strlen(v);
     }
@@ -351,9 +267,7 @@ char *M_StringJoin(const char *s, ...)
     {
         v = va_arg(args, const char *);
         if (v == NULL)
-        {
             break;
-        }
 
         M_StringConcat(result, v, result_len);
     }
@@ -372,17 +286,13 @@ char *M_StringJoin(const char *s, ...)
 // Safe, portable vsnprintf().
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
 {
-    int result;
-
     if (buf_len < 1)
-    {
         return 0;
-    }
 
     // Windows (and other OSes?) has a vsnprintf() that doesn't always
     // append a trailing \0. So we must do it, and write into a buffer
     // that is one byte shorter; otherwise this function is unsafe.
-    result = vsnprintf(buf, buf_len, s, args);
+    int result = vsnprintf(buf, buf_len, s, args);
 
     // If truncated, change the final char in the buffer to a \0.
     // A negative result indicates a truncated buffer on Windows.

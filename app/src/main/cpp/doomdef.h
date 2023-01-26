@@ -30,8 +30,6 @@
 //
 // Global parameters/defines.
 //
-// DOOM version
-#define DOOM_VERSION 109
 
 // Version code for cph's longtics hack ("v1.91")
 #define DOOM_191_VERSION 111

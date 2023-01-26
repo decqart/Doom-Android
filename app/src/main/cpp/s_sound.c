@@ -70,7 +70,6 @@ typedef struct
 
     // handle of the sound being played
     int handle;
-    
 } channel_t;
 
 // The set of channels available

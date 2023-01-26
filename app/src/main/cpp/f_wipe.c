@@ -38,22 +38,13 @@ static byte *wipe_scr_start;
 static byte *wipe_scr_end;
 static byte *wipe_scr;
 
-
-void
-wipe_shittyColMajorXform
-( short*	array,
-  int		width,
-  int		height )
+void wipe_shittyColMajorXform(short *array, int width, int height)
 {
-    int		x;
-    int		y;
-    short*	dest;
+    short *dest = (short *) Z_Malloc(width*height*2, PU_STATIC, 0);
 
-    dest = (short *) Z_Malloc(width*height*2, PU_STATIC, 0);
-
-    for(y=0;y<height;y++)
-	for(x=0;x<width;x++)
-	    dest[x*height+y] = array[y*width+x];
+    for(int y = 0;y < height; y++)
+        for(int x = 0;x < width; x++)
+            dest[x*height+y] = array[y*width+x];
 
     memcpy(array, dest, width*height*2);
 
@@ -111,7 +102,6 @@ int wipe_exitColorXForm(int width, int height, int ticks)
 {
     return 0;
 }
-
 
 static int *y;
 
@@ -209,11 +199,7 @@ int wipe_StartScreen(int x, int y, int width, int height)
     return 0;
 }
 
-int wipe_EndScreen
-( int	x,
-  int	y,
-  int	width,
-  int	height )
+int wipe_EndScreen(int x, int y, int width, int height)
 {
     wipe_scr_end = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_ReadScreen(wipe_scr_end);
@@ -257,4 +243,3 @@ int wipe_ScreenWipe
 
     return !go;
 }
-

@@ -288,9 +288,8 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 static char *SearchDirectoryForIWAD(char *dir, int mask, GameMission_t *mission)
 {
     char *filename;
-    size_t i;
 
-    for (i=0; i<arrlen(iwads); ++i) 
+    for (size_t i = 0; i < arrlen(iwads); ++i)
     {
         if (((1 << iwads[i].mission) & mask) == 0)
         {
@@ -328,7 +327,7 @@ static GameMission_t IdentifyIWADByName(char *name, int mask)
 
     mission = none;
 
-    for (i=0; i<arrlen(iwads); ++i)
+    for (i = 0; i < arrlen(iwads); ++i)
     {
         // Check if the filename is this IWAD name.
 
@@ -353,7 +352,7 @@ static GameMission_t IdentifyIWADByName(char *name, int mask)
 // Build a list of IWAD files
 //
 
-static void BuildIWADDirList()
+static void BuildIWADDirList(void)
 {
 #if ORIGCODE
     char *doomwaddir;
@@ -379,15 +378,6 @@ static void BuildIWADDirList()
     // Add dirs from DOOMWADPATH
 
     AddDoomWadPath();
-
-#ifdef __unix__
-
-    // Standard places where IWAD files are installed under Unix.
-
-    AddIWADDir("/usr/share/games/doom");
-    AddIWADDir("/usr/local/share/games/doom");
-
-#endif
 #else
     AddIWADDir(FILES_DIR);
 
@@ -415,7 +405,7 @@ char *D_FindWADByName(char *name)
 
     // Search through all IWAD paths for a file with the given name.
 
-    for (i=0; i<num_iwad_dirs; ++i)
+    for (i = 0; i < num_iwad_dirs; ++i)
     {
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
@@ -515,7 +505,7 @@ char *D_FindIWAD(int mask, GameMission_t *mission)
 
         BuildIWADDirList();
     
-        for (i=0; result == NULL && i<num_iwad_dirs; ++i)
+        for (i = 0; result == NULL && i<num_iwad_dirs; ++i)
         {
             result = SearchDirectoryForIWAD(iwad_dirs[i], mask, mission);
         }
@@ -567,8 +557,6 @@ const iwad_t **D_FindAllIWADs(int mask)
 
 char *D_SaveGameIWADName(GameMission_t gamemission)
 {
-    size_t i;
-
     // Determine the IWAD name to use for savegames.
     // This determines the directory the savegame files get put into.
     //
@@ -576,7 +564,7 @@ char *D_SaveGameIWADName(GameMission_t gamemission)
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
 
-    for (i=0; i<arrlen(iwads); ++i)
+    for (size_t i = 0; i < arrlen(iwads); ++i)
     {
         if (gamemission == iwads[i].mission)
         {
@@ -588,27 +576,12 @@ char *D_SaveGameIWADName(GameMission_t gamemission)
     return "unknown.wad";
 }
 
-char *D_SuggestIWADName(GameMission_t mission, GameMode_t mode)
+char *D_SuggestGameName(GameMission_t mission, GameMode_t mode)
 {
     for (int i = 0; i < arrlen(iwads); ++i)
     {
-        if (iwads[i].mission == mission && iwads[i].mode == mode)
-        {
-            return iwads[i].name;
-        }
-    }
-
-    return "unknown.wad";
-}
-
-char *D_SuggestGameName(GameMission_t mission, GameMode_t mode)
-{
-    int i;
-
-    for (i = 0; i < arrlen(iwads); ++i)
-    {
-        if (iwads[i].mission == mission
-         && (mode == indetermined || iwads[i].mode == mode))
+        if (iwads[i].mission == mission &&
+            (mode == indetermined || iwads[i].mode == mode))
         {
             return iwads[i].description;
         }
@@ -616,4 +589,3 @@ char *D_SuggestGameName(GameMission_t mission, GameMode_t mode)
 
     return "Unknown game?";
 }
-

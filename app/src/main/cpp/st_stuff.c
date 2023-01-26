@@ -266,7 +266,7 @@ static player_t*	plyr;
 static bool st_firsttime;
 
 // lump number for PLAYPAL
-static int		lu_palette;
+static int lu_palette;
 
 // used for timing
 static unsigned int	st_clock;
@@ -288,9 +288,6 @@ static bool st_chat;
 
 // value of st_chat before message popped up
 static bool st_oldchat;
-
-// whether chat window has the cursor on
-static bool st_cursoron;
 
 // !deathmatch
 static bool st_notdeathmatch; 
@@ -408,7 +405,7 @@ cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 //
 // STATUS BAR CODE
 //
-void ST_Stop();
+void ST_Stop(void);
 
 void ST_refreshBackground(void)
 {
@@ -654,9 +651,7 @@ bool ST_Responder(event_t *ev)
   return false;
 }
 
-
-
-int ST_calcPainOffset()
+int ST_calcPainOffset(void)
 {
     int		health;
     static int	lastcalc;
@@ -848,10 +843,10 @@ void ST_updateFaceWidget(void)
 
 }
 
-void ST_updateWidgets()
+void ST_updateWidgets(void)
 {
-    static int	largeammo = 1994; // means "n/a"
-    int		i;
+    static int largeammo = 1994; // means "n/a"
+    int	i;
 
     // must redirect the pointer if the ready weapon has changed.
     //  if (w_ready.data != plyr->readyweapon)
@@ -906,7 +901,7 @@ void ST_updateWidgets()
         st_chat = st_oldchat;
 }
 
-void ST_Ticker()
+void ST_Ticker(void)
 {
     st_clock++;
     st_randomnumber = M_Random();
@@ -982,7 +977,7 @@ void ST_doPaletteStuff(void)
 
 void ST_drawWidgets(bool refresh)
 {
-    int		i;
+    int	i;
 
     // used by w_arms[] widgets
     st_armson = st_statusbaron && !deathmatch;
@@ -992,7 +987,7 @@ void ST_drawWidgets(bool refresh)
 
     STlib_updateNum(&w_ready, refresh);
 
-    for (i = 0;i<4;i++)
+    for (i = 0; i < 4; i++)
     {
         STlib_updateNum(&w_ammo[i], refresh);
         STlib_updateNum(&w_maxammo[i], refresh);
@@ -1003,12 +998,12 @@ void ST_drawWidgets(bool refresh)
 
     STlib_updateBinIcon(&w_armsbg, refresh);
 
-    for (i=0;i<6;i++)
+    for (i = 0; i < 6; i++)
         STlib_updateMultIcon(&w_arms[i], refresh);
 
     STlib_updateMultIcon(&w_faces, refresh);
 
-    for (i=0;i<3;i++)
+    for (i = 0; i < 3; i++)
         STlib_updateMultIcon(&w_keyboxes[i], refresh);
 
     STlib_updateNum(&w_frags, refresh);
@@ -1061,7 +1056,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     char	namebuf[9];
 
     // Load the numbers, tall and short
-    for (i = 0;i<10;i++)
+    for (i = 0; i < 10; i++)
     {
         snprintf(namebuf, 9, "STTNUM%d", i);
         callback(namebuf, &tallnum[i]);
@@ -1076,7 +1071,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     callback("STTPRCNT", &tallpercent);
 
     // key cards
-    for (i = 0;i<NUMCARDS;i++)
+    for (i = 0; i < NUMCARDS; i++)
     {
     	snprintf(namebuf, 9, "STKEYS%d", i);
         callback(namebuf, &keys[i]);
@@ -1086,7 +1081,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     callback("STARMS", &armsbg);
 
     // arms ownership widgets
-    for (i = 0; i<6; i++)
+    for (i = 0; i < 6; i++)
     {
     	snprintf(namebuf, 9, "STGNUM%d", i+2);
 
@@ -1153,23 +1148,7 @@ void ST_loadData(void)
     ST_loadGraphics();
 }
 
-static void ST_unloadCallback(char *lumpname, patch_t **variable)
-{
-    W_ReleaseLumpName(lumpname);
-    *variable = NULL;
-}
-
-void ST_unloadGraphics()
-{
-    ST_loadUnloadGraphics(ST_unloadCallback);
-}
-
-void ST_unloadData()
-{
-    ST_unloadGraphics();
-}
-
-void ST_initData()
+void ST_initData(void)
 {
     int i;
 
@@ -1182,7 +1161,6 @@ void ST_initData()
 
     st_statusbaron = true;
     st_oldchat = st_chat = false;
-    st_cursoron = false;
 
     st_faceindex = 0;
     st_palette = -1;
@@ -1198,7 +1176,7 @@ void ST_initData()
     STlib_init();
 }
 
-void ST_createWidgets()
+void ST_createWidgets(void)
 {
     int i;
 
@@ -1382,4 +1360,3 @@ void ST_Init(void)
     ST_loadData();
     st_backing_screen = (byte *) Z_Malloc(ST_WIDTH * ST_HEIGHT, PU_STATIC, 0);
 }
-

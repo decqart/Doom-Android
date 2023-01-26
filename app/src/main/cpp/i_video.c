@@ -99,7 +99,7 @@ bool screenvisible;
 // the values exceed the value of mouse_threshold, they are multiplied
 // by mouse_acceleration to increase the speed.
 
-float mouse_acceleration = 2.0;
+float mouse_acceleration = 2.0f;
 int mouse_threshold = 10;
 
 // Gamma correction level to use
@@ -215,19 +215,12 @@ void I_InitGraphics(void)
 	screenvisible = true;
 }
 
-void I_ShutdownGraphics(void)
-{
-	Z_Free(I_VideoBuffer);
-}
-
 void I_StartFrame() {}
 
 void I_StartTic(void)
 {
 	I_GetEvent();
 }
-
-void I_UpdateNoBlit() {}
 
 void I_FinishUpdate(void)
 {
@@ -277,10 +270,6 @@ void I_ReadScreen(byte *scr)
     memcpy(scr, I_VideoBuffer, SCREENWIDTH * SCREENHEIGHT);
 }
 
-//
-// I_SetPalette
-//
-#define GFX_RGB565(r, g, b) ((((r & 0xF8) >> 3) << 11) | (((g & 0xFC) >> 2) << 5) | ((b & 0xF8) >> 3))
 #define GFX_RGB565_R(color) ((0xF800 & color) >> 11)
 #define GFX_RGB565_G(color) ((0x07E0 & color) >> 5)
 #define GFX_RGB565_B(color) (0x001F & color)
@@ -344,7 +333,4 @@ void I_SetWindowTitle(char *title)
 
 void I_SetGrabMouseCallback(grabmouse_callback_t func) {}
 
-void I_BindVideoVariables() {}
-
 void I_DisplayFPSDots(bool dots_on) {}
-

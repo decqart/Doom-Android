@@ -43,19 +43,18 @@ int			validcount = 1;
 lighttable_t*		fixedcolormap;
 extern lighttable_t**	walllights;
 
-int			centerx;
-int			centery;
+int	centerx;
+int	centery;
 
 fixed_t			centerxfrac;
 fixed_t			centeryfrac;
 fixed_t			projection;
 
 // just for profiling purposes
-int			framecount;	
+int framecount;
 
 int			sscount;
 int			linecount;
-int			loopcount;
 
 fixed_t			viewx;
 fixed_t			viewy;
@@ -69,12 +68,12 @@ fixed_t			viewsin;
 player_t*		viewplayer;
 
 // 0 = high, 1 = low
-int			detailshift;	
+int detailshift;
 
 //
 // precalculated math tables
 //
-angle_t			clipangle;
+angle_t	clipangle;
 
 // The viewangletox[viewangle + FINEANGLES/4] lookup
 // maps the visible view angles to screen X coordinates,
@@ -92,7 +91,7 @@ lighttable_t*		scalelightfixed[MAXLIGHTSCALE];
 lighttable_t*		zlight[LIGHTLEVELS][MAXLIGHTZ];
 
 // bumped light from gun blasts
-int			extralight;			
+int extralight;
 
 
 

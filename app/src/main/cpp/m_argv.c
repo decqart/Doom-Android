@@ -46,12 +46,9 @@ int M_CheckParmWithArgs(char *check, int num_args)
 }
 
 //
-// M_ParmExists
-//
 // Returns true if the given parameter exists in the program's command
 // line arguments, false if not.
 //
-
 bool M_ParmExists(char *check)
 {
     return M_CheckParm(check) != 0;
@@ -206,9 +203,6 @@ static void LoadResponseFile(int argv_index)
 #endif
 }
 
-//
-// Find a Response File
-//
 void M_FindResponseFile(void)
 {
     for (int i = 1; i < myargc; i++)

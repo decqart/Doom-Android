@@ -28,4 +28,3 @@ $(OBJDIR):
 $(OBJDIR)/%.o:	%.c
 	@echo [Compiling $<]
 	$(CC) $(CFLAGS) -c $< -o $@
-

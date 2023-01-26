@@ -90,7 +90,6 @@ bool D_ValidGameVersion(GameMission_t mission, GameVersion_t version);
 bool D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
                        int episode, int map);
 int D_GetNumEpisodes(GameMission_t mission, GameMode_t mode);
-bool D_IsEpisodeMap(GameMission_t mission);
 char *D_GameMissionString(GameMission_t mission);
 
 #endif /* __D_MODE__ */

@@ -45,37 +45,26 @@
 // For use if I do walls with outsides/insides
 #define REDS		(256-5*16)
 #define REDRANGE	16
-#define BLUES		(256-4*16+8)
-#define BLUERANGE	8
 #define GREENS		(7*16)
 #define GREENRANGE	16
 #define GRAYS		(6*16)
 #define GRAYSRANGE	16
 #define BROWNS		(4*16)
-#define BROWNRANGE	16
 #define YELLOWS		(256-32+7)
-#define YELLOWRANGE	1
 #define BLACK		0
 #define WHITE		(256-47)
 
 // Automap colors
 #define BACKGROUND	BLACK
-#define YOURCOLORS	WHITE
-#define YOURRANGE	0
 #define WALLCOLORS	REDS
 #define WALLRANGE	REDRANGE
 #define TSWALLCOLORS	GRAYS
-#define TSWALLRANGE	GRAYSRANGE
 #define FDWALLCOLORS	BROWNS
-#define FDWALLRANGE	BROWNRANGE
 #define CDWALLCOLORS	YELLOWS
-#define CDWALLRANGE	YELLOWRANGE
 #define THINGCOLORS	GREENS
 #define THINGRANGE	GREENRANGE
 #define SECRETWALLCOLORS WALLCOLORS
-#define SECRETWALLRANGE WALLRANGE
 #define GRIDCOLORS	(GRAYS + GRAYSRANGE/2)
-#define GRIDRANGE	0
 #define XHAIRCOLORS	GRAYS
 
 // drawing stuff
@@ -89,17 +78,17 @@
 #define F_PANINC	4
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((int) (1.02*FRACUNIT))
+#define M_ZOOMIN ((int) (1.02*FRACUNIT))
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT       ((int) (FRACUNIT/1.02))
+#define M_ZOOMOUT ((int) (FRACUNIT/1.02))
 
 // translates between frame-buffer and map distances
 #define FTOM(x) FixedMul(((x)<<16),scale_ftom)
 #define MTOF(x) (FixedMul((x),scale_mtof)>>16)
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)  (f_x + MTOF((x)-m_x))
-#define CYMTOF(y)  (f_y + (f_h - MTOF((y)-m_y)))
+#define CXMTOF(x) (f_x + MTOF((x)-m_x))
+#define CYMTOF(y) (f_y + (f_h - MTOF((y)-m_y)))
 
 // the following is crap
 #define LINE_NEVERSEE ML_DONTDRAW
@@ -123,12 +112,6 @@ typedef struct
 {
     mpoint_t a, b;
 } mline_t;
-
-typedef struct
-{
-    fixed_t slp, islp;
-} islope_t;
-
 
 //
 // The vector graphics for the automap.
@@ -184,11 +167,8 @@ mline_t thintriangle_guy[] = {
 };
 #undef R
 
-
 static int cheating = 0;
 static int grid = 0;
-
-static int leveljuststarted = 1; 	// kluge until AM_LevelInit() is called
 
 bool automapactive = false;
 static int finit_width = SCREENWIDTH;
@@ -220,17 +200,17 @@ static fixed_t 	m_w;
 static fixed_t	m_h;
 
 // based on level size
-static fixed_t 	min_x;
-static fixed_t	min_y; 
-static fixed_t 	max_x;
-static fixed_t  max_y;
+static fixed_t min_x;
+static fixed_t min_y;
+static fixed_t max_x;
+static fixed_t max_y;
 
-static fixed_t 	max_w; // max_x-min_x,
-static fixed_t  max_h; // max_y-min_y
+static fixed_t max_w; // max_x-min_x,
+static fixed_t max_h; // max_y-min_y
 
 // based on player size
-static fixed_t 	min_w;
-static fixed_t  min_h;
+static fixed_t min_w;
+static fixed_t min_h;
 
 
 static fixed_t 	min_scale_mtof; // used to tell when to stop zooming out
@@ -260,25 +240,7 @@ cheatseq_t cheat_amap = CHEAT("iddt", 0);
 
 static bool stopped = true;
 
-// Calculates the slope and slope according to the x-axis of a line
-// segment in map coordinates (with the upright y-axis n' all) so
-// that it can be used with the brain-dead drawing stuff.
-
-void AM_getIslope(mline_t *ml, islope_t *is)
-{
-    int dx, dy;
-
-    dy = ml->a.y - ml->b.y;
-    dx = ml->b.x - ml->a.x;
-    if (!dy) is->islp = (dx<0?-INT_MAX:INT_MAX);
-    else is->islp = FixedDiv(dx, dy);
-    if (!dx)
-        is->slp = (dy<0?-INT_MAX:INT_MAX);
-    else
-        is->slp = FixedDiv(dy, dx);
-}
-
-void AM_activateNewScale()
+void AM_activateNewScale(void)
 {
     m_x += m_w/2;
     m_y += m_h/2;
@@ -290,7 +252,7 @@ void AM_activateNewScale()
     m_y2 = m_y + m_h;
 }
 
-void AM_saveScaleAndLoc()
+void AM_saveScaleAndLoc(void)
 {
     old_m_x = m_x;
     old_m_y = m_y;
@@ -298,7 +260,7 @@ void AM_saveScaleAndLoc()
     old_m_h = m_h;
 }
 
-void AM_restoreScaleAndLoc()
+void AM_restoreScaleAndLoc(void)
 {
     m_w = old_m_w;
     m_h = old_m_h;
@@ -323,7 +285,7 @@ void AM_restoreScaleAndLoc()
 //
 // adds a marker at the current location
 //
-void AM_addMark()
+void AM_addMark(void)
 {
     markpoints[markpointnum].x = m_x + m_w/2;
     markpoints[markpointnum].y = m_y + m_h/2;
@@ -334,7 +296,7 @@ void AM_addMark()
 // Determines bounding box of all vertices,
 // sets global variables controlling zoom range.
 //
-void AM_findMinMaxBoundaries()
+void AM_findMinMaxBoundaries(void)
 {
     int i;
     fixed_t a;
@@ -343,7 +305,7 @@ void AM_findMinMaxBoundaries()
     min_x = min_y =  INT_MAX;
     max_x = max_y = -INT_MAX;
   
-    for (i=0;i<numvertexes;i++)
+    for (i = 0; i < numvertexes; i++)
     {
         if (vertexes[i].x < min_x)
             min_x = vertexes[i].x;
@@ -369,7 +331,7 @@ void AM_findMinMaxBoundaries()
     max_scale_mtof = FixedDiv(f_h<<FRACBITS, 2*PLAYERRADIUS);
 }
 
-void AM_changeWindowLoc()
+void AM_changeWindowLoc(void)
 {
     if (m_paninc.x || m_paninc.y)
     {
@@ -394,7 +356,7 @@ void AM_changeWindowLoc()
     m_y2 = m_y + m_h;
 }
 
-void AM_initVariables()
+void AM_initVariables(void)
 {
     int pnum;
     static event_t st_notify = { ev_keyup, AM_MSGENTERED, 0, 0 };
@@ -446,7 +408,7 @@ void AM_initVariables()
     ST_Responder(&st_notify);
 }
 
-void AM_loadPics()
+void AM_loadPics(void)
 {
     char namebuf[9];
   
@@ -457,7 +419,7 @@ void AM_loadPics()
     }
 }
 
-void AM_unloadPics()
+void AM_unloadPics(void)
 {
     char namebuf[9];
   
@@ -468,11 +430,9 @@ void AM_unloadPics()
     }
 }
 
-void AM_clearMarks()
+void AM_clearMarks(void)
 {
-    int i;
-
-    for (i = 0;i < AM_NUMMARKPOINTS;i++)
+    for (int i = 0; i < AM_NUMMARKPOINTS; i++)
         markpoints[i].x = -1; // means empty
     markpointnum = 0;
 }
@@ -481,10 +441,8 @@ void AM_clearMarks()
 // should be called at the start of every level
 // right now, i figure it out myself
 //
-void AM_LevelInit()
+void AM_LevelInit(void)
 {
-    leveljuststarted = 0;
-
     f_x = f_y = 0;
     f_w = finit_width;
     f_h = finit_height;
@@ -498,7 +456,7 @@ void AM_LevelInit()
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 }
 
-void AM_Stop()
+void AM_Stop(void)
 {
     static event_t st_notify = { 0, ev_keyup, AM_MSGEXITED, 0 };
 
@@ -508,7 +466,7 @@ void AM_Stop()
     stopped = true;
 }
 
-void AM_Start()
+void AM_Start(void)
 {
     static int lastlevel = -1, lastepisode = -1;
 
@@ -527,7 +485,7 @@ void AM_Start()
 //
 // set the window scale to the maximum size
 //
-void AM_minOutWindowScale()
+void AM_minOutWindowScale(void)
 {
     scale_mtof = min_scale_mtof;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
@@ -537,7 +495,7 @@ void AM_minOutWindowScale()
 //
 // set the window scale to the minimum size
 //
-void AM_maxOutWindowScale()
+void AM_maxOutWindowScale(void)
 {
     scale_mtof = max_scale_mtof;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
@@ -550,7 +508,6 @@ void AM_maxOutWindowScale()
 //
 bool AM_Responder(event_t *ev)
 {
-
     int rc;
     static int bigstate=0;
     static char buffer[20];
@@ -720,29 +677,11 @@ void AM_doFollowPlayer(void)
     }
 }
 
-void AM_updateLightLev(void)
-{
-    static int nexttic = 0;
-    //static int litelevels[] = { 0, 3, 5, 6, 6, 7, 7, 7 };
-    static int litelevels[] = { 0, 4, 7, 10, 12, 14, 15, 15 };
-    static int litelevelscnt = 0;
-   
-    // Change light level
-    if (amclock>nexttic)
-    {
-        lightlev = litelevels[litelevelscnt++];
-        if (litelevelscnt == arrlen(litelevels)) litelevelscnt = 0;
-        nexttic = amclock + 6 - (amclock % 6);
-    }
-}
-
-
 //
 // Updates on Game Tick
 //
 void AM_Ticker(void)
 {
-
     if (!automapactive)
         return;
 
@@ -787,13 +726,13 @@ bool AM_clipMline(mline_t *ml, fline_t *fl)
         TOP	   =8
     };
     
-    register int	outcode1 = 0;
-    register int	outcode2 = 0;
-    register int	outside;
+    register int outcode1 = 0;
+    register int outcode2 = 0;
+    register int outside;
     
-    fpoint_t	tmp;
-    int		dx;
-    int		dy;
+    fpoint_t tmp;
+    int	dx;
+    int	dy;
 
     
 #define DOOUTCODE(oc, mx, my) \
@@ -1043,12 +982,11 @@ void AM_drawGrid(int color)
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
 //
-void AM_drawWalls()
+void AM_drawWalls(void)
 {
-    int i;
     static mline_t l;
 
-    for (i = 0;i < numlines;i++)
+    for (int i = 0; i < numlines; i++)
     {
         l.a.x = lines[i].v1->x;
         l.a.y = lines[i].v1->y;
@@ -1113,20 +1051,12 @@ void AM_rotate(fixed_t *x, fixed_t *y, angle_t a)
     *x = tmpx;
 }
 
-void
-AM_drawLineCharacter
-( mline_t*	lineguy,
-  int		lineguylines,
-  fixed_t	scale,
-  angle_t	angle,
-  int		color,
-  fixed_t	x,
-  fixed_t	y )
+void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
+                          angle_t angle, int color, fixed_t x, fixed_t y)
 {
-    int		i;
     mline_t	l;
 
-    for (i = 0;i < lineguylines;i++)
+    for (int i = 0; i < lineguylines; i++)
     {
         l.a.x = lineguy[i].a.x;
         l.a.y = lineguy[i].a.y;
@@ -1162,11 +1092,10 @@ AM_drawLineCharacter
     }
 }
 
-void AM_drawPlayers()
+void AM_drawPlayers(void)
 {
-    int	i;
     player_t *p;
-    static int 	their_colors[] = { GREENS, GRAYS, BROWNS, REDS };
+    static int their_colors[] = { GREENS, GRAYS, BROWNS, REDS };
     int		their_color = -1;
     int		color;
 
@@ -1183,7 +1112,7 @@ void AM_drawPlayers()
         return;
     }
 
-    for (i = 0;i < MAXPLAYERS;i++)
+    for (int i = 0; i < MAXPLAYERS; i++)
     {
         their_color++;
         p = &players[i];
@@ -1207,10 +1136,9 @@ void AM_drawPlayers()
 
 void AM_drawThings(int colors, int colorrange)
 {
-    int		i;
-    mobj_t*	t;
+    mobj_t *t;
 
-    for (i=0;i<numsectors;i++)
+    for (int i = 0; i < numsectors; i++)
     {
         t = sectors[i].thinglist;
         while (t)
@@ -1223,11 +1151,11 @@ void AM_drawThings(int colors, int colorrange)
     }
 }
 
-void AM_drawMarks()
+void AM_drawMarks(void)
 {
     int i, fx, fy, w, h;
 
-    for (i = 0;i < AM_NUMMARKPOINTS;i++)
+    for (i = 0; i < AM_NUMMARKPOINTS; i++)
     {
         if (markpoints[i].x != -1)
         {
@@ -1257,7 +1185,7 @@ void AM_Drawer(void)
         AM_drawGrid(GRIDCOLORS);
     AM_drawWalls();
     AM_drawPlayers();
-    if (cheating==2)
+    if (cheating == 2)
         AM_drawThings(THINGCOLORS, THINGRANGE);
     AM_drawCrosshair(XHAIRCOLORS);
 
@@ -1265,4 +1193,3 @@ void AM_Drawer(void)
 
     V_MarkRect(f_x, f_y, f_w, f_h);
 }
-

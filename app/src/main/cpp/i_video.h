@@ -95,13 +95,10 @@ typedef bool (*grabmouse_callback_t)(void);
 // and sets up the video mode
 void I_InitGraphics(void);
 
-void I_ShutdownGraphics(void);
-
 // Takes full 8 bit values.
 void I_SetPalette(byte *palette);
 int I_GetPaletteIndex(int r, int g, int b);
 
-void I_UpdateNoBlit(void);
 void I_FinishUpdate(void);
 
 void I_ReadScreen(byte *scr);
@@ -111,7 +108,6 @@ void I_SetWindowTitle(char *title);
 void I_SetGrabMouseCallback(grabmouse_callback_t func);
 
 void I_DisplayFPSDots(bool dots_on);
-void I_BindVideoVariables(void);
 
 // Called before processing any tics in a frame (just after displaying a frame).
 // Time consuming syncronous operations are performed here (joystick reading).

@@ -62,10 +62,10 @@ node_t *nodes;
 int numlines;
 line_t *lines;
 
-int		numsides;
-side_t*		sides;
+int	numsides;
+side_t *sides;
 
-static int      totallines;
+static int totallines;
 
 // BLOCKMAP
 // Created from axis aligned bounding box
@@ -577,11 +577,11 @@ void P_GroupLines(void)
     // Generate bounding boxes for sectors
 	
     sector = sectors;
-    for (i=0; i<numsectors; i++, sector++)
+    for (i = 0; i < numsectors; i++, sector++)
     {
         M_ClearBox(bbox);
 
-        for (j=0 ; j<sector->linecount; j++)
+        for (j = 0; j < sector->linecount; j++)
         {
             li = sector->lines[j];
             
@@ -694,15 +694,8 @@ static void P_LoadReject(int lumpnum)
     }
 }
 
-//
-// P_SetupLevel
-//
-void
-P_SetupLevel
-( int		episode,
-  int		map,
-  int		playermask,
-  skill_t	skill)
+
+void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 {
     int		i;
     char	lumpname[9];
@@ -775,7 +768,6 @@ P_SetupLevel
                 players[i].mo = NULL;
                 G_DeathMatchSpawnPlayer(i);
             }
-        
     }
 
     // clear special respawning que
