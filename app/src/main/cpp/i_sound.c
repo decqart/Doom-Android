@@ -54,17 +54,11 @@ int snd_sfxdevice = SNDDEVICE_SB;
 // Sound modules
 
 extern sound_module_t sound_sdl_module;
-extern sound_module_t sound_pcsound_module;
+
 extern music_module_t music_sdl_module;
-extern music_module_t music_opl_module;
 
 // For OPL module:
-
 extern int opl_io_port;
-
-// For native music module:
-
-extern char *timidity_cfg_path;
 
 // DOS-specific options: These are unused but should be maintained
 // so that the config file can be shared between chocolate
@@ -79,36 +73,30 @@ static int snd_mport = 0;
 
 // Compiled-in sound modules:
 
-static sound_module_t *sound_modules[] = 
-{
+static sound_module_t *sound_modules[] = {
 #ifdef FEATURE_SOUND
     &sound_sdl_module,
-    &sound_pcsound_module,
 #endif
-    NULL,
+        NULL
 };
 
 // Compiled-in music modules:
 
-static music_module_t *music_modules[] =
-{
+static music_module_t *music_modules[] = {
 #ifdef FEATURE_SOUND
     &music_sdl_module,
-    &music_opl_module,
 #endif
-    NULL,
+        NULL
 };
 
 // Check if a sound device is in the given list of devices
 
-static bool SndDeviceInList(snddevice_t device, snddevice_t *list, int len)
+static bool SndDeviceInList(snddevice_t device, const snddevice_t *list, int len)
 {
     for (int i = 0; i < len; ++i)
     {
         if (device == list[i])
-        {
             return true;
-        }
     }
 
     return false;
@@ -116,20 +104,16 @@ static bool SndDeviceInList(snddevice_t device, snddevice_t *list, int len)
 
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
-
 static void InitSfxModule(bool use_sfx_prefix)
 {
-    int i;
-
     sound_module = NULL;
 
-    for (i=0; sound_modules[i] != NULL; ++i)
+    for (int i = 0; sound_modules[i] != NULL; ++i)
     {
         // Is the sfx device in the list of devices supported by
         // this module?
 
-        if (SndDeviceInList(snd_sfxdevice, 
-                            sound_modules[i]->sound_devices,
+        if (SndDeviceInList(snd_sfxdevice, sound_modules[i]->sound_devices,
                             sound_modules[i]->num_sound_devices))
         {
             // Initialize the module
@@ -144,20 +128,16 @@ static void InitSfxModule(bool use_sfx_prefix)
 }
 
 // Initialize music according to snd_musicdevice.
-
 static void InitMusicModule(void)
 {
-    int i;
-
     music_module = NULL;
 
-    for (i=0; music_modules[i] != NULL; ++i)
+    for (int i = 0; music_modules[i] != NULL; ++i)
     {
         // Is the music device in the list of devices supported
         // by this module?
 
-        if (SndDeviceInList(snd_musicdevice, 
-                            music_modules[i]->sound_devices,
+        if (SndDeviceInList(snd_musicdevice, music_modules[i]->sound_devices,
                             music_modules[i]->num_sound_devices))
         {
             // Initialize the module
@@ -210,28 +190,20 @@ void I_InitSound(bool use_sfx_prefix)
     if (!nosound && !screensaver_mode)
     {
         if (!nosfx)
-        {
             InitSfxModule(use_sfx_prefix);
-        }
 
         if (!nomusic)
-        {
             InitMusicModule();
-        }
     }
 }
 
 void I_ShutdownSound(void)
 {
     if (sound_module != NULL)
-    {
         sound_module->Shutdown();
-    }
 
     if (music_module != NULL)
-    {
         music_module->Shutdown();
-    }
 }
 
 int I_GetSfxLumpNum(sfxinfo_t *sfxinfo)
@@ -249,14 +221,10 @@ int I_GetSfxLumpNum(sfxinfo_t *sfxinfo)
 void I_UpdateSound(void)
 {
     if (sound_module != NULL)
-    {
         sound_module->Update();
-    }
 
     if (music_module != NULL && music_module->Poll != NULL)
-    {
         music_module->Poll();
-    }
 }
 
 static void CheckVolumeSeparation(int *vol, int *sep)
@@ -294,7 +262,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep)
     if (sound_module != NULL)
     {
         CheckVolumeSeparation(&vol, &sep);
-        return sound_module->StartSound(sfxinfo, channel, vol, sep);
+        return sound_module->StartSound(sfxinfo, channel, vol, sep, 100);
     }
     else
     {
@@ -305,9 +273,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep)
 void I_StopSound(int channel)
 {
     if (sound_module != NULL)
-    {
         sound_module->StopSound(channel);
-    }
 }
 
 bool I_SoundIsPlaying(int channel)
@@ -326,36 +292,26 @@ void I_PrecacheSounds(sfxinfo_t *sounds, int num_sounds)
 {
     if (sound_module != NULL && sound_module->CacheSounds != NULL)
     {
-	sound_module->CacheSounds(sounds, num_sounds);
+	    sound_module->CacheSounds(sounds, num_sounds);
     }
 }
-
-void I_InitMusic(void) {}
-
-void I_ShutdownMusic(void) {}
 
 void I_SetMusicVolume(int volume)
 {
     if (music_module != NULL)
-    {
         music_module->SetMusicVolume(volume);
-    }
 }
 
 void I_PauseSong(void)
 {
     if (music_module != NULL)
-    {
         music_module->PauseMusic();
-    }
 }
 
 void I_ResumeSong(void)
 {
     if (music_module != NULL)
-    {
         music_module->ResumeMusic();
-    }
 }
 
 void *I_RegisterSong(void *data, int len)
@@ -373,45 +329,24 @@ void *I_RegisterSong(void *data, int len)
 void I_UnRegisterSong(void *handle)
 {
     if (music_module != NULL)
-    {
         music_module->UnRegisterSong(handle);
-    }
 }
 
 void I_PlaySong(void *handle, bool looping)
 {
     if (music_module != NULL)
-    {
         music_module->PlaySong(handle, looping);
-    }
 }
 
 void I_StopSong(void)
 {
     if (music_module != NULL)
-    {
         music_module->StopSong();
-    }
-}
-
-bool I_MusicIsPlaying(void)
-{
-    if (music_module != NULL)
-    {
-        return music_module->MusicIsPlaying();
-    }
-    else
-    {
-        return false;
-    }
 }
 
 void I_BindSoundVariables(void)
 {
 #ifdef ORIGCODE
-    extern int use_libsamplerate;
-    extern float libsamplerate_scale;
-
     M_BindVariable("snd_musicdevice",   &snd_musicdevice);
     M_BindVariable("snd_sfxdevice",     &snd_sfxdevice);
     M_BindVariable("snd_sbport",        &snd_sbport);
@@ -423,12 +358,5 @@ void I_BindSoundVariables(void)
     M_BindVariable("snd_samplerate",    &snd_samplerate);
     M_BindVariable("snd_cachesize",     &snd_cachesize);
     M_BindVariable("opl_io_port",       &opl_io_port);
-
-    M_BindVariable("timidity_cfg_path", &timidity_cfg_path);
-
-#ifdef FEATURE_SOUND
-    M_BindVariable("use_libsamplerate",   &use_libsamplerate);
-    M_BindVariable("libsamplerate_scale", &libsamplerate_scale);
-#endif
 #endif
 }

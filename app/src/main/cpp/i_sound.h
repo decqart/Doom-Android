@@ -16,7 +16,6 @@
 //	The not so system specific sound interface.
 //
 
-
 #ifndef __I_SOUND__
 #define __I_SOUND__
 
@@ -26,13 +25,10 @@
 //
 // SoundFX struct.
 //
-typedef struct sfxinfo_struct	sfxinfo_t;
+typedef struct sfxinfo_struct sfxinfo_t;
 
 struct sfxinfo_struct
 {
-    // tag name, used for hexen.
-    char *tagname;
-    
     // lump name.  If we are running with use_sfx_prefix=true, a
     // 'DS' (or 'DP' for PC speaker sounds) is prepended to this.
 
@@ -82,7 +78,6 @@ typedef struct
 
     // music handle once registered
     void *handle;
-    
 } musicinfo_t;
 
 typedef enum 
@@ -133,7 +128,7 @@ typedef struct
     // Start a sound on a given channel.  Returns the channel id
     // or -1 on failure.
 
-    int (*StartSound)(sfxinfo_t *sfxinfo, int channel, int vol, int sep);
+    int (*StartSound)(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 
     // Stop the sound playing on the given channel.
 
@@ -205,17 +200,11 @@ typedef struct
 
     void (*StopSong)(void);
 
-    // Query if music is playing.
-
-    bool (*MusicIsPlaying)(void);
-
     // Invoked periodically to poll.
 
     void (*Poll)(void);
 } music_module_t;
 
-void I_InitMusic(void);
-void I_ShutdownMusic(void);
 void I_SetMusicVolume(int volume);
 void I_PauseSong(void);
 void I_ResumeSong(void);
@@ -223,7 +212,6 @@ void *I_RegisterSong(void *data, int len);
 void I_UnRegisterSong(void *handle);
 void I_PlaySong(void *handle, bool looping);
 void I_StopSong(void);
-bool I_MusicIsPlaying(void);
 
 extern int snd_sfxdevice;
 extern int snd_musicdevice;

@@ -49,21 +49,13 @@
 //  and the total size == width*height*depth/8.,
 //
 
-
-byte *viewimage; 
 int	viewwidth;
 int	scaledviewwidth;
 int	viewheight;
 int	viewwindowx;
 int	viewwindowy; 
 byte *ylookup[MAXHEIGHT]; 
-int	columnofs[MAXWIDTH]; 
-
-// Color tables for different players,
-//  translate a limited part to another
-//  (color ramps used for  suit colors).
-//
-byte   	translations[3][256];	
+int	columnofs[MAXWIDTH];
  
 // Backing buffer containing the bezel drawn around the screen and 
 // surrounding background.
@@ -149,8 +141,7 @@ void R_DrawColumnLow(void)
     count = dc_yh - dc_yl; 
 
     // Zero length.
-    if (count < 0) 
-        return;
+    if (count < 0) return;
 	 
 #ifdef RANGECHECK 
     if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0
@@ -278,8 +269,7 @@ void R_DrawFuzzColumnLow(void)
     int x;
 
     // Adjust borders. Low... 
-    if (!dc_yl) 
-        dc_yl = 1;
+    if (!dc_yl) dc_yl = 1;
 
     // .. and high.
     if (dc_yh == viewheight-1) 
@@ -288,8 +278,7 @@ void R_DrawFuzzColumnLow(void)
     count = dc_yh - dc_yl; 
 
     // Zero length.
-    if (count < 0) 
-        return;
+    if (count < 0) return;
 
     // low detail mode, need to multiply by 2
     
@@ -354,8 +343,7 @@ void R_DrawTranslatedColumn(void)
     fixed_t		fracstep;	 
  
     count = dc_yh - dc_yl; 
-    if (count < 0) 
-        return;
+    if (count < 0) return;
 				 
 #ifdef RANGECHECK 
     if ((unsigned)dc_x >= SCREENWIDTH
@@ -399,8 +387,7 @@ void R_DrawTranslatedColumnLow(void)
     int                 x;
  
     count = dc_yh - dc_yl; 
-    if (count < 0) 
-        return;
+    if (count < 0) return;
 
     // low detail, need to scale by 2
     x = dc_x << 1;

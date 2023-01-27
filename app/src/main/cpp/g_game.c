@@ -73,13 +73,12 @@ void G_PlayerReborn(int player);
  
 void G_DoReborn(int playernum); 
  
-void G_DoLoadLevel(); 
-void G_DoNewGame(); 
-void G_DoPlayDemo(); 
-void G_DoCompleted(); 
-void G_DoVictory(); 
-void G_DoWorldDone(); 
-void G_DoSaveGame(); 
+void G_DoLoadLevel(void);
+void G_DoNewGame(void);
+void G_DoPlayDemo(void);
+void G_DoCompleted(void);
+void G_DoWorldDone(void);
+void G_DoSaveGame(void);
  
 // Gamestate the last time G_Ticker was called.
 
@@ -221,17 +220,6 @@ int		bodyqueslot;
  
 int             vanilla_savegame_limit = 1;
 int             vanilla_demo_limit = 1;
- 
-int G_CmdChecksum(ticcmd_t *cmd) 
-{ 
-    size_t		i;
-    int		sum = 0; 
-	 
-    for (i=0; i< sizeof(*cmd)/4 - 1 ; i++) 
-        sum += ((int *)cmd)[i]; 
-		 
-    return sum; 
-} 
 
 static bool WeaponSelectable(weapontype_t weapon)
 {
@@ -445,7 +433,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     {
         // Check weapon keys.
 
-        for (i=0; i<arrlen(weapon_keys); ++i)
+        for (i = 0; i < arrlen(weapon_keys); ++i)
         {
             int key = *weapon_keys[i];
 
@@ -660,9 +648,7 @@ void G_DoLoadLevel(void)
 
 static void SetJoyButtons(unsigned int buttons_mask)
 {
-    int i;
-
-    for (i=0; i<MAX_JOY_BUTTONS; ++i)
+    for (int i = 0; i < MAX_JOY_BUTTONS; ++i)
     {
         int button_on = (buttons_mask & (1 << i)) != 0;
 
@@ -688,9 +674,7 @@ static void SetJoyButtons(unsigned int buttons_mask)
 
 static void SetMouseButtons(unsigned int buttons_mask)
 {
-    int i;
-
-    for (i=0; i<MAX_MOUSE_BUTTONS; ++i)
+    for (int i = 0; i < MAX_MOUSE_BUTTONS; ++i)
     {
         unsigned int button_on = (buttons_mask & (1 << i)) != 0;
 
@@ -712,10 +696,7 @@ static void SetMouseButtons(unsigned int buttons_mask)
     }
 }
 
-//
-// G_Responder  
 // Get info needed to make ticcmd_ts for the players.
-// 
 bool G_Responder(event_t *ev) 
 { 
     // allow spy mode changes even during the demo
@@ -818,12 +799,9 @@ bool G_Responder(event_t *ev)
  
     return false; 
 }
- 
-//
-// G_Ticker
+
 // Make ticcmd_ts for the players.
-//
-void G_Ticker() 
+void G_Ticker(void)
 { 
     int		i;
     int		buf; 
@@ -840,28 +818,28 @@ void G_Ticker()
 	switch (gameaction) 
 	{ 
 	  case ga_loadlevel: 
-	    G_DoLoadLevel (); 
+	    G_DoLoadLevel();
 	    break; 
 	  case ga_newgame: 
-	    G_DoNewGame (); 
+	    G_DoNewGame();
 	    break; 
 	  case ga_loadgame: 
-	    G_DoLoadGame (); 
+	    G_DoLoadGame();
 	    break; 
 	  case ga_savegame: 
-	    G_DoSaveGame (); 
+	    G_DoSaveGame();
 	    break; 
 	  case ga_playdemo: 
-	    G_DoPlayDemo (); 
+	    G_DoPlayDemo();
 	    break; 
 	  case ga_completed: 
-	    G_DoCompleted (); 
+	    G_DoCompleted();
 	    break; 
 	  case ga_victory: 
-	    F_StartFinale (); 
+	    F_StartFinale();
 	    break; 
 	  case ga_worlddone: 
-	    G_DoWorldDone (); 
+	    G_DoWorldDone();
 	    break; 
 	  case ga_screenshot: 
 	    V_ScreenShot("DOOM%02i.%s"); 
@@ -877,7 +855,7 @@ void G_Ticker()
     // and build new consistancy check
     buf = (gametic/ticdup)%BACKUPTICS; 
  
-    for (i=0 ; i<MAXPLAYERS ; i++)
+    for (i = 0; i < MAXPLAYERS; i++)
     {
         if (playeringame[i]) 
         { 
@@ -998,17 +976,6 @@ void G_Ticker()
 // PLAYER STRUCTURE FUNCTIONS
 // also see P_SpawnPlayer in P_Things
 //
-
-//
-// G_InitPlayer 
-// Called at the start.
-// Called by the game initialization functions.
-//
-void G_InitPlayer(int player) 
-{
-    // clear everything else to defaults
-    G_PlayerReborn(player); 
-}
 
 //
 // G_PlayerFinishLevel
@@ -1170,7 +1137,7 @@ bool G_CheckSpot(int playernum, mapthing_t *mthing)
     }
 
     if (players[consoleplayer].viewz != 1) 
-	S_StartSound (mo, sfx_telept);	// don't start sound on first frame 
+	S_StartSound(mo, sfx_telept);	// don't start sound on first frame
  
     return true; 
 } 
@@ -1183,31 +1150,28 @@ bool G_CheckSpot(int playernum, mapthing_t *mthing)
 //
 void G_DeathMatchSpawnPlayer (int playernum) 
 { 
-    int             i,j; 
-    int				selections; 
+    int i, j;
+    int selections;
 	 
     selections = deathmatch_p - deathmatchstarts; 
     if (selections < 4) 
-	I_Error ("Only %i deathmatch spots, 4 required", selections); 
+	    I_Error("Only %i deathmatch spots, 4 required", selections);
  
-    for (j=0 ; j<20 ; j++) 
-    { 
-	i = P_Random() % selections; 
-	if (G_CheckSpot (playernum, &deathmatchstarts[i]) ) 
-	{ 
-	    deathmatchstarts[i].type = playernum+1; 
-	    P_SpawnPlayer (&deathmatchstarts[i]); 
-	    return; 
-	} 
+    for (j = 0; j < 20; j++)
+    {
+	    i = P_Random() % selections;
+	    if (G_CheckSpot(playernum, &deathmatchstarts[i]))
+	    {
+	        deathmatchstarts[i].type = playernum+1;
+	        P_SpawnPlayer(&deathmatchstarts[i]);
+	        return;
+	    }
     } 
  
     // no good spot, so the player will probably get stuck 
-    P_SpawnPlayer (&playerstarts[playernum]); 
+    P_SpawnPlayer(&playerstarts[playernum]);
 } 
 
-//
-// G_DoReborn 
-// 
 void G_DoReborn(int playernum) 
 { 
     int i; 
@@ -1253,7 +1217,7 @@ void G_DoReborn(int playernum)
     }
 }
  
-void G_ScreenShot() 
+void G_ScreenShot(void)
 { 
     gameaction = ga_screenshot; 
 }
@@ -1275,11 +1239,7 @@ int cpars[32] =
     240,150,180,150,150,300,330,420,300,180,	// 21-30
     120,30					// 31-32
 };
- 
 
-//
-// G_DoCompleted 
-//
 bool secretexit; 
 extern char *pagename; 
  
@@ -1301,7 +1261,7 @@ void G_SecretExitLevel(void)
     gameaction = ga_completed; 
 } 
  
-void G_DoCompleted() 
+void G_DoCompleted(void)
 { 
     int i; 
 	 
@@ -1489,7 +1449,7 @@ void G_LoadGame(char *name)
     gameaction = ga_loadgame; 
 } 
  
-#define VERSIONSIZE		16 
+#define VERSIONSIZE	16
 
 
 void G_DoLoadGame(void)
@@ -1527,7 +1487,7 @@ void G_DoLoadGame(void)
     P_UnArchiveSpecials(); 
  
     if (!P_ReadSaveGameEOF())
-	I_Error ("Bad savegame");
+	    I_Error("Bad savegame");
 
     fclose(save_stream);
     
@@ -1539,7 +1499,6 @@ void G_DoLoadGame(void)
 }
 
 //
-// G_SaveGame
 // Called by the menu task.
 // Description is a 24 byte text string 
 //
@@ -1550,7 +1509,7 @@ void G_SaveGame(int slot, char *description)
     sendsave = true;
 }
 
-void G_DoSaveGame() 
+void G_DoSaveGame(void)
 { 
     char *savegame_file;
     char *temp_savegame_file;
@@ -1634,11 +1593,10 @@ void G_DoSaveGame()
 // consoleplayer, displayplayer, playeringame[] should be set. 
 //
 skill_t	d_skill; 
-int     d_episode; 
-int     d_map; 
+int d_episode;
+int d_map;
  
-void G_DeferedInitNew
-(skill_t skill, int episode, int map)
+void G_DeferedInitNew(skill_t skill, int episode, int map)
 { 
     d_skill = skill; 
     d_episode = episode; 
@@ -1646,8 +1604,7 @@ void G_DeferedInitNew
     gameaction = ga_newgame; 
 }
 
-
-void G_DoNewGame() 
+void G_DoNewGame(void)
 {
     demoplayback = false; 
     netdemo = false;
@@ -1662,12 +1619,10 @@ void G_DoNewGame()
     gameaction = ga_nothing; 
 }
 
-void G_InitNew(skill_t skill,
-               int episode,
-               int map)
+void G_InitNew(skill_t skill, int episode, int map)
 {
     char *skytexturename;
-    int             i;
+    int i;
 
     if (paused)
     {
@@ -1828,7 +1783,7 @@ void G_ReadDemoTiccmd(ticcmd_t *cmd)
 
 // Increase the size of the demo buffer to allow unlimited demos
 
-static void IncreaseDemoBuffer()
+static void IncreaseDemoBuffer(void)
 {
     int current_length;
     byte *new_demobuffer;
@@ -1863,7 +1818,7 @@ void G_WriteDemoTiccmd(ticcmd_t *cmd)
     byte *demo_start;
 
     if (gamekeydown[key_demo_quit])           // press q to end demo recording 
-	G_CheckDemoStatus (); 
+	    G_CheckDemoStatus();
 
     demo_start = demo_p;
 
@@ -1937,11 +1892,11 @@ void G_RecordDemo(char *name)
     demobuffer = Z_Malloc(maxsize,PU_STATIC,NULL); 
     demoend = demobuffer + maxsize;
 	
-    demorecording = true; 
+    demorecording = true;
 } 
 
 // Get the demo version code appropriate for the version set in gameversion.
-int G_VanillaVersionCode()
+int G_VanillaVersionCode(void)
 {
     switch (gameversion)
     {
@@ -1959,7 +1914,7 @@ int G_VanillaVersionCode()
     }
 }
 
-void G_BeginRecording() 
+void G_BeginRecording(void)
 { 
     int i; 
 
@@ -2048,7 +2003,7 @@ static char *DemoVersionDescription(int version)
     }
 }
 
-void G_DoPlayDemo() 
+void G_DoPlayDemo(void)
 { 
     skill_t skill; 
     int i, episode, map; 
@@ -2092,7 +2047,7 @@ void G_DoPlayDemo()
     nomonsters = *demo_p++;
     consoleplayer = *demo_p++;
 	
-    for (i = 0; i<MAXPLAYERS; i++) 
+    for (i = 0; i < MAXPLAYERS; i++)
         playeringame[i] = *demo_p++; 
 
     if (playeringame[1] || M_CheckParm("-solo-net") > 0
@@ -2195,4 +2150,3 @@ bool G_CheckDemoStatus(void)
 	 
     return false; 
 }
- 

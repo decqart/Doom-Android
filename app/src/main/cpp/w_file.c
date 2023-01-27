@@ -46,9 +46,7 @@ wad_file_t *W_OpenFile(char *path)
 #endif
 
     if (fstream == NULL)
-    {
         return NULL;
-    }
 
     // Create a new stdc_wad_file_t to hold the file handle.
 

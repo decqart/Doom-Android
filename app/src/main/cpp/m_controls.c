@@ -96,8 +96,6 @@ int mousebfire = 0;
 int mousebstrafe = 1;
 int mousebforward = 2;
 
-int mousebjump = -1;
-
 int mousebstrafeleft = -1;
 int mousebstraferight = -1;
 int mousebbackward = -1;

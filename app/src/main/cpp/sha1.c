@@ -200,31 +200,29 @@ void SHA1_Update(sha1_context_t *hd, byte *inbuf, size_t inlen)
     if (hd->count == 64)
     {
         /* flush the buffer */
-	Transform(hd, hd->buf);
-	hd->count = 0;
-	hd->nblocks++;
+	    Transform(hd, hd->buf);
+	    hd->count = 0;
+	    hd->nblocks++;
     }
-    if (!inbuf)
-	return;
+    if (!inbuf) return;
     if (hd->count)
     {
-	for (; inlen && hd->count < 64; inlen--)
-	    hd->buf[hd->count++] = *inbuf++;
-	SHA1_Update(hd, NULL, 0);
-	if (!inlen)
-	    return;
+	    for (; inlen && hd->count < 64; inlen--)
+	        hd->buf[hd->count++] = *inbuf++;
+	    SHA1_Update(hd, NULL, 0);
+	    if (!inlen) return;
     }
 
     while (inlen >= 64)
     {
-	Transform(hd, inbuf);
-	hd->count = 0;
-	hd->nblocks++;
-	inlen -= 64;
-	inbuf += 64;
+	    Transform(hd, inbuf);
+	    hd->count = 0;
+	    hd->nblocks++;
+	    inlen -= 64;
+	    inbuf += 64;
     }
     for (; inlen && hd->count < 64; inlen--)
-	hd->buf[hd->count++] = *inbuf++;
+	    hd->buf[hd->count++] = *inbuf++;
 }
 
 
@@ -316,4 +314,3 @@ void SHA1_UpdateString(sha1_context_t *context, char *str)
 {
     SHA1_Update(context, (byte *) str, strlen(str) + 1);
 }
-

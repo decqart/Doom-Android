@@ -107,14 +107,12 @@ bool M_WriteFile(char *name, void *source, int length)
 {
     FILE *handle = fopen(name, "wb");
 
-    if (handle == NULL)
-        return false;
+    if (handle == NULL) return false;
 
     size_t count = fwrite(source, 1, length, handle);
     fclose(handle);
 	
-    if (count < length)
-        return false;
+    if (count < length) return false;
 		
     return true;
 }

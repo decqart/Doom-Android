@@ -19,7 +19,6 @@
 
 #include <stdlib.h>
 
-
 #include "doomtype.h"
 #include "sounds.h"
 
@@ -30,8 +29,7 @@
 #define MUSIC(name) \
     { name, 0, NULL, NULL }
 
-musicinfo_t S_music[] =
-{
+musicinfo_t S_music[] = {
     MUSIC(NULL),
     MUSIC("e1m1"),
     MUSIC("e1m2"),
@@ -108,12 +106,11 @@ musicinfo_t S_music[] =
 //
 
 #define SOUND(name, priority) \
-  { NULL, name, priority, NULL, -1, -1, 0, 0, -1, NULL }
+  { name, priority, NULL, -1, -1, 0, 0, -1, NULL }
 #define SOUND_LINK(name, priority, link_id, pitch, volume) \
-  { NULL, name, priority, &S_sfx[link_id], pitch, volume, 0, 0, -1, NULL }
+  { name, priority, &S_sfx[link_id], pitch, volume, 0, 0, -1, NULL }
 
-sfxinfo_t S_sfx[] =
-{
+sfxinfo_t S_sfx[] = {
   // S_sfx[0] needs to be a dummy for odd reasons.
   SOUND("none",   0),
   SOUND("pistol", 64),
@@ -223,6 +220,5 @@ sfxinfo_t S_sfx[] =
   SOUND("skeact", 70),
   SOUND("skesit", 70),
   SOUND("skeatk", 70),
-  SOUND("radio",  60),
+  SOUND("radio",  60)
 };
-

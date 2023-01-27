@@ -1104,15 +1104,6 @@ static default_t extra_defaults_list[] =
 
     CONFIG_VARIABLE_FLOAT(libsamplerate_scale),
 
-    //!
-    // Full path to a Timidity configuration file to use for MIDI
-    // playback. The file will be evaluated from the directory where
-    // it is evaluated, so there is no need to add "dir" commands
-    // into it.
-    //
-
-    CONFIG_VARIABLE_STRING(timidity_cfg_path),
-
 #endif
 
     //!
@@ -1547,9 +1538,7 @@ static default_collection_t extra_defaults =
 
 static default_t *SearchCollection(default_collection_t *collection, char *name)
 {
-    int i;
-
-    for (i=0; i<collection->numdefaults; ++i) 
+    for (int i = 0; i < collection->numdefaults; ++i)
     {
         if (!strcmp(name, collection->defaults[i].name))
         {
@@ -1570,8 +1559,7 @@ static default_t *SearchCollection(default_collection_t *collection, char *name)
 //    sends an interrupt). So I added a fake scan code of 126 for it.
 //    The presence of this is important so we can bind PrintScreen as
 //    a screenshot key.
-static const int scantokey[128] =
-{
+static const int scantokey[128] = {
     0  ,    27,     '1',    '2',    '3',    '4',    '5',    '6',
     '7',    '8',    '9',    '0',    '-',    '=',    KEY_BACKSPACE, 9,
     'q',    'w',    'e',    'r',    't',    'y',    'u',    'i',
@@ -1824,10 +1812,6 @@ void M_SetConfigFilenames(char *main_config, char *extra_config)
     default_extra_config = extra_config;
 }
 
-//
-// M_SaveDefaults
-//
-
 void M_SaveDefaults(void)
 {
     SaveDefaultCollection(&doom_defaults);
@@ -1954,7 +1938,6 @@ void M_BindVariable(char *name, void *location)
 
 // Set the value of a particular variable; an API function for other
 // parts of the program to assign values to config variables by name.
-
 bool M_SetVariable(char *name, char *value)
 {
     default_t *variable;
@@ -1972,7 +1955,6 @@ bool M_SetVariable(char *name, char *value)
 }
 
 // Get the value of a variable.
-
 int M_GetIntVariable(char *name)
 {
     default_t *variable;
@@ -2021,7 +2003,7 @@ float M_GetFloatVariable(char *name)
 // Get the path to the default configuration dir to use, if NULL
 // is passed to M_SetConfigDir.
 
-static char *GetDefaultConfigDir()
+static char *GetDefaultConfigDir(void)
 {
     char *result = (char *) malloc(2);
     result[0] = '.';
@@ -2106,4 +2088,3 @@ char *M_GetSaveGameDir(char *iwadname)
 
     return savegamedir;
 }
-

@@ -126,8 +126,6 @@ extern int mousebfire;
 extern int mousebstrafe;
 extern int mousebforward;
 
-extern int mousebjump;
-
 extern int mousebstrafeleft;
 extern int mousebstraferight;
 extern int mousebbackward;

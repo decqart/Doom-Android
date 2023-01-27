@@ -17,8 +17,6 @@
 //	Muzzle flash?
 //
 
-
-
 #include "z_zone.h"
 #include "m_random.h"
 
@@ -33,42 +31,33 @@
 // FIRELIGHT FLICKER
 //
 
-//
-// T_FireFlicker
-//
-void T_FireFlicker (fireflicker_t* flick)
+void T_FireFlicker(fireflicker_t *flick)
 {
     int	amount;
 	
-    if (--flick->count)
-	return;
+    if (--flick->count) return;
 	
     amount = (P_Random()&3)*16;
     
     if (flick->sector->lightlevel - amount < flick->minlight)
-	flick->sector->lightlevel = flick->minlight;
+	    flick->sector->lightlevel = flick->minlight;
     else
-	flick->sector->lightlevel = flick->maxlight - amount;
+	    flick->sector->lightlevel = flick->maxlight - amount;
 
     flick->count = 4;
 }
 
-
-
-//
-// P_SpawnFireFlicker
-//
-void P_SpawnFireFlicker (sector_t*	sector)
+void P_SpawnFireFlicker(sector_t *sector)
 {
-    fireflicker_t*	flick;
+    fireflicker_t *flick;
 	
     // Note that we are resetting sector attributes.
     // Nothing special about it during gameplay.
     sector->special = 0; 
 	
-    flick = Z_Malloc ( sizeof(*flick), PU_LEVSPEC, 0);
+    flick = Z_Malloc(sizeof(*flick), PU_LEVSPEC, 0);
 
-    P_AddThinker (&flick->thinker);
+    P_AddThinker(&flick->thinker);
 
     flick->thinker.function.acp1 = (actionf_p1) T_FireFlicker;
     flick->sector = sector;
@@ -85,45 +74,39 @@ void P_SpawnFireFlicker (sector_t*	sector)
 
 
 //
-// T_LightFlash
 // Do flashing lights.
 //
-void T_LightFlash (lightflash_t* flash)
+void T_LightFlash(lightflash_t *flash)
 {
-    if (--flash->count)
-	return;
+    if (--flash->count) return;
 	
     if (flash->sector->lightlevel == flash->maxlight)
     {
-	flash-> sector->lightlevel = flash->minlight;
-	flash->count = (P_Random()&flash->mintime)+1;
+	    flash-> sector->lightlevel = flash->minlight;
+	    flash->count = (P_Random()&flash->mintime)+1;
     }
     else
     {
-	flash-> sector->lightlevel = flash->maxlight;
-	flash->count = (P_Random()&flash->maxtime)+1;
+	    flash-> sector->lightlevel = flash->maxlight;
+	    flash->count = (P_Random()&flash->maxtime)+1;
     }
-
 }
 
 
-
-
 //
-// P_SpawnLightFlash
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void P_SpawnLightFlash (sector_t*	sector)
+void P_SpawnLightFlash(sector_t *sector)
 {
     lightflash_t*	flash;
 
     // nothing special about it during gameplay
     sector->special = 0;	
 	
-    flash = Z_Malloc ( sizeof(*flash), PU_LEVSPEC, 0);
+    flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
-    P_AddThinker (&flash->thinker);
+    P_AddThinker(&flash->thinker);
 
     flash->thinker.function.acp1 = (actionf_p1) T_LightFlash;
     flash->sector = sector;
@@ -141,46 +124,35 @@ void P_SpawnLightFlash (sector_t*	sector)
 // STROBE LIGHT FLASHING
 //
 
-
-//
-// T_StrobeFlash
-//
-void T_StrobeFlash (strobe_t*		flash)
+void T_StrobeFlash(strobe_t *flash)
 {
-    if (--flash->count)
-	return;
+    if (--flash->count) return;
 	
     if (flash->sector->lightlevel == flash->minlight)
     {
-	flash-> sector->lightlevel = flash->maxlight;
-	flash->count = flash->brighttime;
+	    flash-> sector->lightlevel = flash->maxlight;
+	    flash->count = flash->brighttime;
     }
     else
     {
-	flash-> sector->lightlevel = flash->minlight;
-	flash->count =flash->darktime;
+	    flash-> sector->lightlevel = flash->minlight;
+	    flash->count =flash->darktime;
     }
-
 }
 
 
 
 //
-// P_SpawnStrobeFlash
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void
-P_SpawnStrobeFlash
-( sector_t*	sector,
-  int		fastOrSlow,
-  int		inSync )
+void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 {
-    strobe_t*	flash;
+    strobe_t *flash;
 	
-    flash = Z_Malloc ( sizeof(*flash), PU_LEVSPEC, 0);
+    flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
-    P_AddThinker (&flash->thinker);
+    P_AddThinker(&flash->thinker);
 
     flash->sector = sector;
     flash->darktime = fastOrSlow;
@@ -190,34 +162,34 @@ P_SpawnStrobeFlash
     flash->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);
 		
     if (flash->minlight == flash->maxlight)
-	flash->minlight = 0;
+	    flash->minlight = 0;
 
     // nothing special about it during gameplay
     sector->special = 0;	
 
     if (!inSync)
-	flash->count = (P_Random()&7)+1;
+	    flash->count = (P_Random()&7)+1;
     else
-	flash->count = 1;
+	    flash->count = 1;
 }
 
 
 //
 // Start strobing lights (usually from a trigger)
 //
-void EV_StartLightStrobing(line_t*	line)
+void EV_StartLightStrobing(line_t *line)
 {
-    int		secnum;
-    sector_t*	sec;
+    int	secnum;
+    sector_t *sec;
 	
     secnum = -1;
     while ((secnum = P_FindSectorFromLineTag(line,secnum)) >= 0)
     {
-	sec = &sectors[secnum];
-	if (sec->specialdata)
-	    continue;
+	    sec = &sectors[secnum];
+	    if (sec->specialdata)
+	        continue;
 	
-	P_SpawnStrobeFlash (sec,SLOWDARK, 0);
+	    P_SpawnStrobeFlash(sec,SLOWDARK, 0);
     }
 }
 
@@ -226,11 +198,11 @@ void EV_StartLightStrobing(line_t*	line)
 //
 // TURN LINE'S TAG LIGHTS OFF
 //
-void EV_TurnTagLightsOff(line_t* line)
+void EV_TurnTagLightsOff(line_t *line)
 {
-    int			i;
-    int			j;
-    int			min;
+    int	i;
+    int	j;
+    int	min;
     sector_t*		sector;
     sector_t*		tsec;
     line_t*		templine;
@@ -260,10 +232,7 @@ void EV_TurnTagLightsOff(line_t* line)
 //
 // TURN LINE'S TAG LIGHTS ON
 //
-void
-EV_LightTurnOn
-( line_t*	line,
-  int		bright )
+void EV_LightTurnOn(line_t *line, int bright)
 {
     int		i;
     int		j;
@@ -304,11 +273,11 @@ EV_LightTurnOn
 // Spawn glowing light
 //
 
-void T_Glow(glow_t*	g)
+void T_Glow(glow_t *g)
 {
     switch(g->direction)
     {
-      case -1:
+    case -1:
 	// DOWN
 	g->sector->lightlevel -= GLOWSPEED;
 	if (g->sector->lightlevel <= g->minlight)
@@ -331,11 +300,11 @@ void T_Glow(glow_t*	g)
 }
 
 
-void P_SpawnGlowingLight(sector_t*	sector)
+void P_SpawnGlowingLight(sector_t *sector)
 {
-    glow_t*	g;
+    glow_t *g;
 	
-    g = Z_Malloc( sizeof(*g), PU_LEVSPEC, 0);
+    g = Z_Malloc(sizeof(*g), PU_LEVSPEC, 0);
 
     P_AddThinker(&g->thinker);
 
@@ -347,4 +316,3 @@ void P_SpawnGlowingLight(sector_t*	sector)
 
     sector->special = 0;
 }
-

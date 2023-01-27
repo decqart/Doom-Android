@@ -39,7 +39,7 @@ ceiling_t *activeceilings[MAXCEILINGS];
 //
 void T_MoveCeiling(ceiling_t *ceiling)
 {
-    result_e	res;
+    result_e res;
 	
     switch(ceiling->direction)
     {
@@ -84,7 +84,6 @@ void T_MoveCeiling(ceiling_t *ceiling)
             default:
                 break;
             }
-	    
         }
         break;
 	
@@ -145,13 +144,9 @@ void T_MoveCeiling(ceiling_t *ceiling)
 }
 
 //
-// EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-int
-EV_DoCeiling
-( line_t*	line,
-  ceiling_e	type )
+int EV_DoCeiling(line_t *line, ceiling_e type)
 {
     int		secnum;
     int		rtn;
@@ -246,7 +241,7 @@ void P_AddActiveCeiling(ceiling_t *c)
 //
 void P_RemoveActiveCeiling(ceiling_t *c)
 {
-    for (int i = 0;i < MAXCEILINGS;i++)
+    for (int i = 0; i < MAXCEILINGS; i++)
     {
         if (activeceilings[i] == c)
         {
@@ -263,15 +258,14 @@ void P_RemoveActiveCeiling(ceiling_t *c)
 //
 void P_ActivateInStasisCeiling(line_t *line)
 {	
-    for (int i = 0;i < MAXCEILINGS;i++)
+    for (int i = 0; i < MAXCEILINGS; i++)
     {
         if (activeceilings[i]
             && (activeceilings[i]->tag == line->tag)
             && (activeceilings[i]->direction == 0))
         {
             activeceilings[i]->direction = activeceilings[i]->olddirection;
-            activeceilings[i]->thinker.function.acp1
-                = (actionf_p1)T_MoveCeiling;
+            activeceilings[i]->thinker.function.acp1 = (actionf_p1) T_MoveCeiling;
         }
     }
 }
@@ -282,11 +276,9 @@ void P_ActivateInStasisCeiling(line_t *line)
 //
 int	EV_CeilingCrushStop(line_t *line)
 {
-    int		i;
-    int		rtn;
-	
-    rtn = 0;
-    for (i = 0;i < MAXCEILINGS;i++)
+    int rtn = 0;
+
+    for (int i = 0; i < MAXCEILINGS; i++)
     {
         if (activeceilings[i]
             && (activeceilings[i]->tag == line->tag)
@@ -301,4 +293,3 @@ int	EV_CeilingCrushStop(line_t *line)
    
     return rtn;
 }
-

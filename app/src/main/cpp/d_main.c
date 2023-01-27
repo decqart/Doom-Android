@@ -1332,7 +1332,6 @@ void D_DoomMain(void)
 
     printf("I_Init: Setting up machine state.\n");
     I_InitSound(true);
-    I_InitMusic();
 
     // Initial netgame startup. Connect to server etc.
     D_ConnectNetGame();

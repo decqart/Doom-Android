@@ -42,7 +42,6 @@ extern byte *tinttable;
 // haleyjd 08/28/10: Patch clipping callback, implemented to support Choco
 // Strife.
 typedef bool (*vpatchclipfunc_t)(patch_t *, int, int);
-void V_SetPatchClipCallback(vpatchclipfunc_t func);
 
 // Draw a block from the specified source screen to the screen.
 

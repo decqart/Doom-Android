@@ -653,11 +653,10 @@ bool ST_Responder(event_t *ev)
 
 int ST_calcPainOffset(void)
 {
-    int		health;
-    static int	lastcalc;
-    static int	oldhealth = -1;
+    static int lastcalc;
+    static int oldhealth = -1;
     
-    health = plyr->health > 100 ? 100 : plyr->health;
+    int health = plyr->health > 100 ? 100 : plyr->health;
 
     if (health != oldhealth)
     {
@@ -840,7 +839,6 @@ void ST_updateFaceWidget(void)
     }
 
     st_facecount--;
-
 }
 
 void ST_updateWidgets(void)
@@ -867,7 +865,7 @@ void ST_updateWidgets(void)
     w_ready.data = plyr->readyweapon;
 
     // update keycard multiple widgets
-    for (i = 0;i<3;i++)
+    for (i = 0; i < 3; i++)
     {
         keyboxes[i] = plyr->cards[i] ? i : -1;
 
@@ -888,7 +886,7 @@ void ST_updateWidgets(void)
     st_fragson = deathmatch && st_statusbaron; 
     st_fragscount = 0;
 
-    for (i=0; i<MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; i++)
     {
         if (i != consoleplayer)
             st_fragscount += plyr->frags[i];
@@ -913,12 +911,11 @@ static int st_palette = 0;
 
 void ST_doPaletteStuff(void)
 {
-    int		palette;
-    byte*	pal;
-    int		cnt;
-    int		bzc;
+    int	palette;
+    byte *pal;
+    int	bzc;
 
-    cnt = plyr->damagecount;
+    int cnt = plyr->damagecount;
 
     if (plyr->powers[pw_strength])
     {
@@ -972,7 +969,6 @@ void ST_doPaletteStuff(void)
         pal = (byte *) W_CacheLumpNum(lu_palette, PU_CACHE)+palette*768;
         I_SetPalette(pal);
     }
-
 }
 
 void ST_drawWidgets(bool refresh)
@@ -1049,11 +1045,11 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 static void ST_loadUnloadGraphics(load_callback_t callback)
 {
-    int		i;
-    int		j;
-    int		facenum;
+    int	i;
+    int	j;
+    int facenum;
     
-    char	namebuf[9];
+    char namebuf[9];
 
     // Load the numbers, tall and short
     for (i = 0; i < 10; i++)
@@ -1101,9 +1097,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // face states
     facenum = 0;
-    for (i=0; i<ST_NUMPAINFACES; i++)
+    for (i = 0; i < ST_NUMPAINFACES; i++)
     {
-        for (j=0; j<ST_NUMSTRAIGHTFACES; j++)
+        for (j = 0; j < ST_NUMSTRAIGHTFACES; j++)
         {
             snprintf(namebuf, 9, "STFST%d%d", i, j);
             callback(namebuf, &faces[facenum]);
@@ -1178,8 +1174,6 @@ void ST_initData(void)
 
 void ST_createWidgets(void)
 {
-    int i;
-
     // ready weapon ammo
     STlib_initNum(&w_ready,
 		  ST_AMMOX,
@@ -1210,13 +1204,13 @@ void ST_createWidgets(void)
 		      &st_statusbaron);
 
     // weapons owned
-    for(i=0;i<6;i++)
+    for(int i = 0; i < 6; i++)
     {
-	STlib_initMultIcon(&w_arms[i],
-			   ST_ARMSX+(i%3)*ST_ARMSXSPACE,
-			   ST_ARMSY+(i/3)*ST_ARMSYSPACE,
-			   arms[i], (int *) &plyr->weaponowned[i+1],
-			   &st_armson);
+		STlib_initMultIcon(&w_arms[i],
+						   ST_ARMSX+(i%3)*ST_ARMSXSPACE,
+						   ST_ARMSY+(i/3)*ST_ARMSYSPACE,
+						   arms[i], (int *) &plyr->weaponowned[i+1],
+						   &st_armson);
     }
 
     // frags sum
@@ -1337,8 +1331,7 @@ static bool st_stopped = true;
 
 void ST_Start(void)
 {
-    if (!st_stopped)
-        ST_Stop();
+    if (!st_stopped) ST_Stop();
 
     ST_initData();
     ST_createWidgets();
@@ -1347,8 +1340,7 @@ void ST_Start(void)
 
 void ST_Stop(void)
 {
-    if (st_stopped)
-        return;
+    if (st_stopped) return;
 
     I_SetPalette(W_CacheLumpNum(lu_palette, PU_CACHE));
 

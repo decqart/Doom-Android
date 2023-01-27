@@ -33,17 +33,17 @@ typedef struct
 {
     // upper right-hand corner
     //  of the number (right-justified)
-    int		x;
-    int		y;
+    int	x;
+    int	y;
 
     // max # of digits in number
     int width;    
 
     // last number value
-    int		oldnum;
+    int oldnum;
     
     // pointer to current value
-    int*	num;
+    int *num;
 
     // pointer to boolean stating
     //  whether to update number
@@ -64,10 +64,10 @@ typedef struct
 typedef struct
 {
     // number information
-    st_number_t		n;
+    st_number_t n;
 
     // percent sign graphic
-    patch_t*		p;
+    patch_t *p;
     
 } st_percent_t;
 
@@ -77,32 +77,29 @@ typedef struct
 typedef struct
 {
      // center-justified location of icons
-    int			x;
-    int			y;
+    int x;
+    int y;
 
     // last icon number
-    int			oldinum;
+    int oldinum;
 
     // pointer to current icon
-    int*		inum;
+    int *inum;
 
     // pointer to boolean stating
     //  whether to update icon
     bool *on;
 
     // list of icons
-    patch_t**		p;
+    patch_t **p;
     
     // user data
-    int			data;
+    int	data;
     
 } st_multicon_t;
 
 
-
-
 // Binary Icon widget
-
 typedef struct
 {
     // center-justified location of icon
@@ -160,10 +157,7 @@ STlib_initPercent
   int*			num,
   bool *on, patch_t *percent);
 
-void
-STlib_updatePercent
-( st_percent_t*		per,
-  int			refresh );
+void STlib_updatePercent(st_percent_t *per, int refresh);
 
 
 // Multiple Icon widget routines
@@ -180,13 +174,7 @@ void STlib_updateMultIcon(st_multicon_t *mi, bool refresh);
 
 // Binary Icon widget routines
 
-void
-STlib_initBinIcon
-( st_binicon_t*		b,
-  int x,
-  int y,
-  patch_t *i,
-  bool *val, bool *on);
+void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, bool *val, bool *on);
 
 void STlib_updateBinIcon(st_binicon_t *bi, bool refresh);
 

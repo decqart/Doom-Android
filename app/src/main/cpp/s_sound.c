@@ -122,7 +122,7 @@ void S_Init(int sfxVolume, int musicVolume)
     channels = Z_Malloc(snd_channels*sizeof(channel_t), PU_STATIC, 0);
 
     // Free all channels for use
-    for (i=0; i < snd_channels; i++)
+    for (i = 0; i < snd_channels; i++)
     {
         channels[i].sfxinfo = 0;
     }
@@ -131,18 +131,12 @@ void S_Init(int sfxVolume, int musicVolume)
     mus_paused = 0;
 
     // Note that sounds have not been cached (yet).
-    for (i=1; i < NUMSFX; i++)
+    for (i = 1; i < NUMSFX; i++)
     {
         S_sfx[i].lumpnum = S_sfx[i].usefulness = -1;
     }
 
-    I_AtExit(S_Shutdown, true);
-}
-
-void S_Shutdown(void)
-{
-    I_ShutdownSound();
-    I_ShutdownMusic();
+    I_AtExit(I_ShutdownSound, true);
 }
 
 static void S_StopChannel(int cnum)
@@ -163,7 +157,7 @@ static void S_StopChannel(int cnum)
 
         // check to see if other channels are playing the sound
 
-        for (i=0; i<snd_channels; i++)
+        for (i = 0; i < snd_channels; i++)
         {
             if (cnum != i && c->sfxinfo == channels[i].sfxinfo)
             {
@@ -191,7 +185,7 @@ void S_Start(void)
 
     // kill all playing sounds at start of level
     //  (trust me - a good idea)
-    for (cnum=0; cnum<snd_channels; cnum++)
+    for (cnum = 0; cnum < snd_channels; cnum++)
     {
         if (channels[cnum].sfxinfo)
         {
@@ -208,10 +202,8 @@ void S_Start(void)
     }
     else
     {
-        int spmus[]=
-        {
+        int spmus[] = {
             // Song - Who? - Where?
-
             mus_e3m4,        // American     e4m1
             mus_e3m2,        // Romero       e4m2
             mus_e3m3,        // Shawn        e4m3
@@ -256,12 +248,12 @@ void S_StopSound(mobj_t *origin)
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {
     // channel number to use
-    int                cnum;
+    int cnum;
     
-    channel_t*        c;
+    channel_t *c;
 
     // Find an open channel
-    for (cnum=0 ; cnum<snd_channels ; cnum++)
+    for (cnum = 0; cnum < snd_channels; cnum++)
     {
         if (!channels[cnum].sfxinfo)
         {
@@ -314,13 +306,12 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Otherwise, modifies parameters and returns 1.
 //
 
-static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source,
-                               int *vol, int *sep)
+static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep)
 {
-    fixed_t        approx_dist;
-    fixed_t        adx;
-    fixed_t        ady;
-    angle_t        angle;
+    fixed_t approx_dist;
+    fixed_t adx;
+    fixed_t ady;
+    angle_t angle;
 
     // calculate the distance to sound origin
     //  and clip it if necessary
@@ -407,10 +398,7 @@ void S_StartSound(void *origin_p, int sfx_id)
     {
         volume += sfx->volume;
 
-        if (volume < 1)
-        {
-            return;
-        }
+        if (volume < 1) return;
 
         if (volume > snd_SfxVolume)
         {
@@ -434,11 +422,8 @@ void S_StartSound(void *origin_p, int sfx_id)
             sep = NORM_SEP;
         }
 
-        if (!rc)
-        {
-            return;
-        }
-    }        
+        if (!rc) return;
+    }
     else
     {
         sep = NORM_SEP;
@@ -450,10 +435,7 @@ void S_StartSound(void *origin_p, int sfx_id)
     // try to find a channel
     cnum = S_GetChannel(origin, sfx);
 
-    if (cnum < 0)
-    {
-        return;
-    }
+    if (cnum < 0) return;
 
     // increase the usefulness
     if (sfx->usefulness++ < 0)
@@ -497,16 +479,16 @@ void S_ResumeSound(void)
 
 void S_UpdateSounds(mobj_t *listener)
 {
-    int                audible;
-    int                cnum;
-    int                volume;
-    int                sep;
-    sfxinfo_t*        sfx;
-    channel_t*        c;
+    int audible;
+    int cnum;
+    int volume;
+    int sep;
+    sfxinfo_t *sfx;
+    channel_t *c;
 
     I_UpdateSound();
 
-    for (cnum=0; cnum<snd_channels; cnum++)
+    for (cnum = 0; cnum < snd_channels; cnum++)
     {
         c = &channels[cnum];
         sfx = c->sfxinfo;
@@ -537,10 +519,8 @@ void S_UpdateSounds(mobj_t *listener)
                 //  or modify their params
                 if (c->origin && listener != c->origin)
                 {
-                    audible = S_AdjustSoundParams(listener,
-                                                  c->origin,
-                                                  &volume,
-                                                  &sep);
+                    audible = S_AdjustSoundParams(listener, c->origin,
+                                                  &volume, &sep);
                     
                     if (!audible)
                     {
@@ -566,8 +546,7 @@ void S_SetMusicVolume(int volume)
 {
     if (volume < 0 || volume > 127)
     {
-        I_Error("Attempt to set music volume at %d",
-                volume);
+        I_Error("Attempt to set music volume at %d", volume);
     }    
 
     I_SetMusicVolume(volume);
@@ -616,10 +595,7 @@ void S_ChangeMusic(int musicnum, int looping)
         music = &S_music[musicnum];
     }
 
-    if (mus_playing == music)
-    {
-        return;
-    }
+    if (mus_playing == music) return;
 
     // shutdown old music
     S_StopMusic();
@@ -640,19 +616,11 @@ void S_ChangeMusic(int musicnum, int looping)
     mus_playing = music;
 }
 
-bool S_MusicPlaying(void)
-{
-    return I_MusicIsPlaying();
-}
-
 void S_StopMusic(void)
 {
     if (mus_playing)
     {
-        if (mus_paused)
-        {
-            I_ResumeSong();
-        }
+        if (mus_paused) I_ResumeSong();
 
         I_StopSong();
         I_UnRegisterSong(mus_playing->handle);

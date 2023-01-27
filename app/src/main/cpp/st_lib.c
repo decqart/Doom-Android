@@ -69,15 +69,14 @@ void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl,
 //
 void STlib_drawNum(st_number_t *n, bool refresh)
 {
-
-    int		numdigits = n->width;
-    int		num = *n->num;
+    int	numdigits = n->width;
+    int	num = *n->num;
     
-    int		w = SHORT(n->p[0]->width);
-    int		h = SHORT(n->p[0]->height);
-    int		x = n->x;
+    int	w = SHORT(n->p[0]->width);
+    int	h = SHORT(n->p[0]->height);
+    int	x = n->x;
     
-    int		neg;
+    int	neg;
 
     n->oldnum = *n->num;
 
@@ -102,8 +101,7 @@ void STlib_drawNum(st_number_t *n, bool refresh)
     V_CopyRect(x, n->y - ST_Y, st_backing_screen, w*numdigits, h, x, n->y);
 
     // if non-number, do not draw it
-    if (num == 1994)
-        return;
+    if (num == 1994) return;
 
     x = n->x;
 
@@ -131,21 +129,14 @@ void STlib_updateNum(st_number_t *n, bool refresh)
 }
 
 
-void STlib_initPercent(st_percent_t *p,
-                       int			x,
-                       int			y,
-                       patch_t**		pl,
-                       int*			num,
-                       bool *on,
-                       patch_t *percent)
+void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl,
+                       int *num, bool *on, patch_t *percent)
 {
     STlib_initNum(&p->n, x, y, pl, num, on, 3);
     p->p = percent;
 }
 
-void STlib_updatePercent
-( st_percent_t*		per,
-  int			refresh )
+void STlib_updatePercent(st_percent_t *per, int refresh)
 {
     if (refresh && *per->n.on)
 	V_DrawPatch(per->n.x, per->n.y, per->p);
@@ -154,19 +145,19 @@ void STlib_updatePercent
 }
 
 void STlib_initMultIcon
-( st_multicon_t*	i,
-  int			x,
-  int			y,
-  patch_t**		il,
-  int*			inum,
+( st_multicon_t *i,
+  int x,
+  int y,
+  patch_t **il,
+  int *inum,
   bool *on)
 {
-    i->x	= x;
-    i->y	= y;
-    i->oldinum 	= -1;
+    i->x = x;
+    i->y = y;
+    i->oldinum = -1;
     i->inum	= inum;
-    i->on	= on;
-    i->p	= il;
+    i->on = on;
+    i->p = il;
 }
 
 void STlib_updateMultIcon(st_multicon_t *mi, bool refresh)

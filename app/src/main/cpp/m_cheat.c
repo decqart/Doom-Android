@@ -60,8 +60,8 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
         ++cht->param_chars_read;
     }
 
-    if (cht->chars_read >= strlen(cht->sequence)
-     && cht->param_chars_read >= cht->parameter_chars)
+    if (cht->chars_read >= strlen(cht->sequence) &&
+        cht->param_chars_read >= cht->parameter_chars)
     {
         cht->chars_read = cht->param_chars_read = 0;
 
