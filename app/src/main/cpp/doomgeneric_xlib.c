@@ -120,9 +120,6 @@ void DG_Init(void)
 
 void DG_DrawFrame(void)
 {
-    for (int i = 0; i < 16; ++i) {
-        printf("queeue = %d\n", s_KeyQueue[i]);
-    }
     if (display)
     {
         while (XPending(display) > 0)

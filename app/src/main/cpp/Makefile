@@ -1,6 +1,6 @@
 CC=gcc
 
-CFLAGS=-g -Wall -Os
+CFLAGS=-Wall -Os
 LDFLAGS=-Wl,--gc-sections -lm -lX11
 
 OBJDIR=build

@@ -3,8 +3,6 @@
 
 #include <stdint.h>
 
-extern uint32_t *AScreenBuffer;
-
 extern int lastButtonX;
 extern int lastButtonY;
 extern int buttonDown;
@@ -21,7 +19,7 @@ void HandleInput(void);
 void HandleButton(int x, int y, int button, int bDown);
 void HandleMotion(int x, int y, int mask);
 
-void DrawCircle(int x, int y, int radius, uint32_t color);
+void DrawCircle(int x, int y, float radius, uint32_t color);
 void DrawImage(uint32_t *data, int x, int y, int w, int h);
 
 void ClearFrame(void);

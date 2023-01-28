@@ -8,5 +8,4 @@ Only tested with shareware wad
 
 # TODO:
 * save system
-* changing ui elements to opengl from ScreenBuffer
 * adding sound

@@ -5,69 +5,6 @@
 
 #include "Draw.h"
 
-uint32_t *AScreenBuffer = 0;
-size_t scrnX;
-size_t scrnY;
-
-void DrawRectangle(int x1, int y1, short x2, short y2, uint32_t color)
-{
-	int min_x = (int) fmin(x1, x2);
-	int max_x = (int) fmax(x1, x2);
-	int min_y = (int) fmin(y1, y2);
-	int max_y = (int) fmax(y1, y2);
-
-	if (min_x < 0) min_x = 0;
-	if (min_y < 0) min_y = 0;
-	if (max_x >= scrnX) max_x = scrnX - 1;
-	if (max_y >= scrnY) max_y = scrnY - 1;
-
-	int reset_x = min_x;
-
-	while (min_y <= max_y)
-	{
-		unsigned int *bufferStart = &AScreenBuffer[min_y * scrnX + min_x];
-		while (min_x <= max_x)
-		{
-			*bufferStart++ = color >> 8;
-			min_x++;
-		}
-		min_x = reset_x;
-		min_y++;
-	}
-}
-
-void DrawCircle(int x, int y, int radius, uint32_t color)
-{
-    int xs = x;
-	int x2 = x + 2*radius;
-	int y2 = y + 2*radius;
-    if (x < 0) xs = 0;
-
-	for (int i = y; i <= y2; i++)
-	{
-        if (i < 0) continue;
-		if (i >= scrnY) break;
-		unsigned int *bufferStart = &AScreenBuffer[i * scrnX + xs];
-		for (int j = x; j <= x2; j++)
-		{
-            if (j < 0) continue;
-			if (j >= scrnX) break;
-			double distance = sqrt((i-(radius+y))*(i-(radius+y)) + (j-(radius+x))*(j-(radius+x)));
-			if (distance < radius+0.5)
-				*bufferStart++ = color >> 8;
-			else
-				bufferStart++;
-		}
-	}
-}
-
-GLuint gRDBlitProg = 0;
-GLuint gRDBlitProgUX = 0;
-GLuint gRDBlitProgUT = 0;
-GLuint gRDBlitProgTex = 0;
-GLuint gRDLastResizeW;
-GLuint gRDLastResizeH;
-
 GLuint GLInternalLoadShader(const char *vertex_shader, const char *fragment_shader)
 {
 	GLuint fragment_shader_object = 0;
@@ -167,9 +104,58 @@ fail:
 	return -1;
 }
 
+GLuint imageProgram = 0;
+GLint imageProgramUX = 0;
+GLint imageProgramUT = 0;
+GLuint imageProgramTex = 0;
+GLuint circleProgram = -1;
+GLint circleProgramUX = -1;
+GLint circleProgramScrn = -1;
+GLint circleProgramLoc = -1;
+GLint circleProgramRad = -1;
+GLuint lastWidthResize;
+GLuint lastHeightResize;
+
 void SetupBatchInternal(void)
 {
-	gRDBlitProg = GLInternalLoadShader(
+    circleProgram = GLInternalLoadShader(
+            "#version 100\n"
+            "uniform vec4 xfrm;"
+            "attribute vec3 a0;"
+            "attribute vec4 a1;"
+            "varying lowp vec4 vc;"
+            "void main() { gl_Position = vec4(a0.xy*xfrm.xy+xfrm.zw, a0.z, 0.5); vc = a1; }",
+
+            "#version 100\n"
+            "precision mediump float;"
+            "varying lowp vec4 vc;"
+            "uniform vec2 uRes;"
+            "uniform vec2 uLoc;"
+            "uniform float uRad;"
+            "void main() {"
+            "    vec2 uv = (gl_FragCoord.xy / uRes - vec2(0.0, 1.0) + uLoc) * 2.0;\n"
+            "    float aspect = uRes.x / uRes.y;"
+            "    if (max(uRes.x, uRes.y) == uRes.y)"
+            "        uv.y /= aspect;"
+            "    else { uv.x *= aspect; }"
+            "    float distance = uRad/545.0 - length(uv);"
+            "    float alphaColour;"
+            "    if (distance > 0.0) {"
+            "        distance = 1.0;"
+            "        alphaColour = 1.0;"
+            "    } else { alphaColour = 0.0; }"
+            "    gl_FragColor = vec4(vec3(distance), alphaColour);"
+            "    gl_FragColor.rgb = vc.abg;"
+            "}"
+    );
+
+    glUseProgram(circleProgram);
+    circleProgramUX = glGetUniformLocation(circleProgram, "xfrm");
+    circleProgramScrn = glGetUniformLocation(circleProgram, "uRes");
+    circleProgramLoc = glGetUniformLocation(circleProgram, "uLoc");
+    circleProgramRad = glGetUniformLocation(circleProgram, "uRad");
+
+    imageProgram = GLInternalLoadShader(
 		"uniform vec4 xfrm;"
 		"attribute vec3 a0;"
 		"attribute vec4 a1;"
@@ -178,46 +164,70 @@ void SetupBatchInternal(void)
 
 		"varying mediump vec2 tc;"
 		"uniform sampler2D tex;"
-		"void main() { gl_FragColor = texture2D(tex, tc).zyxw; }"
+		"void main() { gl_FragColor = vec4(texture2D(tex, tc).zyx, 1.0); }"
 	);
 
-	glUseProgram(gRDBlitProg);
-	gRDBlitProgUX = glGetUniformLocation(gRDBlitProg, "xfrm");
-	gRDBlitProgUT = glGetUniformLocation(gRDBlitProg, "tex");
-	glGenTextures(1, &gRDBlitProgTex);
+	glUseProgram(imageProgram);
+    imageProgramUX = glGetUniformLocation(imageProgram, "xfrm");
+    imageProgramUT = glGetUniformLocation(imageProgram, "tex");
+	glGenTextures(1, &imageProgramTex);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
 	glDisable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void InternalResize(int x, int y)
 {
 	glViewport(0, 0, x, y);
-	gRDLastResizeW = x;
-	gRDLastResizeH = y;
+    lastWidthResize = x;
+    lastHeightResize = y;
+}
 
-	scrnX = x;
-	scrnY = y;
+void DrawCircle(int x, int y, float radius, uint32_t color)
+{
+    glUseProgram(circleProgram);
+    glUniform4f(circleProgramUX, 1.0f / lastWidthResize, -1.0f / lastHeightResize, -0.5f, 0.5f);
+    glUniform2f(circleProgramScrn, (float) lastWidthResize, (float) lastHeightResize);
+    float ux = (float) x+radius;
+    float uy = (float) y+radius;
+    glUniform2f(circleProgramLoc, -ux / lastWidthResize, uy / lastHeightResize);
+    glUniform1f(circleProgramRad, radius);
 
-	if (AScreenBuffer) free(AScreenBuffer);
-	AScreenBuffer = malloc(scrnX * scrnY * 4);
-	for(int i = 0; i < x * y; i++)
-		AScreenBuffer[i] = 0x000000ff >> 8;
+    float x1 = (float) x, y1 = (float) y;
+    float x2 = (float) x+radius*2, y2 = (float) y+radius*2;
+
+    float fv[18];
+    for (int i = 0; i < 18; ++i) fv[i] = 0.0f; // we need to fill with 0 because it causes errors
+    fv[0] = x1; fv[1] = y1;
+    fv[3] = x2; fv[4] = y1;
+    fv[6] = x1; fv[7] = y2;
+    fv[9] = x1; fv[10] = y2;
+    fv[12] = x2; fv[13] = y1;
+    fv[15] = x2; fv[16] = y2;
+    fv[17] = 0;
+    uint32_t col[6];
+    for (int i = 0; i < 6; ++i) col[i] = color;
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, fv);
+    glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, col);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void DrawImage(uint32_t *data, int x, int y, int w, int h)
 {
 	if (w <= 0 || h <= 0) return;
 
-	glUseProgram(gRDBlitProg);
-	glUniform4f(gRDBlitProgUX, 1.0f/gRDLastResizeW,-1.0f/gRDLastResizeH,
-		-0.5f+x/(float)gRDLastResizeW, 0.5f-y/(float)gRDLastResizeH);
-	glUniform1i(gRDBlitProgUT, 0);
+	glUseProgram(imageProgram);
+	glUniform4f(imageProgramUX, 1.0f / lastWidthResize, -1.0f / lastHeightResize,
+		-0.5f+x/(float)lastWidthResize, 0.5f - y / (float)lastHeightResize);
+	glUniform1i(imageProgramUT, 0);
 
-	glBindTexture(GL_TEXTURE_2D, gRDBlitProgTex);
+	glBindTexture(GL_TEXTURE_2D, imageProgramTex);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -241,9 +251,8 @@ void DrawImage(uint32_t *data, int x, int y, int w, int h)
 
 void ClearFrame(void)
 {
-	DrawRectangle(0, 0, scrnX, scrnY, 0x000000ff);
 	glClearColor(0.0f, 0.0f, 0.0f, 255.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 int lastButtonX = -1;

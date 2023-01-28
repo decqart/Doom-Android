@@ -40,8 +40,8 @@ void DG_Init(void)
 
 void VirtualButton(int x, int y, int id, unsigned char keycode)
 {
-    static bool pressable[2] = { false };
-    static bool pressed[2] = { false };
+    static bool pressable[2] = { false, false };
+    static bool pressed[2] = { false, false };
     int lw = x + 200;
     int lh = y + 200;
     DrawCircle(x, y, 100, 0x808080ff);
@@ -153,15 +153,13 @@ void VirtualJoystick(void)
     else
         VirtualButton(screen_x-400, screen_y-300, 0, KEY_FIRE);
     VirtualButton(screen_x-250, screen_y-500, 1, KEY_USE);
-
-    DrawImage(AScreenBuffer, 0, 0, screen_x, screen_y);
 }
 
 void DG_DrawFrame(void)
 {
     ClearFrame();
-    VirtualJoystick();
     DrawImage(DG_ScreenBuffer, screen_x/2-DOOMGENERIC_RESX/2, screen_y/2-DOOMGENERIC_RESY/2, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
+    VirtualJoystick();
     HandleInput();
     SwapBuffers();
 }
