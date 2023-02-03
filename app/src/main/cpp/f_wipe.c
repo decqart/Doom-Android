@@ -60,15 +60,15 @@ int wipe_initColorXForm(int	width, int height, int ticks)
 int wipe_doColorXForm(int width, int height, int ticks)
 {
     bool changed;
-    byte*	w;
-    byte*	e;
-    int		newval;
+    byte *w;
+    byte *e;
+    int newval;
 
     changed = false;
     w = wipe_scr;
     e = wipe_scr_end;
     
-    while (w!=wipe_scr+width*height)
+    while (w != wipe_scr+width*height)
     {
         if (*w != *e)
         {
@@ -149,7 +149,7 @@ int wipe_doMelt(int width, int height, int ticks)
 
     while (ticks--)
     {
-        for (i = 0;i < width;i++)
+        for (i = 0; i < width; i++)
         {
             if (y[i] < 0)
             {
@@ -207,17 +207,10 @@ int wipe_EndScreen(int x, int y, int width, int height)
     return 0;
 }
 
-int wipe_ScreenWipe
-( int	wipeno,
-  int	x,
-  int	y,
-  int	width,
-  int	height,
-  int	ticks )
+int wipe_ScreenWipe(int wipeno, int width, int height, int ticks)
 {
     int rc;
-    static int (*wipes[])(int, int, int) =
-    {
+    static int (*wipes[])(int, int, int) = {
         wipe_initColorXForm, wipe_doColorXForm, wipe_exitColorXForm,
         wipe_initMelt, wipe_doMelt, wipe_exitMelt
     };

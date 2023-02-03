@@ -1818,10 +1818,7 @@ void M_SaveDefaults(void)
     SaveDefaultCollection(&extra_defaults);
 }
 
-//
 // Save defaults to alternate filenames
-//
-
 void M_SaveDefaultsAlternate(char *main, char *extra)
 {
     char *orig_main;
@@ -1846,7 +1843,7 @@ void M_SaveDefaultsAlternate(char *main, char *extra)
 void M_LoadDefaults(void)
 {
     int i;
- 
+
     // check for a custom default file
 
     //!
@@ -2002,27 +1999,16 @@ float M_GetFloatVariable(char *name)
 
 // Get the path to the default configuration dir to use, if NULL
 // is passed to M_SetConfigDir.
-
 static char *GetDefaultConfigDir(void)
 {
-    char *result = (char *) malloc(2);
-    result[0] = '.';
-    result[1] = '\0';
-
-    return result;
+    return strdup(".");
 }
 
-// 
-// SetConfigDir:
-//
 // Sets the location of the configuration directory, where configuration
 // files are stored - default.cfg, chocolate-doom.cfg, savegames, etc.
-//
-
 void M_SetConfigDir(char *dir)
 {
     // Use the directory that was passed, or find the default.
-
     if (dir != NULL)
     {
         configdir = dir;
@@ -2042,11 +2028,8 @@ void M_SetConfigDir(char *dir)
     M_MakeDirectory(configdir);
 }
 
-//
 // Calculate the path to the directory to use to store save games.
 // Creates the directory as necessary.
-//
-
 char *M_GetSaveGameDir(char *iwadname)
 {
     char *savegamedir;
@@ -2065,12 +2048,10 @@ char *M_GetSaveGameDir(char *iwadname)
     {
 #if ORIGCODE
         // ~/.chocolate-doom/savegames
-
         topdir = M_StringJoin(configdir, "savegame", NULL);
         M_MakeDirectory(topdir);
 
         // eg. ~/.chocolate-doom/savegames/doom2.wad/
-
         savegamedir = M_StringJoin(topdir, DIR_SEPARATOR_S, iwadname,
                                    DIR_SEPARATOR_S, NULL);
 

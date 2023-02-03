@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Cheat sequence checking.
+//  Cheat sequence checking.
 //
 
 #include <string.h>
@@ -69,7 +69,6 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     }
     
     // cheat not matched yet
-
     return false;
 }
 

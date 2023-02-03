@@ -181,10 +181,7 @@ void I_PrintStartupBanner(char *gamedescription)
     I_PrintDivider();
 }
 
-//
 // Returns true if stdout is a real console, false if it is a file
-//
-
 bool I_ConsoleStdout(void)
 {
 #if ORIGCODE
@@ -297,10 +294,6 @@ static int ZenityErrorBox(char *message)
 }
 
 #endif /* !defined(_WIN32) && !defined(__MACOSX__) */
-
-//
-// I_Error
-//
 
 static bool already_quitting = false;
 

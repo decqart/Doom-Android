@@ -11,7 +11,6 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-//
 // DESCRIPTION:
 //   Functions and definitions relating to the game type and operational
 //   mode.
@@ -45,21 +44,6 @@ static struct
     { strife,    commercial, 1, 34 },
 };
 
-// Check that a gamemode+gamemission received over the network is valid.
-
-bool D_ValidGameMode(GameMission_t mission, GameMode_t mode)
-{
-    for (int i = 0; i<arrlen(valid_modes); ++i)
-    {
-        if (valid_modes[i].mode == mode && valid_modes[i].mission == mission)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
                        int episode, int map)
 {
@@ -81,7 +65,7 @@ bool D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
 
     // Find the table entry for this mission/mode combination.
 
-    for (i=0; i<arrlen(valid_modes); ++i) 
+    for (i = 0; i < arrlen(valid_modes); ++i)
     {
         if (mission == valid_modes[i].mission
          && mode == valid_modes[i].mode)

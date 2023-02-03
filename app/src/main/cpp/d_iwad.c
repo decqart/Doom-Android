@@ -348,10 +348,7 @@ static GameMission_t IdentifyIWADByName(char *name, int mask)
     return mission;
 }
 
-//
 // Build a list of IWAD files
-//
-
 static void BuildIWADDirList(void)
 {
 #if ORIGCODE
@@ -386,9 +383,7 @@ static void BuildIWADDirList(void)
 #endif
 }
 
-//
 // Searches WAD search paths for an WAD with a specific filename.
-//
 char *D_FindWADByName(char *name)
 {
     char *path;
@@ -429,40 +424,24 @@ char *D_FindWADByName(char *name)
     }
 
     // File not found
-
     return NULL;
 }
 
-//
-// D_TryWADByName
-//
 // Searches for a WAD by its filename, or passes through the filename
 // if not found.
-//
-
 char *D_TryFindWADByName(char *filename)
 {
-    char *result;
-
-    result = D_FindWADByName(filename);
+    char *result = D_FindWADByName(filename);
 
     if (result != NULL)
-    {
         return result;
-    }
-    else
-    {
-        return filename;
-    }
+
+    return filename;
 }
 
-//
-// FindIWAD
 // Checks availability of IWAD files by name,
 // to determine whether registered/commercial features
 // should be executed (notably loading PWADs).
-//
-
 char *D_FindIWAD(int mask, GameMission_t *mission)
 {
     char *result;
@@ -514,47 +493,7 @@ char *D_FindIWAD(int mask, GameMission_t *mission)
     return result;
 }
 
-// Find all IWADs in the IWAD search path matching the given mask.
-
-const iwad_t **D_FindAllIWADs(int mask)
-{
-    const iwad_t **result;
-    int result_len;
-    char *filename;
-    int i;
-
-    result = malloc(sizeof(iwad_t *) * (arrlen(iwads) + 1));
-    result_len = 0;
-
-    // Try to find all IWADs
-
-    for (i=0; i<arrlen(iwads); ++i)
-    {
-        if (((1 << iwads[i].mission) & mask) == 0)
-        {
-            continue;
-        }
-
-        filename = D_FindWADByName(iwads[i].name);
-
-        if (filename != NULL)
-        {
-            result[result_len] = &iwads[i];
-            ++result_len;
-        }
-    }
-
-    // End of list
-
-    result[result_len] = NULL;
-
-    return result;
-}
-
-//
 // Get the IWAD name used for savegames.
-//
-
 char *D_SaveGameIWADName(GameMission_t gamemission)
 {
     // Determine the IWAD name to use for savegames.

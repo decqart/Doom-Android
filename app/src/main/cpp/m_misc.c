@@ -45,10 +45,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-//
 // Create a directory
-//
-
 void M_MakeDirectory(char *path)
 {
 #ifdef _WIN32
@@ -84,10 +81,7 @@ bool M_FileExists(char *filename)
     }
 }
 
-//
 // Determine the length of an open file.
-//
-
 long M_FileLength(FILE *handle)
 {
     // save the current position in the file
@@ -111,9 +105,9 @@ bool M_WriteFile(char *name, void *source, int length)
 
     size_t count = fwrite(source, 1, length, handle);
     fclose(handle);
-	
+
     if (count < length) return false;
-		
+
     return true;
 }
 
@@ -182,7 +176,7 @@ void M_ExtractFileBase(char *path, char *dest)
             break;
         }
 
-	    dest[length++] = toupper((int)*src++);
+        dest[length++] = toupper((int)*src++);
     }
 }
 
@@ -206,7 +200,6 @@ bool M_StringCopy(char *dest, const char *src, size_t dest_size)
 
 // Safe string concat function that works like OpenBSD's strlcat().
 // Returns true if string not truncated.
-
 bool M_StringConcat(char *dest, const char *src, size_t dest_size)
 {
     size_t offset = strlen(dest);
@@ -229,7 +222,6 @@ bool M_StringEndsWith(const char *s, const char *suffix)
 
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
-
 char *M_StringJoin(const char *s, ...)
 {
     char *result;
@@ -240,11 +232,10 @@ char *M_StringJoin(const char *s, ...)
     result_len = strlen(s) + 1;
 
     va_start(args, s);
-    for (;;)
+    while (1)
     {
         v = va_arg(args, const char *);
-        if (v == NULL)
-            break;
+        if (v == NULL) break;
 
         result_len += strlen(v);
     }
@@ -261,11 +252,10 @@ char *M_StringJoin(const char *s, ...)
     M_StringCopy(result, s, result_len);
 
     va_start(args, s);
-    for (;;)
+    while (1)
     {
         v = va_arg(args, const char *);
-        if (v == NULL)
-            break;
+        if (v == NULL) break;
 
         M_StringConcat(result, v, result_len);
     }

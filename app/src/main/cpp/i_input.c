@@ -27,7 +27,6 @@
 #include "i_swap.h"
 #include "i_timer.h"
 #include "i_video.h"
-#include "i_scale.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -219,11 +218,10 @@ static const char shiftxform[] = {
 
 static unsigned char TranslateKey(unsigned char key)
 {
-	return key;
+    return key;
 }
 
 // Get the equivalent ASCII (Unicode?) character for a keypress.
-
 static unsigned char GetTypedChar(unsigned char key)
 {
     key = TranslateKey(key);
@@ -271,7 +269,7 @@ void I_GetEvent(void)
     int pressed;
     unsigned char key;
 
-	while (DG_GetKey(&pressed, &key))
+    while (DG_GetKey(&pressed, &key))
     {
         UpdateShiftStatus(pressed, key);
 

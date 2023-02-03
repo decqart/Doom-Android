@@ -38,7 +38,6 @@
 #include "net_defs.h"
 
 
-
 // ------------------------
 // Command line parameters.
 //
@@ -90,9 +89,9 @@ extern int startloadgame;
 extern bool autostart;
 
 // Selected by user. 
-extern  skill_t         gameskill;
-extern  int		gameepisode;
-extern  int		gamemap;
+extern skill_t gameskill;
+extern int gameepisode;
+extern int gamemap;
 
 // If non-zero, exit the level after this number of minutes
 extern int timelimit;
@@ -133,11 +132,6 @@ extern int snd_DesiredSfxDevice;
 // -------------------------
 // Status flags for refresh.
 //
-
-// Depending on view size - no status bar?
-// Note that there is no way to disable the
-//  status bar explicitely.
-extern  bool statusbaractive;
 
 extern  bool automapactive;	// In AutoMap mode?
 extern  bool menuactive;	// Menu overlayed?

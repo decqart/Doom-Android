@@ -93,7 +93,7 @@ int             gamemap;
 
 // If non-zero, exit the level after this number of minutes.
 
-int             timelimit;
+int   timelimit;
 
 bool paused; 
 bool sendpause;             	// send a pause event next tic 
@@ -138,15 +138,15 @@ int             testcontrols_mousespeed;
  
 wbstartstruct_t wminfo;               	// parms for world map / intermission 
  
-byte		consistancy[MAXPLAYERS][BACKUPTICS]; 
+byte consistancy[MAXPLAYERS][BACKUPTICS];
  
-#define MAXPLMOVE		(forwardmove[1]) 
+#define MAXPLMOVE (forwardmove[1])
  
-#define TURBOTHRESHOLD	0x32
+#define TURBOTHRESHOLD 0x32
 
-fixed_t         forwardmove[2] = {0x19, 0x32}; 
-fixed_t         sidemove[2] = {0x18, 0x28}; 
-fixed_t         angleturn[3] = {640, 1280, 320};    // + slow turn 
+fixed_t forwardmove[2] = {0x19, 0x32};
+fixed_t sidemove[2] = {0x18, 0x28};
+fixed_t angleturn[3] = {640, 1280, 320};    // + slow turn
 
 static int *weapon_keys[] = {
     &key_weapon1,
@@ -170,15 +170,15 @@ static const struct
     weapontype_t weapon;
     weapontype_t weapon_num;
 } weapon_order_table[] = {
-    { wp_fist,            wp_fist },
-    { wp_chainsaw,        wp_fist },
-    { wp_pistol,          wp_pistol },
-    { wp_shotgun,         wp_shotgun },
-    { wp_supershotgun,    wp_shotgun },
-    { wp_chaingun,        wp_chaingun },
-    { wp_missile,         wp_missile },
-    { wp_plasma,          wp_plasma },
-    { wp_bfg,             wp_bfg }
+    { wp_fist,           wp_fist },
+    { wp_chainsaw,       wp_fist },
+    { wp_pistol,         wp_pistol },
+    { wp_shotgun,        wp_shotgun },
+    { wp_supershotgun,   wp_shotgun },
+    { wp_chaingun,       wp_chaingun },
+    { wp_missile,        wp_missile },
+    { wp_plasma,         wp_plasma },
+    { wp_bfg,            wp_bfg }
 };
 
 #define SLOWTURNTICS	6 
@@ -193,21 +193,21 @@ static bool mousearray[MAX_MOUSE_BUTTONS + 1];
 static bool *mousebuttons = &mousearray[1];  // allow [-1]
 
 // mouse values are used once 
-int             mousex;
-int             mousey;         
+int mousex;
+int mousey;
 
-static int      dclicktime;
-static bool  dclickstate;
-static int      dclicks; 
-static int      dclicktime2;
-static bool  dclickstate2;
-static int      dclicks2;
+static int dclicktime;
+static bool dclickstate;
+static int dclicks;
+static int dclicktime2;
+static bool dclickstate2;
+static int dclicks2;
 
 // joystick values are repeated 
-static int      joyxmove;
-static int      joyymove;
-static int      joystrafemove;
-static bool  joyarray[MAX_JOY_BUTTONS + 1]; 
+static int joyxmove;
+static int joyymove;
+static int joystrafemove;
+static bool joyarray[MAX_JOY_BUTTONS + 1];
 static bool *joybuttons = &joyarray[1];		// allow [-1] 
  
 static int      savegameslot; 
@@ -215,8 +215,8 @@ static char     savedescription[32];
  
 #define	BODYQUESIZE	32
 
-mobj_t*		bodyque[BODYQUESIZE]; 
-int		bodyqueslot; 
+mobj_t *bodyque[BODYQUESIZE];
+int bodyqueslot;
  
 int             vanilla_savegame_limit = 1;
 int             vanilla_demo_limit = 1;
@@ -293,13 +293,10 @@ static int G_NextWeapon(int direction)
     return weapon_order_table[i].weapon_num;
 }
 
-//
-// G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs
 // or reads it from the demo buffer. 
 // If recording a demo, write it out 
-// 
-void G_BuildTiccmd(ticcmd_t *cmd, int maketic) 
+void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 { 
     int i; 
     bool strafe;
@@ -311,8 +308,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
-    cmd->consistancy = 
-	consistancy[consoleplayer][maketic%BACKUPTICS]; 
+    cmd->consistancy = consistancy[consoleplayer][maketic%BACKUPTICS];
  
     strafe = gamekeydown[key_strafe] || mousebuttons[mousebstrafe] 
         || joybuttons[joybstrafe]; 
@@ -527,7 +523,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     }
     
     mousex = mousey = 0; 
-	 
+
     if (forward > MAXPLMOVE) 
         forward = MAXPLMOVE; 
     else if (forward < -MAXPLMOVE) 

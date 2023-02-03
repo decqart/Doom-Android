@@ -40,4 +40,3 @@ char *doom2_endmsg[] = {
     "just leave. when you come\nback, i'll be waiting with a bat.",
     "you're lucky i don't smack\nyou for thinking about leaving.",
 };
-  

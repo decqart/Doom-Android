@@ -66,7 +66,6 @@ static void ChecksumAddLump(sha1_context_t *sha1_context, lumpinfo_t *lump)
 void W_Checksum(sha1_digest_t digest)
 {
     sha1_context_t sha1_context;
-    unsigned int i;
 
     SHA1_Init(&sha1_context);
 
@@ -75,7 +74,7 @@ void W_Checksum(sha1_digest_t digest)
     // Go through each entry in the WAD directory, adding information
     // about each entry to the SHA1 hash.
 
-    for (i = 0; i < numlumps; ++i)
+    for (size_t i = 0; i < numlumps; ++i)
     {
         ChecksumAddLump(&sha1_context, &lumpinfo[i]);
     }

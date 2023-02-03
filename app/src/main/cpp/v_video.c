@@ -14,9 +14,9 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Gamma correction LUT stuff.
-//	Functions to draw patches (by post) directly to screen.
-//	Functions to blit a block to the screen.
+//  Gamma correction LUT stuff.
+//  Functions to draw patches (by post) directly to screen.
+//  Functions to blit a block to the screen.
 //
 
 #include <stdio.h>
@@ -163,12 +163,8 @@ void V_DrawPatch(int x, int y, patch_t *patch)
     }
 }
 
-//
-// V_DrawPatchFlipped
 // Masks a column based masked pic to the screen.
 // Flips horizontally, e.g. to mirror face.
-//
-
 void V_DrawPatchFlipped(int x, int y, patch_t *patch)
 {
     int count;
@@ -227,12 +223,7 @@ void V_DrawPatchFlipped(int x, int y, patch_t *patch)
     }
 }
 
-
-//
-// V_DrawPatchDirect
-// Draws directly to the screen on the pc. 
-//
-
+// Draws directly to the screen on the pc.
 void V_DrawPatchDirect(int x, int y, patch_t *patch)
 {
     V_DrawPatch(x, y, patch); 
@@ -283,12 +274,7 @@ void V_DrawTLPatch(int x, int y, patch_t * patch)
     }
 }
 
-//
-// V_DrawXlaPatch
-//
 // villsa [STRIFE] Masks a column based translucent masked pic to the screen.
-//
-
 void V_DrawXlaPatch(int x, int y, patch_t * patch)
 {
     int count, col;

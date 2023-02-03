@@ -146,14 +146,14 @@ void F_StartFinale(void)
     finaleflat = finaleflat;
     
     finalestage = F_STAGE_TEXT;
-    finalecount = 0;	
+    finalecount = 0;
 }
 
 bool F_Responder(event_t *event)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(event);
-	
+
     return false;
 }
 
@@ -411,7 +411,7 @@ void F_CastTicker(void)
                     &states[mobjinfo[castorder[castnum].type].missilestate];
         }
     }
-	
+
     if (castattacking)
     {
         if (castframes == 24
@@ -423,7 +423,7 @@ void F_CastTicker(void)
             caststate = &states[mobjinfo[castorder[castnum].type].seestate];
         }
     }
-	
+
     casttics = caststate->tics;
     if (casttics == -1)
         casttics = 15;
@@ -433,10 +433,10 @@ bool F_CastResponder(event_t *ev)
 {
     if (ev->type != ev_keydown)
         return false;
-		
+
     if (castdeath)
-        return true;			// already in dying frames
-		
+        return true; // already in dying frames
+
     // go into death frame
     castdeath = true;
     caststate = &states[mobjinfo[castorder[castnum].type].deathstate];
@@ -445,17 +445,17 @@ bool F_CastResponder(event_t *ev)
     castattacking = false;
     if (mobjinfo[castorder[castnum].type].deathsound)
         S_StartSound(NULL, mobjinfo[castorder[castnum].type].deathsound);
-	
+
     return true;
 }
 
 void F_CastPrint(char *text)
 {
-    char*	ch;
-    int		c;
-    int		cx;
-    int		w;
-    int		width;
+    char *ch;
+    int c;
+    int cx;
+    int w;
+    int width;
     
     // find width
     ch = text;
@@ -472,8 +472,8 @@ void F_CastPrint(char *text)
             width += 4;
             continue;
         }
-		
-        w = SHORT (hu_font[c]->width);
+
+        w = SHORT(hu_font[c]->width);
         width += w;
     }
     
@@ -491,8 +491,8 @@ void F_CastPrint(char *text)
             cx += 4;
             continue;
         }
-		
-        w = SHORT (hu_font[c]->width);
+
+        w = SHORT(hu_font[c]->width);
         V_DrawPatch(cx, 180, hu_font[c]);
         cx+=w;
     }
@@ -526,12 +526,12 @@ void F_CastDrawer(void)
 
 void F_DrawPatchCol(int x, patch_t *patch, int col)
 {
-    column_t*	column;
-    byte*	source;
-    byte*	dest;
-    byte*	desttop;
-    int		count;
-	
+    column_t *column;
+    byte *source;
+    byte *dest;
+    byte *desttop;
+    int count;
+
     column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
     desttop = I_VideoBuffer + x;
 

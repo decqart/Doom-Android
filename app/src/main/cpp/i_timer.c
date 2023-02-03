@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      Timer functions.
+//  Timer functions.
 //
 
 #include "i_timer.h"
@@ -23,19 +23,15 @@
 
 #include <stdarg.h>
 
-//
-// I_GetTime
-// returns time in 1/35th second tics
-//
-
 static uint32_t basetime = 0;
 
 //was int
 uint32_t I_GetTicks(void)
 {
-	return DG_GetTicksMs();
+    return DG_GetTicksMs();
 }
 
+// returns time in 1/35th second tics
 int I_GetTime(void)
 {
     uint32_t ticks = I_GetTicks();
@@ -48,9 +44,7 @@ int I_GetTime(void)
     return (ticks * TICRATE) / 1000;    
 }
 
-//
 // Same as I_GetTime, but returns time in milliseconds
-//
 int I_GetTimeMS(void)
 {
     uint32_t ticks = I_GetTicks();
@@ -64,5 +58,5 @@ int I_GetTimeMS(void)
 // Sleep for a specified number of ms
 void I_Sleep(int ms)
 {
-	DG_SleepMs(ms);
+    DG_SleepMs(ms);
 }

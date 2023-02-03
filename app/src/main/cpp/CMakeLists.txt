@@ -29,7 +29,6 @@ add_library(main SHARED
         hu_lib.c
         hu_stuff.c
         info.c
-        i_scale.c
         i_sound.c
         i_system.c
         i_timer.c

@@ -20,14 +20,12 @@
 
 #include "m_argv.h"
 
-//
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,
 // calls all startup code, parses command line options.
-//
+void D_DoomMain(void);
 
-void D_DoomMain();
-void DG_Create();
+void DG_Create(void);
 
 int main(int argc, char **argv)
 {
@@ -40,10 +38,10 @@ int main(int argc, char **argv)
 
     // start doom
     printf("Starting D_DoomMain\n");
-    
-	DG_Create();
 
-	D_DoomMain();
+    DG_Create();
+
+    D_DoomMain();
 
     return 0;
 }

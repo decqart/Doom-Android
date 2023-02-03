@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Zone Memory Allocation. Neat.
+//  Zone Memory Allocation. Neat.
 //
 
 #include "z_zone.h"
@@ -36,10 +36,10 @@
 
 typedef struct memblock_s
 {
-    int			size;	// including the header and possibly tiny fragments
-    void**		user;
-    int			tag;	// PU_FREE if this is free
-    int			id;	// should be ZONEID
+    int size; // including the header and possibly tiny fragments
+    void **user;
+    int tag; // PU_FREE if this is free
+    int id; // should be ZONEID
     struct memblock_s*	next;
     struct memblock_s*	prev;
 } memblock_t;
@@ -48,12 +48,12 @@ typedef struct memblock_s
 typedef struct
 {
     // total bytes malloced, including header
-    int		size;
+    int size;
 
     // start / end cap for linked list
-    memblock_t	blocklist;
+    memblock_t blocklist;
     
-    memblock_t*	rover;
+    memblock_t *rover;
     
 } memzone_t;
 
@@ -65,7 +65,7 @@ memzone_t *mainzone;
 void Z_ClearZone(memzone_t *zone)
 {
     memblock_t *block;
-	
+
     // set the entire zone to one free block
     zone->blocklist.next =
 	zone->blocklist.prev =
@@ -74,7 +74,7 @@ void Z_ClearZone(memzone_t *zone)
     zone->blocklist.user = (void *) zone;
     zone->blocklist.tag = PU_STATIC;
     zone->rover = block;
-	
+
     block->prev = block->next = &zone->blocklist;
     
     // a free block.
@@ -99,7 +99,7 @@ void Z_Init(void)
     mainzone->blocklist.user = (void *) mainzone;
     mainzone->blocklist.tag = PU_STATIC;
     mainzone->rover = block;
-	
+
     block->prev = block->next = &mainzone->blocklist;
 
     // free block
@@ -112,12 +112,12 @@ void Z_Free(void *ptr)
 {
     memblock_t *block;
     memblock_t *other;
-	
+
     block = (memblock_t *) ((byte *) ptr - sizeof(memblock_t));
 
     if (block->id != ZONEID)
         I_Error("Z_Free: freed a pointer without ZONEID");
-		
+
     if (block->tag != PU_FREE && block->user != NULL)
     {
     	// clear the user's mark

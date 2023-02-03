@@ -113,15 +113,12 @@ bool net_client_connected = false;
 
 static int GetAdjustedTime(void)
 {
-    int time_ms;
-
-    time_ms = I_GetTimeMS();
+    int time_ms = I_GetTimeMS();
 
     if (new_sync)
     {
         // Use the adjustments from net_client.c only if we are
         // using the new sync mode.
-
         time_ms += (offsetms / FRACUNIT);
     }
 
@@ -145,7 +142,6 @@ static bool BuildNewTic(void)
     if (drone)
     {
         // In drone mode, do not generate any ticcmds.
-
         return false;
     }
 
@@ -179,13 +175,10 @@ static bool BuildNewTic(void)
     return true;
 }
 
-//
-// NetUpdate
-// Builds ticcmds for console player,
-// sends out a packet
-//
 int lasttime;
 
+// Builds ticcmds for console player,
+// sends out a packet
 void NetUpdate(void)
 {
     int nowtime;
@@ -195,8 +188,7 @@ void NetUpdate(void)
     // If we are running with singletics (timing a demo), this
     // is all done separately.
 
-    if (singletics)
-        return;
+    if (singletics) return;
 
     // check time
     nowtime = GetAdjustedTime() / ticdup;
@@ -217,21 +209,13 @@ void NetUpdate(void)
 
     // build new ticcmds for console player
 
-    for (i = 0; i < newtics ; i++)
+    for (i = 0; i < newtics; i++)
     {
-        if (!BuildNewTic())
-        {
-            break;
-        }
+        if (!BuildNewTic()) break;
     }
 }
 
-//
-// Start game loop
-//
 // Called after the screen is set but before the game starts running.
-//
-
 void D_StartGameLoop(void)
 {
     lasttime = GetAdjustedTime() / ticdup;
@@ -240,14 +224,14 @@ void D_StartGameLoop(void)
 void D_StartNetGame(net_gamesettings_t *settings, netgame_startup_callback_t callback)
 {
     settings->consoleplayer = 0;
-	settings->num_players = 1;
-	settings->player_classes[0] = player_class;
-	settings->new_sync = 0;
-	settings->extratics = 1;
-	settings->ticdup = 1;
+    settings->num_players = 1;
+    settings->player_classes[0] = player_class;
+    settings->new_sync = 0;
+    settings->extratics = 1;
+    settings->ticdup = 1;
 
-	ticdup = settings->ticdup;
-	new_sync = settings->new_sync;
+    ticdup = settings->ticdup;
+    new_sync = settings->new_sync;
 }
 
 bool D_InitNetGame(net_connect_data_t *connect_data)
@@ -287,7 +271,6 @@ static void OldNetSync(void)
     if (keyplayer < 0)
     {
         // If there are no players, we can never advance anyway
-
         return;
     }
 
@@ -313,7 +296,6 @@ static void OldNetSync(void)
 }
 
 // Returns true if there are players in the game:
-
 static bool PlayersInGame(void)
 {
     bool result = false;
@@ -343,13 +325,11 @@ static bool PlayersInGame(void)
 
 // When using ticdup, certain values must be cleared out when running
 // the duplicate ticcmds.
-
 static void TicdupSquash(ticcmd_set_t *set)
 {
     ticcmd_t *cmd;
-    unsigned int i;
 
-    for (i = 0; i < NET_MAXPLAYERS; ++i)
+    for (size_t i = 0; i < NET_MAXPLAYERS; ++i)
     {
         cmd = &set->cmds[i];
         cmd->chatchar = 0;
@@ -360,12 +340,9 @@ static void TicdupSquash(ticcmd_set_t *set)
 
 // When running in single player mode, clear all the ingame[] array
 // except the local player.
-
 static void SinglePlayerClear(ticcmd_set_t *set)
 {
-    unsigned int i;
-
-    for (i = 0; i < NET_MAXPLAYERS; ++i)
+    for (size_t i = 0; i < NET_MAXPLAYERS; ++i)
     {
         if (i != localplayer)
         {

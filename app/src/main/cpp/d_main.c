@@ -116,22 +116,18 @@ bool main_loop_started = false;
 
 int show_endoom = 1;
 
-
 void D_ConnectNetGame(void);
 void D_CheckNetGame(void);
 
-//
-// D_ProcessEvents
 // Send all the events of the given timestamp down the responder chain
-//
 void D_ProcessEvents(void)
 {
     event_t *ev;
-	
+
     // IF STORE DEMO, DO NOT ACCEPT INPUT
     if (storedemo)
         return;
-	
+
     while ((ev = D_PopEvent()) != NULL)
     {
         if (M_Responder(ev))
@@ -140,119 +136,113 @@ void D_ProcessEvents(void)
     }
 }
 
-
-//
-// D_Display
-//  draw current display, possibly wiping it from the previous
-//
-
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t wipegamestate = GS_DEMOSCREEN;
 extern bool setsizeneeded;
 extern int showMessages;
-void R_ExecuteSetViewSize();
+void R_ExecuteSetViewSize(void);
 
+//  draw current display, possibly wiping it from the previous
 void D_Display(void)
 {
     static bool viewactivestate = false;
     static bool menuactivestate = false;
     static bool inhelpscreensstate = false;
     static bool fullscreen = false;
-    static  gamestate_t		oldgamestate = -1;
-    static  int			borderdrawcount;
-    int				nowtime;
-    int				tics;
-    int				wipestart;
-    int				y;
+    static gamestate_t oldgamestate = -1;
+    static int borderdrawcount;
+    int nowtime;
+    int tics;
+    int wipestart;
+    int y;
     bool done;
     bool wipe;
     bool redrawsbar;
 
     if (nodrawers)
-    	return;      // for comparative timing / profiling
-		
+        return; // for comparative timing / profiling
+
     redrawsbar = false;
     
     // change the view size if needed
     if (setsizeneeded)
     {
-		R_ExecuteSetViewSize();
-		oldgamestate = -1;                      // force background redraw
-		borderdrawcount = 3;
+        R_ExecuteSetViewSize();
+        oldgamestate = -1; // force background redraw
+        borderdrawcount = 3;
     }
 
     // save the current screen if about to wipe
     if (gamestate != wipegamestate)
     {
-		wipe = true;
-		wipe_StartScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
+        wipe = true;
+        wipe_StartScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
     }
     else
-    	wipe = false;
+        wipe = false;
 
     if (gamestate == GS_LEVEL && gametic)
-    	HU_Erase();
+        HU_Erase();
     
     // do buffered drawing
     switch (gamestate)
     {
     case GS_LEVEL:
-		if (!gametic)
-			break;
-		if (automapactive)
-			AM_Drawer();
-		if (wipe || (viewheight != 200 && fullscreen))
-			redrawsbar = true;
-		if (inhelpscreensstate && !inhelpscreens)
-			redrawsbar = true;              // just put away the help screen
-		ST_Drawer(viewheight == 200, redrawsbar);
-		fullscreen = viewheight == 200;
-		break;
+        if (!gametic)
+            break;
+        if (automapactive)
+            AM_Drawer();
+        if (wipe || (viewheight != 200 && fullscreen))
+            redrawsbar = true;
+        if (inhelpscreensstate && !inhelpscreens)
+            redrawsbar = true;              // just put away the help screen
+        ST_Drawer(viewheight == 200, redrawsbar);
+        fullscreen = viewheight == 200;
+        break;
     case GS_INTERMISSION:
-		WI_Drawer();
-		break;
+        WI_Drawer();
+        break;
     case GS_FINALE:
-		F_Drawer();
-		break;
+        F_Drawer();
+        break;
     case GS_DEMOSCREEN:
-		D_PageDrawer();
-		break;
+        D_PageDrawer();
+        break;
     }
     
     // draw the view directly
     if (gamestate == GS_LEVEL && !automapactive && gametic)
-    	R_RenderPlayerView(&players[displayplayer]);
+        R_RenderPlayerView(&players[displayplayer]);
 
     if (gamestate == GS_LEVEL && gametic)
-    	HU_Drawer();
+        HU_Drawer();
     
     // clean up border stuff
     if (gamestate != oldgamestate && gamestate != GS_LEVEL)
-    	I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+        I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
 
     // see if the border needs to be initially drawn
     if (gamestate == GS_LEVEL && oldgamestate != GS_LEVEL)
     {
-		viewactivestate = false;        // view was not active
-		R_FillBackScreen();    // draw the pattern into the back screen
+        viewactivestate = false;        // view was not active
+        R_FillBackScreen();    // draw the pattern into the back screen
     }
 
     // see if the border needs to be updated to the screen
     if (gamestate == GS_LEVEL && !automapactive && scaledviewwidth != 320)
     {
-		if (menuactive || menuactivestate || !viewactivestate)
-			borderdrawcount = 3;
-		if (borderdrawcount)
-		{
-			R_DrawViewBorder();    // erase old menu stuff
-			borderdrawcount--;
-		}
+        if (menuactive || menuactivestate || !viewactivestate)
+            borderdrawcount = 3;
+        if (borderdrawcount)
+        {
+            R_DrawViewBorder();    // erase old menu stuff
+            borderdrawcount--;
+        }
     }
 
     if (testcontrols)
     {
         // Box showing current mouse speed
-
         V_DrawMouseSpeedBox(testcontrols_mousespeed);
     }
 
@@ -264,11 +254,11 @@ void D_Display(void)
     // draw pause pic
     if (paused)
     {
-		if (automapactive)
-			y = 4;
-		else
-			y = viewwindowy+4;
-		V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2, y,
+        if (automapactive)
+            y = 4;
+        else
+            y = viewwindowy+4;
+        V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2, y,
                           W_CacheLumpName("M_PAUSE", PU_CACHE));
     }
 
@@ -300,7 +290,7 @@ void D_Display(void)
         } while (tics <= 0);
         
         wipestart = nowtime;
-        done = wipe_ScreenWipe(wipe_Melt, 0, 0, SCREENWIDTH, SCREENHEIGHT, tics);
+        done = wipe_ScreenWipe(wipe_Melt, SCREENWIDTH, SCREENHEIGHT, tics);
         M_Drawer();           // menu is drawn even on top of wipes
         I_FinishUpdate();                      // page flip or blit buffer
     } while (!done);
@@ -347,9 +337,7 @@ void D_BindVariables(void)
     }
 }
 
-//
 // Called to determine whether to grab the mouse pointer
-//
 bool D_GrabMouseCallback(void)
 {
     // when menu is active or game is paused, release the mouse 
@@ -394,18 +382,18 @@ void D_DoomLoop(void)
 
     while (1)
     {
-		// frame syncronous IO operations
-		I_StartFrame();
+        // frame syncronous IO operations
+        I_StartFrame();
 
-		TryRunTics(); // will run at least one tic
+        TryRunTics(); // will run at least one tic
 
-		S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
+        S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
 
-		// Update display, next frame, with current state.
-		if (screenvisible)
-		{
-			D_Display();
-		}
+        // Update display, next frame, with current state.
+        if (screenvisible)
+        {
+            D_Display();
+        }
     }
 }
 
@@ -418,10 +406,8 @@ int pagetic;
 char *pagename;
 
 
-//
-// D_PageTicker
+
 // Handles timing for warped projection
-//
 void D_PageTicker(void)
 {
     if (--pagetic < 0)
@@ -433,10 +419,7 @@ void D_PageDrawer(void)
     V_DrawPatch(0, 0, W_CacheLumpName(pagename, PU_CACHE));
 }
 
-
-//
 // Called after each demo or intro demosequence finishes
-//
 void D_AdvanceDemo(void)
 {
     advancedemo = true;
@@ -573,17 +556,15 @@ static char *banners[] = {
     "                           ",
 };
 
-//
+
 // Get game name: if the startup banner has been replaced, use that.
 // Otherwise, use the name given
-// 
-
 static char *GetGameName(char *gamename)
 {
     size_t i;
     char *deh_sub;
     
-    for (i=0; i<arrlen(banners); ++i)
+    for (i = 0; i < arrlen(banners); ++i)
     {
         // Has the banner been replaced?
 
@@ -653,10 +634,7 @@ static void SetMissionForPackName(char *pack_name)
     I_Error("Unknown mission pack name: %s", pack_name);
 }
 
-//
 // Find out what version of Doom is playing.
-//
-
 void D_IdentifyVersion(void)
 {
     // gamemission is set up by the D_FindIWAD function.  But if 
@@ -686,7 +664,6 @@ void D_IdentifyVersion(void)
         if (gamemission == none)
         {
             // Still no idea.  I don't think this is going to work.
-
             I_Error("Unknown or invalid IWAD file.");
         }
     }
@@ -739,7 +716,6 @@ void D_IdentifyVersion(void)
 }
 
 // Set the gamedescription string
-
 void D_SetGameDescription(void)
 {
     bool is_freedoom = W_CheckNumForName("FREEDOOM") >= 0,
@@ -1005,7 +981,7 @@ static void D_Endoom(void)
 
     W_CacheLumpName("ENDOOM", PU_STATIC);
 
-	exit(0);
+    exit(0);
 }
 
 void D_DoomMain(void)
@@ -1119,7 +1095,7 @@ void D_DoomMain(void)
         int scale = 200;
         extern int forwardmove[2];
         extern int sidemove[2];
-	
+
         if (p < myargc-1)
             scale = atoi(myargv[p+1]);
         if (scale < 10)
@@ -1284,26 +1260,25 @@ void D_DoomMain(void)
     // Check for -file in shareware
     if (modifiedgame)
     {
-	// These are the lumps that will be checked in IWAD,
-	// if any one is not present, execution will be aborted.
-	char name[23][8]=
-	{
-	    "e2m1","e2m2","e2m3","e2m4","e2m5","e2m6","e2m7","e2m8","e2m9",
-	    "e3m1","e3m3","e3m3","e3m4","e3m5","e3m6","e3m7","e3m8","e3m9",
-	    "dphoof","bfgga0","heada1","cybra1","spida1d1"
-	};
-	int i;
-	
-	if (gamemode == shareware)
-	    I_Error("\nYou cannot -file with the shareware "
-                "version. Register!");
+        // These are the lumps that will be checked in IWAD,
+        // if any one is not present, execution will be aborted.
+        char name[23][8] = {
+                "e2m1","e2m2","e2m3","e2m4","e2m5","e2m6","e2m7","e2m8","e2m9",
+                "e3m1","e3m3","e3m3","e3m4","e3m5","e3m6","e3m7","e3m8","e3m9",
+                "dphoof","bfgga0","heada1","cybra1","spida1d1"
+        };
+        int i;
 
-	// Check for fake IWAD with right name,
-	// but w/o all the lumps of the registered version. 
-	if (gamemode == registered)
-	    for (i = 0;i < 23; i++)
-		if (W_CheckNumForName(name[i])<0)
-		    I_Error("\nThis is not the registered version.");
+        if (gamemode == shareware)
+            I_Error("\nYou cannot -file with the shareware "
+                    "version. Register!");
+
+        // Check for fake IWAD with right name,
+        // but w/o all the lumps of the registered version.
+        if (gamemode == registered)
+            for (i = 0; i < 23; i++)
+                if (W_CheckNumForName(name[i]) < 0)
+                    I_Error("\nThis is not the registered version.");
     }
 
     if (W_CheckNumForName("SS_START") >= 0
@@ -1324,9 +1299,7 @@ void D_DoomMain(void)
     if (W_CheckNumForName("FREEDOOM") >= 0 && W_CheckNumForName("FREEDM") < 0)
     {
         printf(" WARNING: You are playing using one of the Freedoom IWAD\n"
-               " files, which might not work in this port. See this page\n"
-               " for more information on how to play using Freedoom:\n"
-               "   http://www.chocolate-doom.org/wiki/index.php/Freedoom\n");
+               " files, which might not work in this port.\n");
         I_PrintDivider();
     }
 
@@ -1513,24 +1486,24 @@ void D_DoomMain(void)
 
     if (p)
     {
-		G_RecordDemo(myargv[p+1]);
-		autostart = true;
+        G_RecordDemo(myargv[p+1]);
+        autostart = true;
     }
 
     p = M_CheckParmWithArgs("-playdemo", 1);
     if (p)
     {
-		singledemo = true;              // quit after one demo
-		G_DeferedPlayDemo(demolumpname);
-		D_DoomLoop();  // never returns
+        singledemo = true; // quit after one demo
+        G_DeferedPlayDemo(demolumpname);
+        D_DoomLoop();  // never returns
     }
 
     p = M_CheckParmWithArgs("-timedemo", 1);
 
     if (p)
     {
-		G_TimeDemo(demolumpname);
-		D_DoomLoop();  // never returns
+        G_TimeDemo(demolumpname);
+        D_DoomLoop();  // never returns
     }
 
     if (startloadgame >= 0)
@@ -1541,10 +1514,10 @@ void D_DoomMain(void)
 
     if (gameaction != ga_loadgame)
     {
-		if (autostart || netgame)
-			G_InitNew(startskill, startepisode, startmap);
-		else
-			D_StartTitle();       // start up intro loop
+        if (autostart || netgame)
+            G_InitNew(startskill, startepisode, startmap);
+        else
+            D_StartTitle();       // start up intro loop
     }
 
     D_DoomLoop();  // never returns

@@ -271,4 +271,3 @@ void D_CheckNetGame(void)
         }
     }
 }
-
