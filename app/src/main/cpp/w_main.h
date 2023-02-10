@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     Common code to parse command line, identifying WAD files to load.
+//  Common code to parse command line, identifying WAD files to load.
 //
 
 #ifndef W_MAIN_H

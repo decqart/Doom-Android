@@ -42,24 +42,24 @@
 
 struct FB_BitField
 {
-	uint32_t offset;			/* beginning of bitfield	*/
-	uint32_t length;			/* length of bitfield		*/
+    uint32_t offset; /* beginning of bitfield */
+    uint32_t length; /* length of bitfield */
 };
 
 struct FB_ScreenInfo
 {
-	uint32_t xres;			/* visible resolution		*/
-	uint32_t yres;
-	uint32_t xres_virtual;		/* virtual resolution		*/
-	uint32_t yres_virtual;
+    uint32_t xres; /* visible resolution */
+    uint32_t yres;
+    uint32_t xres_virtual; /* virtual resolution */
+    uint32_t yres_virtual;
 
-	uint32_t bits_per_pixel;		/* guess what			*/
-	
-							/* >1 = FOURCC			*/
-	struct FB_BitField red;		/* bitfield in s_Fb mem if true color, */
-	struct FB_BitField green;	/* else only length is significant */
-	struct FB_BitField blue;
-	struct FB_BitField transp;	/* transparency			*/
+    uint32_t bits_per_pixel; /* guess what */
+
+                            /* >1 = FOURCC */
+    struct FB_BitField red; /* bitfield in s_Fb mem if true color, */
+    struct FB_BitField green; /* else only length is significant */
+    struct FB_BitField blue;
+    struct FB_BitField transp; /* transparency */
 };
 
 static struct FB_ScreenInfo s_Fb;
@@ -108,9 +108,9 @@ int usegamma = 0;
 
 typedef struct
 {
-	byte r;
-	byte g;
-	byte b;
+    byte r;
+    byte g;
+    byte b;
 } col_t;
 
 // Palette converted to RGB565
@@ -169,23 +169,22 @@ void I_InitGraphics(void)
 {
     int i;
 
-	memset(&s_Fb, 0, sizeof(struct FB_ScreenInfo));
-	s_Fb.xres = DOOMGENERIC_RESX;
-	s_Fb.yres = DOOMGENERIC_RESY;
-	s_Fb.xres_virtual = s_Fb.xres;
-	s_Fb.yres_virtual = s_Fb.yres;
-	s_Fb.bits_per_pixel = 32;
+    memset(&s_Fb, 0, sizeof(struct FB_ScreenInfo));
+    s_Fb.xres = DOOMGENERIC_RESX;
+    s_Fb.yres = DOOMGENERIC_RESY;
+    s_Fb.xres_virtual = s_Fb.xres;
+    s_Fb.yres_virtual = s_Fb.yres;
+    s_Fb.bits_per_pixel = 32;
 
-	s_Fb.blue.length = 8;
-	s_Fb.green.length = 8;
-	s_Fb.red.length = 8;
-	s_Fb.transp.length = 8;
+    s_Fb.blue.length = 8;
+    s_Fb.green.length = 8;
+    s_Fb.red.length = 8;
+    s_Fb.transp.length = 8;
 
-	s_Fb.blue.offset = 0;
-	s_Fb.green.offset = 8;
-	s_Fb.red.offset = 16;
-	s_Fb.transp.offset = 24;
-	
+    s_Fb.blue.offset = 0;
+    s_Fb.green.offset = 8;
+    s_Fb.red.offset = 16;
+    s_Fb.transp.offset = 24;
 
     printf("I_InitGraphics: framebuffer: x_res: %d, y_res: %d, x_virtual: %d, y_virtual: %d, bpp: %d\n",
            s_Fb.xres, s_Fb.yres, s_Fb.xres_virtual, s_Fb.yres_virtual, s_Fb.bits_per_pixel);
@@ -210,16 +209,16 @@ void I_InitGraphics(void)
 
 
     /* Allocate screen to draw to */
-	I_VideoBuffer = (byte *) Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);  // For DOOM to draw on
+    I_VideoBuffer = (byte *) Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);  // For DOOM to draw on
 
-	screenvisible = true;
+    screenvisible = true;
 }
 
-void I_StartFrame() {}
+void I_StartFrame(void) {}
 
 void I_StartTic(void)
 {
-	I_GetEvent();
+    I_GetEvent();
 }
 
 void I_FinishUpdate(void)
@@ -262,7 +261,7 @@ void I_FinishUpdate(void)
         line_in += SCREENWIDTH;
     }
 
-	DG_DrawFrame();
+    DG_DrawFrame();
 }
 
 void I_ReadScreen(byte *scr)
@@ -303,9 +302,9 @@ int I_GetPaletteIndex(int r, int g, int b)
 
     for (i = 0; i < 256; ++i)
     {
-    	color.r = GFX_RGB565_R(rgb565_palette[i]);
-    	color.g = GFX_RGB565_G(rgb565_palette[i]);
-    	color.b = GFX_RGB565_B(rgb565_palette[i]);
+        color.r = GFX_RGB565_R(rgb565_palette[i]);
+        color.g = GFX_RGB565_G(rgb565_palette[i]);
+        color.b = GFX_RGB565_B(rgb565_palette[i]);
 
         diff = (r - color.r) * (r - color.r)
              + (g - color.g) * (g - color.g)
@@ -328,7 +327,7 @@ int I_GetPaletteIndex(int r, int g, int b)
 
 void I_SetWindowTitle(char *title)
 {
-	DG_SetWindowTitle(title);
+    DG_SetWindowTitle(title);
 }
 
 void I_SetGrabMouseCallback(grabmouse_callback_t func) {}

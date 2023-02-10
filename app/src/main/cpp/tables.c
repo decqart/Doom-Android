@@ -13,22 +13,21 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Lookup tables.
-//	Do not try to look them up :-).
-//	In the order of appearance: 
+//  Lookup tables.
+//  Do not try to look them up :-).
+//  In the order of appearance:
 //
-//	int finetangent[4096]	- Tangens LUT.
-//	 Should work with BAM fairly well (12 of 16bit,
+//  int finetangent[4096] Tangens LUT.
+//  Should work with BAM fairly well (12 of 16bit,
 //      effectively, by shifting).
 //
-//	int finesine[10240]		- Sine lookup.
-//	 Guess what, serves as cosine, too.
-//	 Remarkable thing is, how to use BAMs with this? 
+//  int finesine[10240] Sine lookup.
+//  Guess what, serves as cosine, too.
+//  Remarkable thing is, how to use BAMs with this?
 //
-//	int tantoangle[2049]	- ArcTan LUT,
-//	  maps tan(angle) to angle fast. Gotta search.
-//	
-//    
+//  int tantoangle[2049] ArcTan LUT,
+//    maps tan(angle) to angle fast. Gotta search.
+//
 
 #include "tables.h"
 
@@ -2224,4 +2223,3 @@ const byte gammatable[5][256] =
         247,248,248,249,249,250,250,251,251,252,252,253,254,254,255,255
     }
 };
-

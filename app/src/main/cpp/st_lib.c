@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	The status bar widget code.
+//  The status bar widget code.
 //
 
 #include <stdio.h>
@@ -69,14 +69,14 @@ void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl,
 //
 void STlib_drawNum(st_number_t *n, bool refresh)
 {
-    int	numdigits = n->width;
-    int	num = *n->num;
+    int numdigits = n->width;
+    int num = *n->num;
     
-    int	w = SHORT(n->p[0]->width);
-    int	h = SHORT(n->p[0]->height);
-    int	x = n->x;
+    int w = SHORT(n->p[0]->width);
+    int h = SHORT(n->p[0]->height);
+    int x = n->x;
     
-    int	neg;
+    int neg;
 
     n->oldnum = *n->num;
 
@@ -88,7 +88,7 @@ void STlib_drawNum(st_number_t *n, bool refresh)
             num = -9;
         else if (numdigits == 3 && num < -99)
             num = -99;
-	
+
         num = -num;
     }
 
@@ -122,12 +122,10 @@ void STlib_drawNum(st_number_t *n, bool refresh)
         V_DrawPatch(x - 8, n->y, sttminus);
 }
 
-
 void STlib_updateNum(st_number_t *n, bool refresh)
 {
     if (*n->on) STlib_drawNum(n, refresh);
 }
-
 
 void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl,
                        int *num, bool *on, patch_t *percent)
@@ -139,7 +137,7 @@ void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl,
 void STlib_updatePercent(st_percent_t *per, int refresh)
 {
     if (refresh && *per->n.on)
-	V_DrawPatch(per->n.x, per->n.y, per->p);
+        V_DrawPatch(per->n.x, per->n.y, per->p);
     
     STlib_updateNum(&per->n, refresh);
 }
@@ -162,10 +160,10 @@ void STlib_initMultIcon
 
 void STlib_updateMultIcon(st_multicon_t *mi, bool refresh)
 {
-    int	   	w;
-    int		h;
-    int		x;
-    int		y;
+    int w;
+    int h;
+    int x;
+    int y;
 
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && (*mi->inum != -1))
     {
@@ -189,12 +187,12 @@ void STlib_updateMultIcon(st_multicon_t *mi, bool refresh)
 void STlib_initBinIcon(st_binicon_t *b, int x, int y,
                        patch_t *i, bool *val, bool *on)
 {
-    b->x	= x;
-    b->y	= y;
+    b->x = x;
+    b->y = y;
     b->oldval = false;
-    b->val	= val;
-    b->on	= on;
-    b->p	= i;
+    b->val = val;
+    b->on = on;
+    b->p = i;
 }
 
 void STlib_updateBinIcon(st_binicon_t *bi, bool refresh)

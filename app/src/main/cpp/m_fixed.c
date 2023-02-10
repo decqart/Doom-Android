@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Fixed point implementation.
+//  Fixed point implementation.
 //
 
 #include "stdlib.h"

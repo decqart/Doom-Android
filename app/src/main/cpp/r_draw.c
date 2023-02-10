@@ -13,9 +13,9 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	The actual span/column drawing functions.
-//	Here find the main potential for optimization,
-//	 e.g. inline assembly, different algorithms.
+//  The actual span/column drawing functions.
+//  Here find the main potential for optimization,
+//   e.g. inline assembly, different algorithms.
 //
 
 #include "doomdef.h"
@@ -49,13 +49,13 @@
 //  and the total size == width*height*depth/8.,
 //
 
-int	viewwidth;
-int	scaledviewwidth;
-int	viewheight;
-int	viewwindowx;
-int	viewwindowy; 
+int viewwidth;
+int scaledviewwidth;
+int viewheight;
+int viewwindowx;
+int viewwindowy;
 byte *ylookup[MAXHEIGHT]; 
-int	columnofs[MAXWIDTH];
+int columnofs[MAXWIDTH];
  
 // Backing buffer containing the bezel drawn around the screen and 
 // surrounding background.
@@ -68,11 +68,11 @@ static byte *background_buffer = NULL;
 // Source is the top of the column to scale.
 //
 lighttable_t*		dc_colormap; 
-int			dc_x; 
-int			dc_yl; 
-int			dc_yh; 
-fixed_t			dc_iscale; 
-fixed_t			dc_texturemid;
+int dc_x;
+int dc_yl;
+int dc_yh;
+fixed_t dc_iscale;
+fixed_t dc_texturemid;
 
 // first pixel in a column (possibly virtual) 
 byte *dc_source;
@@ -86,17 +86,17 @@ byte *dc_source;
 // 
 void R_DrawColumn(void) 
 { 
-    int			count; 
-    byte*		dest; 
-    fixed_t		frac;
-    fixed_t		fracstep;	 
+    int count;
+    byte *dest;
+    fixed_t frac;
+    fixed_t fracstep;
  
     count = dc_yh - dc_yl; 
 
     // Zero length, column does not exceed a pixel.
     if (count < 0) 
         return;
-				 
+
 #ifdef RANGECHECK 
     if ((unsigned)dc_x >= SCREENWIDTH
         || dc_yl < 0
@@ -119,30 +119,30 @@ void R_DrawColumn(void)
     // This is as fast as it gets.
     do 
     {
-	    // Re-map color indices from wall texture column
-	    //  using a lighting/special effects LUT.
-	    *dest = dc_colormap[dc_source[(frac>>FRACBITS)&127]];
-	
-	    dest += SCREENWIDTH;
-	    frac += fracstep;
-	
+        // Re-map color indices from wall texture column
+        //  using a lighting/special effects LUT.
+        *dest = dc_colormap[dc_source[(frac>>FRACBITS)&127]];
+
+        dest += SCREENWIDTH;
+        frac += fracstep;
+
     } while (count--); 
 }
 
 void R_DrawColumnLow(void)
 { 
-    int			count; 
-    byte*		dest; 
-    byte*		dest2;
-    fixed_t		frac;
-    fixed_t		fracstep;	 
-    int                 x;
+    int count;
+    byte *dest;
+    byte *dest2;
+    fixed_t frac;
+    fixed_t fracstep;
+    int     x;
  
     count = dc_yh - dc_yl; 
 
     // Zero length.
     if (count < 0) return;
-	 
+
 #ifdef RANGECHECK 
     if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0
         || dc_yh >= SCREENHEIGHT)
@@ -174,8 +174,8 @@ void R_DrawColumnLow(void)
 //
 // Spectre/Invisibility.
 //
-#define FUZZTABLE		50 
-#define FUZZOFF	(SCREENWIDTH)
+#define FUZZTABLE 50
+#define FUZZOFF (SCREENWIDTH)
 
 
 int	fuzzoffset[FUZZTABLE] =
@@ -189,7 +189,7 @@ int	fuzzoffset[FUZZTABLE] =
     FUZZOFF,FUZZOFF,-FUZZOFF,FUZZOFF,FUZZOFF,-FUZZOFF,FUZZOFF 
 }; 
 
-int	fuzzpos = 0; 
+int fuzzpos = 0;
 
 
 //
@@ -202,10 +202,10 @@ int	fuzzpos = 0;
 //
 void R_DrawFuzzColumn(void)
 { 
-    int			count; 
-    byte*		dest; 
-    fixed_t		frac;
-    fixed_t		fracstep;	 
+    int count;
+    byte *dest;
+    fixed_t frac;
+    fixed_t fracstep;
 
     // Adjust borders. Low... 
     if (!dc_yl) 
@@ -214,7 +214,7 @@ void R_DrawFuzzColumn(void)
     // .. and high.
     if (dc_yh == viewheight-1) 
         dc_yh = viewheight - 2; 
-		 
+
     count = dc_yh - dc_yl; 
 
     // Zero length.
@@ -223,7 +223,7 @@ void R_DrawFuzzColumn(void)
 
 #ifdef RANGECHECK 
     if ((unsigned)dc_x >= SCREENWIDTH
-	|| dc_yl < 0 || dc_yh >= SCREENHEIGHT)
+    || dc_yl < 0 || dc_yh >= SCREENHEIGHT)
     {
         I_Error("R_DrawFuzzColumn: %i to %i at %i",
                 dc_yl, dc_yh, dc_x);
@@ -250,7 +250,7 @@ void R_DrawFuzzColumn(void)
         // Clamp table lookup index.
         if (++fuzzpos == FUZZTABLE) 
             fuzzpos = 0;
-	
+
         dest += SCREENWIDTH;
         
         frac += fracstep; 
@@ -258,14 +258,13 @@ void R_DrawFuzzColumn(void)
 } 
 
 // low detail mode version
- 
 void R_DrawFuzzColumnLow(void)
 { 
-    int			count; 
-    byte*		dest; 
-    byte*		dest2; 
-    fixed_t		frac;
-    fixed_t		fracstep;	 
+    int count;
+    byte *dest;
+    byte *dest2;
+    fixed_t frac;
+    fixed_t fracstep;
     int x;
 
     // Adjust borders. Low... 
@@ -274,7 +273,7 @@ void R_DrawFuzzColumnLow(void)
     // .. and high.
     if (dc_yh == viewheight-1) 
         dc_yh = viewheight - 2; 
-		 
+
     count = dc_yh - dc_yl; 
 
     // Zero length.
@@ -315,7 +314,7 @@ void R_DrawFuzzColumnLow(void)
         // Clamp table lookup index.
         if (++fuzzpos == FUZZTABLE) 
             fuzzpos = 0;
-	
+
         dest += SCREENWIDTH;
         dest2 += SCREENWIDTH;
 
@@ -332,19 +331,19 @@ void R_DrawFuzzColumnLow(void)
 //  of the BaronOfHell, the HellKnight, uses
 //  identical sprites, kinda brightened up.
 //
-byte*	dc_translation;
-byte*	translationtables;
+byte *dc_translation;
+byte *translationtables;
 
 void R_DrawTranslatedColumn(void)
 { 
-    int			count; 
-    byte*		dest; 
-    fixed_t		frac;
-    fixed_t		fracstep;	 
+    int count;
+    byte *dest;
+    fixed_t frac;
+    fixed_t fracstep;
  
     count = dc_yh - dc_yl; 
     if (count < 0) return;
-				 
+
 #ifdef RANGECHECK 
     if ((unsigned)dc_x >= SCREENWIDTH
         || dc_yl < 0
