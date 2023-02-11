@@ -43,7 +43,7 @@ void P_SpawnMapThing(mapthing_t *mthing);
 //
 int test;
 
-bool P_SetMobjState(mobj_t *mobj, statenum_t state)
+boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t *st;
 
@@ -53,7 +53,7 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
         {
             mobj->state = (state_t *) S_NULL;
             P_RemoveMobj(mobj);
-            return false;
+            return False;
         }
 
         st = &states[state];
@@ -70,7 +70,7 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
         state = st->nextstate;
     } while (!mobj->tics);
 				
-    return true;
+    return True;
 }
 
 
@@ -694,7 +694,7 @@ void P_SpawnPlayer(mapthing_t *mthing)
     // give all cards in death match mode
     if (deathmatch)
         for (i=0 ; i<NUMCARDS ; i++)
-            p->cards[i] = true;
+            p->cards[i] = True;
 			
     if (mthing->type-1 == consoleplayer)
     {

@@ -59,10 +59,10 @@
 #include <inttypes.h>
 
 typedef enum {
-    false = 0,
-    true  = 1,
+    False = 0,
+    True  = 1,
     undef = 0xFFFFFFFF
-} bool;
+} boolean;
 
 typedef uint8_t byte;
 

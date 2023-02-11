@@ -36,6 +36,6 @@ void M_FindResponseFile(void);
 
 // Parameter has been specified?
 
-bool M_ParmExists(char *check);
+boolean M_ParmExists(char *check);
 
 #endif

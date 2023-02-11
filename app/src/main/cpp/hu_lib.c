@@ -27,13 +27,13 @@
 #include "r_local.h"
 #include "r_draw.h"
 
-extern bool automapactive; // in AM_map.c
+extern boolean automapactive; // in AM_map.c
 
 void HUlib_clearTextLine(hu_textline_t* t)
 {
     t->len = 0;
     t->l[0] = 0;
-    t->needsupdate = true;
+    t->needsupdate = True;
 }
 
 void
@@ -51,39 +51,39 @@ HUlib_initTextLine
     HUlib_clearTextLine(t);
 }
 
-bool
+boolean
 HUlib_addCharToTextLine
 ( hu_textline_t *t,
   char			ch )
 {
 
     if (t->len == HU_MAXLINELENGTH)
-        return false;
+        return False;
     else
     {
         t->l[t->len++] = ch;
         t->l[t->len] = 0;
         t->needsupdate = 4;
-        return true;
+        return True;
     }
 }
 
-bool HUlib_delCharFromTextLine(hu_textline_t* t)
+boolean HUlib_delCharFromTextLine(hu_textline_t* t)
 {
 
-    if (!t->len) return false;
+    if (!t->len) return False;
     else
     {
         t->l[--t->len] = 0;
         t->needsupdate = 4;
-        return true;
+        return True;
     }
 }
 
 void
 HUlib_drawTextLine
-( hu_textline_t*	l,
-  bool drawcursor )
+(hu_textline_t*	l,
+ boolean drawcursor )
 {
 
     int			i;
@@ -154,20 +154,20 @@ void HUlib_eraseTextLine(hu_textline_t* l)
 
 void
 HUlib_initSText
-( hu_stext_t*	s,
-  int		x,
-  int		y,
-  int		h,
-  patch_t**	font,
-  int		startchar,
-  bool *on)
+(hu_stext_t*	s,
+ int		x,
+ int		y,
+ int		h,
+ patch_t**	font,
+ int		startchar,
+ boolean *on)
 {
 
     int i;
 
     s->h = h;
     s->on = on;
-    s->laston = true;
+    s->laston = True;
     s->cl = 0;
     for (i=0;i<h;i++)
 	HUlib_initTextLine(&s->l[i],
@@ -223,7 +223,7 @@ void HUlib_drawSText(hu_stext_t* s)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        HUlib_drawTextLine(l, false); // no cursor, please
+        HUlib_drawTextLine(l, False); // no cursor, please
     }
 }
 
@@ -242,16 +242,16 @@ void HUlib_eraseSText(hu_stext_t* s)
 
 void
 HUlib_initIText
-( hu_itext_t*	it,
-  int		x,
-  int		y,
-  patch_t**	font,
-  int		startchar,
-  bool *on)
+(hu_itext_t*	it,
+ int		x,
+ int		y,
+ patch_t**	font,
+ int		startchar,
+ boolean *on)
 {
     it->lm = 0; // default left margin is start of text
     it->on = on;
-    it->laston = true;
+    it->laston = True;
     HUlib_initTextLine(&it->l, x, y, font, startchar);
 }
 
@@ -288,7 +288,7 @@ HUlib_addPrefixToIText
 
 // wrapper function for handling general keyed input.
 // returns true if it ate the key
-bool
+boolean
 HUlib_keyInIText
 ( hu_itext_t*	it,
   unsigned char ch )
@@ -302,9 +302,9 @@ HUlib_keyInIText
             HUlib_delCharFromIText(it);
         else 
             if (ch != KEY_ENTER) 
-                return false; // did not eat key
+                return False; // did not eat key
 
-    return true; // ate the key
+    return True; // ate the key
 }
 
 void HUlib_drawIText(hu_itext_t* it)
@@ -313,7 +313,7 @@ void HUlib_drawIText(hu_itext_t* it)
     
     if (!*it->on)
         return;
-    HUlib_drawTextLine(l, true); // draw the line w/ cursor
+    HUlib_drawTextLine(l, True); // draw the line w/ cursor
 }
 
 void HUlib_eraseIText(hu_itext_t* it)

@@ -27,9 +27,9 @@
 // Parse the command line, merging WAD files that are sppecified.
 // Returns true if at least one file was added.
 
-bool W_ParseCommandLine(void)
+boolean W_ParseCommandLine(void)
 {
-    bool modifiedgame = false;
+    boolean modifiedgame = False;
     int p;
 
 #ifdef FEATURE_WAD_MERGE
@@ -179,7 +179,7 @@ bool W_ParseCommandLine(void)
     {
         // the parms after p are wadfile/lump names,
         // until end of parms or another - preceded parm
-        modifiedgame = true;            // homebrew levels
+        modifiedgame = True;            // homebrew levels
         while (++p != myargc && myargv[p][0] != '-')
         {
             char *filename;

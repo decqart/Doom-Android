@@ -83,12 +83,12 @@ byte *I_VideoBuffer = NULL;
 
 // If true, game is running as a screensaver
 
-bool screensaver_mode = false;
+boolean screensaver_mode = False;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isnt visible, don't render the screen
 
-bool screenvisible;
+boolean screenvisible;
 
 // Mouse acceleration
 //
@@ -211,7 +211,7 @@ void I_InitGraphics(void)
     /* Allocate screen to draw to */
     I_VideoBuffer = (byte *) Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);  // For DOOM to draw on
 
-    screenvisible = true;
+    screenvisible = True;
 }
 
 void I_StartFrame(void) {}
@@ -332,4 +332,4 @@ void I_SetWindowTitle(char *title)
 
 void I_SetGrabMouseCallback(grabmouse_callback_t func) {}
 
-void I_DisplayFPSDots(bool dots_on) {}
+void I_DisplayFPSDots(boolean dots_on) {}

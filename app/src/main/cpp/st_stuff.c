@@ -263,7 +263,7 @@ byte *st_backing_screen;
 static player_t *plyr;
 
 // ST_Start() has just been called
-static bool st_firsttime;
+static boolean st_firsttime;
 
 // lump number for PLAYPAL
 static int lu_palette;
@@ -281,22 +281,22 @@ static st_chatstateenum_t st_chatstate;
 static st_stateenum_t st_gamestate;
 
 // whether left-side main status bar is active
-static bool st_statusbaron;
+static boolean st_statusbaron;
 
 // whether status bar chat is active
-static bool st_chat;
+static boolean st_chat;
 
 // value of st_chat before message popped up
-static bool st_oldchat;
+static boolean st_oldchat;
 
 // !deathmatch
-static bool st_notdeathmatch;
+static boolean st_notdeathmatch;
 
 // !deathmatch && st_statusbaron
-static bool st_armson;
+static boolean st_armson;
 
 // !deathmatch
-static bool st_fragson;
+static boolean st_fragson;
 
 // main bar left
 static patch_t *sbar;
@@ -365,7 +365,7 @@ static int st_fragscount;
 static int st_oldhealth = -1;
 
 // used for evil grin
-static bool oldweaponsowned[NUMWEAPONS];
+static boolean oldweaponsowned[NUMWEAPONS];
 
 // count until face changes
 static int st_facecount = 0;
@@ -427,7 +427,7 @@ void ST_refreshBackground(void)
 
 // Respond to keyboard input events,
 //  intercept cheats.
-bool ST_Responder(event_t *ev)
+boolean ST_Responder(event_t *ev)
 {
     int i;
 
@@ -439,7 +439,7 @@ bool ST_Responder(event_t *ev)
         {
             case AM_MSGENTERED:
                 st_gamestate = AutomapState;
-                st_firsttime = true;
+                st_firsttime = True;
                 break;
             case AM_MSGEXITED:
                 st_gamestate = FirstPersonState;
@@ -471,7 +471,7 @@ bool ST_Responder(event_t *ev)
                 plyr->armortype = deh_idfa_armor_class;
 
                 for (i = 0; i<NUMWEAPONS; i++)
-                    plyr->weaponowned[i] = true;
+                    plyr->weaponowned[i] = True;
 
                 for (i = 0; i<NUMAMMO; i++)
                     plyr->ammo[i] = plyr->maxammo[i];
@@ -484,13 +484,13 @@ bool ST_Responder(event_t *ev)
                 plyr->armortype = deh_idkfa_armor_class;
 
                 for (i=0;i<NUMWEAPONS;i++)
-                    plyr->weaponowned[i] = true;
+                    plyr->weaponowned[i] = True;
 
                 for (i=0;i<NUMAMMO;i++)
                     plyr->ammo[i] = plyr->maxammo[i];
 
                 for (i=0;i<NUMCARDS;i++)
-                    plyr->cards[i] = true;
+                    plyr->cards[i] = True;
 
                 plyr->message = STSTR_KFAADDED;
             } // 'mus' cheat for changing music
@@ -565,8 +565,8 @@ bool ST_Responder(event_t *ev)
             } // 'choppers' invulnerability & chainsaw
             else if (cht_CheckCheat(&cheat_choppers, ev->data2))
             {
-                plyr->weaponowned[wp_chainsaw] = true;
-                plyr->powers[pw_invulnerability] = true;
+                plyr->weaponowned[wp_chainsaw] = True;
+                plyr->powers[pw_invulnerability] = True;
                 plyr->message = STSTR_CHOPPERS;
             } // 'mypos' for player position
             else if (cht_CheckCheat(&cheat_mypos, ev->data2))
@@ -608,35 +608,35 @@ bool ST_Responder(event_t *ev)
             }
 
             // Catch invalid maps.
-            if (epsd < 1) return false;
+            if (epsd < 1) return False;
 
-            if (map < 1) return false;
+            if (map < 1) return False;
 
             // Ohmygod - this is not going to work.
             if ((gamemode == retail)
                 && ((epsd > 4) || (map > 9)))
-                return false;
+                return False;
 
             if ((gamemode == registered)
                 && ((epsd > 3) || (map > 9)))
-                return false;
+                return False;
 
             if ((gamemode == shareware)
                 && ((epsd > 1) || (map > 9)))
-                return false;
+                return False;
 
             // The source release has this check as map > 34. However, Vanilla
             // Doom allows IDCLEV up to MAP40 even though it normally crashes.
             if ((gamemode == commercial)
                 && (( epsd > 1) || (map > 40)))
-                return false;
+                return False;
 
             // So be it.
             plyr->message = STSTR_CLEV;
             G_DeferedInitNew(gameskill, epsd, map);
         }
     }
-    return false;
+    return False;
 }
 
 int ST_calcPainOffset(void)
@@ -668,7 +668,7 @@ void ST_updateFaceWidget(void)
     angle_t diffang;
     static int lastattackdown = -1;
     static int priority = 0;
-    bool doevilgrin;
+    boolean doevilgrin;
 
     if (priority < 10)
     {
@@ -686,13 +686,13 @@ void ST_updateFaceWidget(void)
         if (plyr->bonuscount)
         {
             // picking up bonus
-            doevilgrin = false;
+            doevilgrin = False;
 
             for (i = 0; i<NUMWEAPONS; i++)
             {
                 if (oldweaponsowned[i] != plyr->weaponowned[i])
                 {
-                    doevilgrin = true;
+                    doevilgrin = True;
                     oldweaponsowned[i] = plyr->weaponowned[i];
                 }
             }
@@ -959,7 +959,7 @@ void ST_doPaletteStuff(void)
     }
 }
 
-void ST_drawWidgets(bool refresh)
+void ST_drawWidgets(boolean refresh)
 {
     int i;
 
@@ -995,22 +995,22 @@ void ST_drawWidgets(bool refresh)
 
 void ST_doRefresh(void)
 {
-    st_firsttime = false;
+    st_firsttime = False;
 
     // draw status bar background to off-screen buff
     ST_refreshBackground();
 
     // and refresh all widgets
-    ST_drawWidgets(true);
+    ST_drawWidgets(True);
 }
 
 void ST_diffDraw(void)
 {
     // update all widgets
-    ST_drawWidgets(false);
+    ST_drawWidgets(False);
 }
 
-void ST_Drawer(bool fullscreen, bool refresh)
+void ST_Drawer(boolean fullscreen, boolean refresh)
 {
     st_statusbaron = (!fullscreen) || automapactive;
     st_firsttime = st_firsttime || refresh;
@@ -1135,15 +1135,15 @@ void ST_initData(void)
 {
     int i;
 
-    st_firsttime = true;
+    st_firsttime = True;
     plyr = &players[consoleplayer];
 
     st_clock = 0;
     st_chatstate = StartChatState;
     st_gamestate = FirstPersonState;
 
-    st_statusbaron = true;
-    st_oldchat = st_chat = false;
+    st_statusbaron = True;
+    st_oldchat = st_chat = False;
 
     st_faceindex = 0;
     st_palette = -1;
@@ -1314,7 +1314,7 @@ void ST_createWidgets(void)
                   ST_MAXAMMO3WIDTH);
 }
 
-static bool st_stopped = true;
+static boolean st_stopped = True;
 
 void ST_Start(void)
 {
@@ -1322,7 +1322,7 @@ void ST_Start(void)
 
     ST_initData();
     ST_createWidgets();
-    st_stopped = false;
+    st_stopped = False;
 }
 
 void ST_Stop(void)
@@ -1331,7 +1331,7 @@ void ST_Stop(void)
 
     I_SetPalette(W_CacheLumpNum(lu_palette, PU_CACHE));
 
-    st_stopped = true;
+    st_stopped = True;
 }
 
 void ST_Init(void)

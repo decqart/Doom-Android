@@ -113,7 +113,7 @@ fixed_t P_InterceptVector2(divline_t *v2, divline_t *v1)
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-bool P_CrossSubsector(int num)
+boolean P_CrossSubsector(int num)
 {
     seg_t*		seg;
     line_t*		line;
@@ -179,13 +179,13 @@ bool P_CrossSubsector(int num)
 
         if (line->backsector == NULL)
         {
-            return false;
+            return False;
         }
 
 	// stop because it is not two sided anyway
 	// might do this after updating validcount?
 	if ( !(line->flags & ML_TWOSIDED) )
-	    return false;
+	    return False;
 	
 	// crosses a two sided line
 	front = seg->frontsector;
@@ -211,7 +211,7 @@ bool P_CrossSubsector(int num)
 		
 	// quick test for totally closed doors
 	if (openbottom >= opentop)	
-	    return false;		// stop
+	    return False;		// stop
 	
 	frac = P_InterceptVector2 (&strace, &divl);
 		
@@ -230,10 +230,10 @@ bool P_CrossSubsector(int num)
 	}
 		
 	if (topslope <= bottomslope)
-	    return false;		// stop				
+	    return False;		// stop
     }
     // passed the subsector ok
-    return true;		
+    return True;
 }
 
 
@@ -243,7 +243,7 @@ bool P_CrossSubsector(int num)
 // Returns true
 //  if strace crosses the given node successfully.
 //
-bool P_CrossBSPNode(int bspnum)
+boolean P_CrossBSPNode(int bspnum)
 {
     node_t*	bsp;
     int		side;
@@ -265,13 +265,13 @@ bool P_CrossBSPNode(int bspnum)
 
     // cross the starting side
     if (!P_CrossBSPNode (bsp->children[side]) )
-	return false;
+	return False;
 	
     // the partition plane is crossed here
     if (side == P_DivlineSide (t2x, t2y,(divline_t *)bsp))
     {
         // the line doesn't touch the other side
-        return true;
+        return True;
     }
     
     // cross the ending side		
@@ -285,7 +285,7 @@ bool P_CrossBSPNode(int bspnum)
 //  if a straight line between t1 and t2 is unobstructed.
 // Uses REJECT.
 //
-bool P_CheckSight(mobj_t *t1, mobj_t *t2)
+boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     int		s1;
     int		s2;
@@ -308,7 +308,7 @@ bool P_CheckSight(mobj_t *t1, mobj_t *t2)
         sightcounts[0]++;
 
         // can't possibly be connected
-        return false;	
+        return False;
     }
 
     // An unobstructed LOS is possible.

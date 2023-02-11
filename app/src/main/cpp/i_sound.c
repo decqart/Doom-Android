@@ -91,20 +91,20 @@ static music_module_t *music_modules[] = {
 
 // Check if a sound device is in the given list of devices
 
-static bool SndDeviceInList(snddevice_t device, const snddevice_t *list, int len)
+static boolean SndDeviceInList(snddevice_t device, const snddevice_t *list, int len)
 {
     for (int i = 0; i < len; ++i)
     {
         if (device == list[i])
-            return true;
+            return True;
     }
 
-    return false;
+    return False;
 }
 
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
-static void InitSfxModule(bool use_sfx_prefix)
+static void InitSfxModule(boolean use_sfx_prefix)
 {
     sound_module = NULL;
 
@@ -157,9 +157,9 @@ static void InitMusicModule(void)
 //  allocates channel buffer, sets S_sfx lookup.
 //
 
-void I_InitSound(bool use_sfx_prefix)
+void I_InitSound(boolean use_sfx_prefix)
 {  
-    bool nosound, nosfx, nomusic;
+    boolean nosound, nosfx, nomusic;
 
     //!
     // @vanilla
@@ -276,7 +276,7 @@ void I_StopSound(int channel)
         sound_module->StopSound(channel);
 }
 
-bool I_SoundIsPlaying(int channel)
+boolean I_SoundIsPlaying(int channel)
 {
     if (sound_module != NULL)
     {
@@ -284,7 +284,7 @@ bool I_SoundIsPlaying(int channel)
     }
     else
     {
-        return false;
+        return False;
     }
 }
 
@@ -332,7 +332,7 @@ void I_UnRegisterSong(void *handle)
         music_module->UnRegisterSong(handle);
 }
 
-void I_PlaySong(void *handle, bool looping)
+void I_PlaySong(void *handle, boolean looping)
 {
     if (music_module != NULL)
         music_module->PlaySong(handle, looping);

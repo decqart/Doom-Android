@@ -24,17 +24,17 @@
 
 #include "doomtype.h"
 
-bool M_WriteFile(char *name, void *source, int length);
+boolean M_WriteFile(char *name, void *source, int length);
 void M_MakeDirectory(char *dir);
 char *M_TempFile(char *s);
-bool M_FileExists(char *file);
+boolean M_FileExists(char *file);
 long M_FileLength(FILE *handle);
-bool M_StrToInt(const char *str, int *result);
+boolean M_StrToInt(const char *str, int *result);
 void M_ExtractFileBase(char *path, char *dest);
-bool M_StringCopy(char *dest, const char *src, size_t dest_size);
-bool M_StringConcat(char *dest, const char *src, size_t dest_size);
+boolean M_StringCopy(char *dest, const char *src, size_t dest_size);
+boolean M_StringConcat(char *dest, const char *src, size_t dest_size);
 char *M_StringJoin(const char *s, ...);
-bool M_StringEndsWith(const char *s, const char *suffix);
+boolean M_StringEndsWith(const char *s, const char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 

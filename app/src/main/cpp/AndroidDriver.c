@@ -195,7 +195,7 @@ int button_x[8] = {-1};
 int button_y[8] = {-1};
 int motion_x[8] = {0};
 int motion_y[8] = {0};
-int button_down[8] = {0};
+bool button_down[8] = {false};
 
 int32_t handle_input(struct android_app *app, AInputEvent *event)
 {
@@ -222,7 +222,7 @@ int32_t handle_input(struct android_app *app, AInputEvent *event)
                 button_y[id] = y;
                 motion_x[index] = x;
                 motion_y[index] = y;
-                button_down[id] = 1;
+                button_down[id] = true;
                 ANativeActivity_showSoftInput(gapp->activity, ANATIVEACTIVITY_SHOW_SOFT_INPUT_FORCED);
             }
             else if (action == AMOTION_EVENT_ACTION_POINTER_UP || action == AMOTION_EVENT_ACTION_UP || action == AMOTION_EVENT_ACTION_CANCEL)
@@ -231,7 +231,7 @@ int32_t handle_input(struct android_app *app, AInputEvent *event)
                 if (action == AMOTION_EVENT_ACTION_POINTER_UP && id != whichSource) continue;
                 button_x[id] = -1;
                 button_y[id] = -1;
-                button_down[id] = 0;
+                button_down[id] = false;
             }
             else if (action == AMOTION_EVENT_ACTION_MOVE)
             {
@@ -272,7 +272,8 @@ void handle_cmd(struct android_app *app, int32_t cmd)
             }
             break;
         case APP_CMD_TERM_WINDOW:
-            if (egl_display != EGL_NO_DISPLAY) {
+            if (egl_display != EGL_NO_DISPLAY)
+            {
                 eglMakeCurrent(egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
                 if (egl_context != EGL_NO_CONTEXT)
                     eglDestroyContext(egl_display, egl_context);

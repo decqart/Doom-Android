@@ -2,12 +2,13 @@
 #define _DRAW_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 extern int button_x[8];
 extern int button_y[8];
 extern int motion_x[8];
 extern int motion_y[8];
-extern int button_down[8];
+extern bool button_down[8];
 
 void GetScreenDimensions(int *x, int *y);
 

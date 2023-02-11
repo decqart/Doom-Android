@@ -25,7 +25,7 @@
 //
 // End-level timer (-TIMER option)
 //
-extern bool levelTimer;
+extern boolean levelTimer;
 extern int levelTimeCount;
 
 // at game start
@@ -38,7 +38,7 @@ void P_SpawnSpecials(void);
 void P_UpdateSpecials(void);
 
 // when needed
-bool P_UseSpecialLine
+boolean P_UseSpecialLine
 ( mobj_t*	thing,
   line_t*	line,
   int		side );
@@ -265,7 +265,7 @@ typedef struct
     int		count;
     plat_e	status;
     plat_e	oldstatus;
-    bool crush;
+    boolean crush;
     int		tag;
     plattype_e	type;
     
@@ -381,7 +381,7 @@ typedef struct
     fixed_t	bottomheight;
     fixed_t	topheight;
     fixed_t	speed;
-    bool crush;
+    boolean crush;
 
     // 1 = up, 0 = waiting, -1 = down
     int		direction;
@@ -466,7 +466,7 @@ typedef struct
 {
     thinker_t	thinker;
     floor_e	type;
-    bool crush;
+    boolean crush;
     sector_t*	sector;
     int		direction;
     int		newspecial;
@@ -490,12 +490,12 @@ typedef enum
 
 result_e
 T_MovePlane
-( sector_t*	sector,
-  fixed_t	speed,
-  fixed_t	dest,
-  bool crush,
-  int		floorOrCeiling,
-  int		direction );
+(sector_t*	sector,
+ fixed_t	speed,
+ fixed_t	dest,
+ boolean crush,
+ int		floorOrCeiling,
+ int		direction );
 
 int
 EV_BuildStairs

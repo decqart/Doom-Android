@@ -89,7 +89,7 @@ char *finaleflat;
 
 void F_StartCast(void);
 void F_CastTicker(void);
-bool F_CastResponder(event_t *ev);
+boolean F_CastResponder(event_t *ev);
 void F_CastDrawer(void);
 
 void F_StartFinale(void)
@@ -98,16 +98,16 @@ void F_StartFinale(void)
 
     gameaction = ga_nothing;
     gamestate = GS_FINALE;
-    viewactive = false;
-    automapactive = false;
+    viewactive = False;
+    automapactive = False;
 
     if (logical_gamemission == doom)
     {
-        S_ChangeMusic(mus_victor, true);
+        S_ChangeMusic(mus_victor, True);
     }
     else
     {
-        S_ChangeMusic(mus_read_m, true);
+        S_ChangeMusic(mus_read_m, True);
     }
 
     // Find the right screen and set the text and background
@@ -141,12 +141,12 @@ void F_StartFinale(void)
     finalecount = 0;
 }
 
-bool F_Responder(event_t *event)
+boolean F_Responder(event_t *event)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(event);
 
-    return false;
+    return False;
 }
 
 void F_Ticker(void)
@@ -300,10 +300,10 @@ castinfo_t castorder[] = {
 int castnum;
 int casttics;
 state_t *caststate;
-bool castdeath;
+boolean castdeath;
 int castframes;
 int castonmelee;
-bool castattacking;
+boolean castattacking;
 
 void F_StartCast(void)
 {
@@ -311,12 +311,12 @@ void F_StartCast(void)
     castnum = 0;
     caststate = &states[mobjinfo[castorder[castnum].type].seestate];
     casttics = caststate->tics;
-    castdeath = false;
+    castdeath = False;
     finalestage = F_STAGE_CAST;
     castframes = 0;
     castonmelee = 0;
-    castattacking = false;
-    S_ChangeMusic(mus_evil, true);
+    castattacking = False;
+    S_ChangeMusic(mus_evil, True);
 }
 
 void F_CastTicker(void)
@@ -331,7 +331,7 @@ void F_CastTicker(void)
     {
         // switch from deathstate to next monster
         castnum++;
-        castdeath = false;
+        castdeath = False;
         if (castorder[castnum].name == NULL)
             castnum = 0;
         if (mobjinfo[castorder[castnum].type].seesound)
@@ -386,7 +386,7 @@ void F_CastTicker(void)
     if (castframes == 12)
     {
         // go into attack frame
-        castattacking = true;
+        castattacking = True;
         if (castonmelee)
             caststate=&states[mobjinfo[castorder[castnum].type].meleestate];
         else
@@ -409,7 +409,7 @@ void F_CastTicker(void)
             ||	caststate == &states[mobjinfo[castorder[castnum].type].seestate] )
         {
         stopattack:
-            castattacking = false;
+            castattacking = False;
             castframes = 0;
             caststate = &states[mobjinfo[castorder[castnum].type].seestate];
         }
@@ -420,24 +420,24 @@ void F_CastTicker(void)
         casttics = 15;
 }
 
-bool F_CastResponder(event_t *ev)
+boolean F_CastResponder(event_t *ev)
 {
     if (ev->type != ev_keydown)
-        return false;
+        return False;
 
     if (castdeath)
-        return true; // already in dying frames
+        return True; // already in dying frames
 
     // go into death frame
-    castdeath = true;
+    castdeath = True;
     caststate = &states[mobjinfo[castorder[castnum].type].deathstate];
     casttics = caststate->tics;
     castframes = 0;
-    castattacking = false;
+    castattacking = False;
     if (mobjinfo[castorder[castnum].type].deathsound)
         S_StartSound(NULL, mobjinfo[castorder[castnum].type].deathsound);
 
-    return true;
+    return True;
 }
 
 void F_CastPrint(char *text)
@@ -494,7 +494,7 @@ void F_CastDrawer(void)
     spritedef_t *sprdef;
     spriteframe_t *sprframe;
     int lump;
-    bool flip;
+    boolean flip;
     patch_t *patch;
     
     // erase the entire screen to a background
@@ -506,7 +506,7 @@ void F_CastDrawer(void)
     sprdef = &sprites[caststate->sprite];
     sprframe = &sprdef->spriteframes[ caststate->frame & FF_FRAMEMASK];
     lump = sprframe->lump[0];
-    flip = (bool) sprframe->flip[0];
+    flip = (boolean) sprframe->flip[0];
 
     patch = W_CacheLumpNum(lump+firstspritelump, PU_CACHE);
     if (flip)

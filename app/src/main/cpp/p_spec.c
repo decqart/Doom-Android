@@ -52,7 +52,7 @@
 //
 typedef struct
 {
-    bool istexture;
+    boolean istexture;
     int		picnum;
     int		basepic;
     int		numpics;
@@ -93,35 +93,35 @@ extern anim_t*	lastanim;
 //
 animdef_t animdefs[] =
 {
-    {false,	"NUKAGE3",	"NUKAGE1",	8},
-    {false,	"FWATER4",	"FWATER1",	8},
-    {false,	"SWATER4",	"SWATER1", 	8},
-    {false,	"LAVA4",	"LAVA1",	8},
-    {false,	"BLOOD3",	"BLOOD1",	8},
+    {False, "NUKAGE3",  "NUKAGE1",  8},
+    {False, "FWATER4",  "FWATER1",  8},
+    {False, "SWATER4",  "SWATER1",  8},
+    {False, "LAVA4",    "LAVA1",    8},
+    {False, "BLOOD3",   "BLOOD1",   8},
 
     // DOOM II flat animations.
-    {false,	"RROCK08",	"RROCK05",	8},		
-    {false,	"SLIME04",	"SLIME01",	8},
-    {false,	"SLIME08",	"SLIME05",	8},
-    {false,	"SLIME12",	"SLIME09",	8},
+    {False, "RROCK08",  "RROCK05",  8},
+    {False, "SLIME04",  "SLIME01",  8},
+    {False, "SLIME08",  "SLIME05",  8},
+    {False, "SLIME12",  "SLIME09",  8},
 
-    {true,	"BLODGR4",	"BLODGR1",	8},
-    {true,	"SLADRIP3",	"SLADRIP1",	8},
+    {True,  "BLODGR4",  "BLODGR1",  8},
+    {True,  "SLADRIP3", "SLADRIP1", 8},
 
-    {true,	"BLODRIP4",	"BLODRIP1",	8},
-    {true,	"FIREWALL",	"FIREWALA",	8},
-    {true,	"GSTFONT3",	"GSTFONT1",	8},
-    {true,	"FIRELAVA",	"FIRELAV3",	8},
-    {true,	"FIREMAG3",	"FIREMAG1",	8},
-    {true,	"FIREBLU2",	"FIREBLU1",	8},
-    {true,	"ROCKRED3",	"ROCKRED1",	8},
+    {True,  "BLODRIP4", "BLODRIP1", 8},
+    {True,  "FIREWALL", "FIREWALA", 8},
+    {True,  "GSTFONT3", "GSTFONT1", 8},
+    {True,  "FIRELAVA", "FIRELAV3", 8},
+    {True,  "FIREMAG3", "FIREMAG1", 8},
+    {True,  "FIREBLU2", "FIREBLU1", 8},
+    {True,  "ROCKRED3", "ROCKRED1", 8},
 
-    {true,	"BFALL4",	"BFALL1",	8},
-    {true,	"SFALL4",	"SFALL1",	8},
-    {true,	"WFALL4",	"WFALL1",	8},
-    {true,	"DBRAIN4",	"DBRAIN1",	8},
+    {True,  "BFALL4",   "BFALL1",   8},
+    {True,  "SFALL4",   "SFALL1",   8},
+    {True,  "WFALL4",   "WFALL1",   8},
+    {True,  "DBRAIN4",  "DBRAIN1",  8},
 	
-    {-1,        "",             "",             0},
+    {-1,    "",         "",         0},
 };
 
 anim_t		anims[MAXANIMS];
@@ -1067,7 +1067,7 @@ void P_PlayerInSpecialSector (player_t* player)
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-bool levelTimer;
+boolean levelTimer;
 int levelTimeCount;
 
 void P_UpdateSpecials(void)
@@ -1079,7 +1079,7 @@ void P_UpdateSpecials(void)
 
     
     //	LEVEL TIMER
-    if (levelTimer == true)
+    if (levelTimer == True)
     {
 	levelTimeCount--;
 	if (!levelTimeCount)
@@ -1310,7 +1310,7 @@ int EV_DoDonut(line_t*	line)
 	    s2->specialdata = floor;
 	    floor->thinker.function.acp1 = (actionf_p1) T_MoveFloor;
 	    floor->type = donutRaise;
-	    floor->crush = false;
+	    floor->crush = False;
 	    floor->direction = 1;
 	    floor->sector = s2;
 	    floor->speed = FLOORSPEED / 2;
@@ -1324,7 +1324,7 @@ int EV_DoDonut(line_t*	line)
 	    s1->specialdata = floor;
 	    floor->thinker.function.acp1 = (actionf_p1) T_MoveFloor;
 	    floor->type = lowerFloor;
-	    floor->crush = false;
+	    floor->crush = False;
 	    floor->direction = -1;
 	    floor->sector = s1;
 	    floor->speed = FLOORSPEED / 2;
@@ -1360,12 +1360,12 @@ void P_SpawnSpecials (void)
 
     if (timelimit > 0 && deathmatch)
     {
-        levelTimer = true;
+        levelTimer = True;
         levelTimeCount = timelimit * 60 * TICRATE;
     }
     else
     {
-	levelTimer = false;
+	levelTimer = False;
     }
 
     //	Init special SECTORs.

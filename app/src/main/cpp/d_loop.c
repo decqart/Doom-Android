@@ -37,7 +37,7 @@
 typedef struct
 {
     ticcmd_t cmds[NET_MAXPLAYERS];
-    bool ingame[NET_MAXPLAYERS];
+    boolean ingame[NET_MAXPLAYERS];
 } ticcmd_set_t;
 
 //
@@ -66,7 +66,7 @@ int gametic;
 // When set to true, a single tic is run each time TryRunTics() is called.
 // This is used for -timedemo mode.
 
-bool singletics = false;
+boolean singletics = False;
 
 // Index of the local player.
 
@@ -87,7 +87,7 @@ fixed_t offsetms;
 
 // Use new client syncronisation code
 
-static bool new_sync = true;
+static boolean new_sync = True;
 
 // Callback functions for loop code.
 
@@ -97,7 +97,7 @@ static loop_interface_t *loop_interface = NULL;
 // This is distinct from playeringame[] used by the game code, which may
 // modify playeringame[] when playing back multiplayer demos.
 
-static bool local_playeringame[NET_MAXPLAYERS];
+static boolean local_playeringame[NET_MAXPLAYERS];
 
 // Requested player class "sent" to the server on connect.
 // If we are only doing a single player game then this needs to be remembered
@@ -106,8 +106,8 @@ static bool local_playeringame[NET_MAXPLAYERS];
 static int player_class;
 
 //useless
-bool drone = false;
-bool net_client_connected = false;
+boolean drone = False;
+boolean net_client_connected = False;
 
 // 35 fps clock adjusted by offsetms milliseconds
 
@@ -125,7 +125,7 @@ static int GetAdjustedTime(void)
     return (time_ms * TICRATE) / 1000;
 }
 
-static bool BuildNewTic(void)
+static boolean BuildNewTic(void)
 {
     int	gameticdiv;
     ticcmd_t cmd;
@@ -142,7 +142,7 @@ static bool BuildNewTic(void)
     if (drone)
     {
         // In drone mode, do not generate any ticcmds.
-        return false;
+        return False;
     }
 
     if (new_sync)
@@ -151,28 +151,28 @@ static bool BuildNewTic(void)
        // up very far
 
        if (!net_client_connected && maketic - gameticdiv > 2)
-           return false;
+           return False;
 
        // Never go more than ~200ms ahead
 
        if (maketic - gameticdiv > 8)
-           return false;
+           return False;
     }
     else
     {
        if (maketic - gameticdiv >= 5)
-           return false;
+           return False;
     }
 
     memset(&cmd, 0, sizeof(ticcmd_t));
     loop_interface->BuildTiccmd(&cmd, maketic);
 
     ticdata[maketic % BACKUPTICS].cmds[localplayer] = cmd;
-    ticdata[maketic % BACKUPTICS].ingame[localplayer] = true;
+    ticdata[maketic % BACKUPTICS].ingame[localplayer] = True;
 
     ++maketic;
 
-    return true;
+    return True;
 }
 
 int lasttime;
@@ -234,11 +234,11 @@ void D_StartNetGame(net_gamesettings_t *settings, netgame_startup_callback_t cal
     new_sync = settings->new_sync;
 }
 
-bool D_InitNetGame(net_connect_data_t *connect_data)
+boolean D_InitNetGame(net_connect_data_t *connect_data)
 {
     player_class = connect_data->player_class;
 
-    return false;
+    return False;
 }
 
 static int GetLowTic(void)
@@ -296,9 +296,9 @@ static void OldNetSync(void)
 }
 
 // Returns true if there are players in the game:
-static bool PlayersInGame(void)
+static boolean PlayersInGame(void)
 {
-    bool result = false;
+    boolean result = False;
     unsigned int i;
 
     // If we are connected to a server, check if there are any players
@@ -317,7 +317,7 @@ static bool PlayersInGame(void)
 
     if (!drone)
     {
-        result = true;
+        result = True;
     }
 
     return result;
@@ -346,7 +346,7 @@ static void SinglePlayerClear(ticcmd_set_t *set)
     {
         if (i != localplayer)
         {
-            set->ingame[i] = false;
+            set->ingame[i] = False;
         }
     }
 }

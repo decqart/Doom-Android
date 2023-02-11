@@ -60,8 +60,8 @@ typedef struct
     int			cl;		// current line number
 
     // pointer to boolean stating whether to update window
-    bool *on;
-    bool laston;		// last value of *->on.
+    boolean *on;
+    boolean laston;		// last value of *->on.
 
 } hu_stext_t;
 
@@ -76,8 +76,8 @@ typedef struct
     int			lm;
 
     // pointer to boolean stating whether to update window
-    bool *on; 
-    bool laston; // last value of *->on;
+    boolean *on;
+    boolean laston; // last value of *->on;
 
 } hu_itext_t;
 
@@ -96,13 +96,13 @@ void HUlib_clearTextLine(hu_textline_t *t);
 void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 
 // returns success
-bool HUlib_addCharToTextLine(hu_textline_t *t, char ch);
+boolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
 
 // returns success
-bool HUlib_delCharFromTextLine(hu_textline_t *t);
+boolean HUlib_delCharFromTextLine(hu_textline_t *t);
 
 // draws tline
-void HUlib_drawTextLine(hu_textline_t *l, bool drawcursor);
+void HUlib_drawTextLine(hu_textline_t *l, boolean drawcursor);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t *l); 
@@ -115,13 +115,13 @@ void HUlib_eraseTextLine(hu_textline_t *l);
 // ?
 void
 HUlib_initSText
-( hu_stext_t*	s,
-  int		x,
-  int		y,
-  int		h,
-  patch_t**	font,
-  int		startchar,
-  bool *on);
+(hu_stext_t*	s,
+ int		x,
+ int		y,
+ int		h,
+ patch_t**	font,
+ int		startchar,
+ boolean *on);
 
 // add a new line
 void HUlib_addLineToSText(hu_stext_t *s);
@@ -138,12 +138,12 @@ void HUlib_eraseSText(hu_stext_t *s);
 // Input Text Line widget routines
 void
 HUlib_initIText
-( hu_itext_t*	it,
-  int		x,
-  int		y,
-  patch_t**	font,
-  int		startchar,
-  bool *on);
+(hu_itext_t*	it,
+ int		x,
+ int		y,
+ patch_t**	font,
+ int		startchar,
+ boolean *on);
 
 // enforces left margin
 void HUlib_delCharFromIText(hu_itext_t* it);
@@ -161,7 +161,7 @@ HUlib_addPrefixToIText
   char*		str );
 
 // whether eaten
-bool HUlib_keyInIText(hu_itext_t *it, unsigned char ch);
+boolean HUlib_keyInIText(hu_itext_t *it, unsigned char ch);
 
 void HUlib_drawIText(hu_itext_t* it);
 

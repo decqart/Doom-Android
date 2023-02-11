@@ -46,7 +46,7 @@ void G_RecordDemo(char *name);
 void G_BeginRecording(void);
 
 void G_TimeDemo(char *name);
-bool G_CheckDemoStatus(void);
+boolean G_CheckDemoStatus(void);
 
 void G_ExitLevel(void);
 void G_SecretExitLevel(void);
@@ -58,7 +58,7 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd, int maketic); 
 
 void G_Ticker(void);
-bool G_Responder(event_t *ev);
+boolean G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
 

@@ -37,7 +37,7 @@
 
 FILE *save_stream;
 int savegamelength;
-bool savegame_error;
+boolean savegame_error;
 
 // Get the filename of a temporary file to write the savegame to.  After
 // the file has been successfully saved, it will be renamed to the 
@@ -88,7 +88,7 @@ static byte saveg_read8()
             fprintf(stderr, "saveg_read8: Unexpected end of file while "
                     "reading save game\n");
 
-            savegame_error = true;
+            savegame_error = True;
         }
     }
 
@@ -103,7 +103,7 @@ static void saveg_write8(byte value)
         {
             fprintf(stderr, "saveg_write8: Error while writing save game\n");
 
-            savegame_error = true;
+            savegame_error = True;
         }
     }
 }
@@ -1375,7 +1375,7 @@ void P_WriteSaveGameHeader(char *description)
 // Read the header for a savegame
 //
 
-bool P_ReadSaveGameHeader(void)
+boolean P_ReadSaveGameHeader(void)
 {
     int	 i; 
     byte a, b, c; 
@@ -1393,7 +1393,7 @@ bool P_ReadSaveGameHeader(void)
     memset(vcheck, 0, sizeof(vcheck));
     M_snprintf(vcheck, sizeof(vcheck), "version %i", G_VanillaVersionCode());
     if (strcmp(read_vcheck, vcheck) != 0)
-	return false;				// bad version 
+	return False;				// bad version
 
     gameskill = saveg_read8();
     gameepisode = saveg_read8();
@@ -1408,14 +1408,14 @@ bool P_ReadSaveGameHeader(void)
     c = saveg_read8();
     leveltime = (a<<16) + (b<<8) + c; 
 
-    return true;
+    return True;
 }
 
 //
 // Read the end of file marker.  Returns true if read successfully.
 // 
 
-bool P_ReadSaveGameEOF(void)
+boolean P_ReadSaveGameEOF(void)
 {
     int value;
 

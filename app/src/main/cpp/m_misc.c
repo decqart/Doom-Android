@@ -57,7 +57,7 @@ void M_MakeDirectory(char *path)
 
 // Check if a file exists
 
-bool M_FileExists(char *filename)
+boolean M_FileExists(char *filename)
 {
     FILE *fstream;
 
@@ -70,7 +70,7 @@ bool M_FileExists(char *filename)
     if (fstream != NULL)
     {
         fclose(fstream);
-        return true;
+        return True;
     }
     else
     {
@@ -97,18 +97,18 @@ long M_FileLength(FILE *handle)
     return length;
 }
 
-bool M_WriteFile(char *name, void *source, int length)
+boolean M_WriteFile(char *name, void *source, int length)
 {
     FILE *handle = fopen(name, "wb");
 
-    if (handle == NULL) return false;
+    if (handle == NULL) return False;
 
     size_t count = fwrite(source, 1, length, handle);
     fclose(handle);
 
-    if (count < length) return false;
+    if (count < length) return False;
 
-    return true;
+    return True;
 }
 
 // Returns the path to a temporary file of the given name, stored
@@ -135,7 +135,7 @@ char *M_TempFile(char *s)
     return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);
 }
 
-bool M_StrToInt(const char *str, int *result)
+boolean M_StrToInt(const char *str, int *result)
 {
     return sscanf(str, " 0x%x", result) == 1
         || sscanf(str, " 0X%x", result) == 1
@@ -182,7 +182,7 @@ void M_ExtractFileBase(char *path, char *dest)
 
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
-bool M_StringCopy(char *dest, const char *src, size_t dest_size)
+boolean M_StringCopy(char *dest, const char *src, size_t dest_size)
 {
     if (dest_size >= 1)
     {
@@ -191,7 +191,7 @@ bool M_StringCopy(char *dest, const char *src, size_t dest_size)
     }
     else
     {
-        return false;
+        return False;
     }
 
     size_t len = strlen(dest);
@@ -200,7 +200,7 @@ bool M_StringCopy(char *dest, const char *src, size_t dest_size)
 
 // Safe string concat function that works like OpenBSD's strlcat().
 // Returns true if string not truncated.
-bool M_StringConcat(char *dest, const char *src, size_t dest_size)
+boolean M_StringConcat(char *dest, const char *src, size_t dest_size)
 {
     size_t offset = strlen(dest);
 
@@ -214,7 +214,7 @@ bool M_StringConcat(char *dest, const char *src, size_t dest_size)
 
 // Returns true if 's' ends with the specified suffix.
 
-bool M_StringEndsWith(const char *s, const char *suffix)
+boolean M_StringEndsWith(const char *s, const char *suffix)
 {
     return strlen(s) >= strlen(suffix)
         && !strcmp(s + strlen(s) - strlen(suffix), suffix);

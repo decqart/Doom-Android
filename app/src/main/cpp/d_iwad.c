@@ -54,7 +54,7 @@ static const iwad_t iwads[] = {
 
 #define MAX_IWAD_DIRS 128
 
-static bool iwad_dirs_built = false;
+static boolean iwad_dirs_built = False;
 static char *iwad_dirs[MAX_IWAD_DIRS];
 static int num_iwad_dirs = 0;
 
@@ -229,7 +229,7 @@ static void CheckCollectorsEdition(void)
 // Returns true if the specified path is a path to a file
 // of the specified name.
 
-static bool DirIsFile(char *path, char *filename)
+static boolean DirIsFile(char *path, char *filename)
 {
     size_t path_len;
     size_t filename_len;
@@ -379,7 +379,7 @@ static void BuildIWADDirList(void)
     AddIWADDir(FILES_DIR);
 
     // Don't run this function again.
-    iwad_dirs_built = true;
+    iwad_dirs_built = True;
 #endif
 }
 

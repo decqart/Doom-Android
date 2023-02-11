@@ -54,13 +54,13 @@ typedef struct atexit_listentry_s atexit_listentry_t;
 struct atexit_listentry_s
 {
     atexit_func_t func;
-    bool run_on_error;
+    boolean run_on_error;
     atexit_listentry_t *next;
 };
 
 static atexit_listentry_t *exit_funcs = NULL;
 
-void I_AtExit(atexit_func_t func, bool run_on_error)
+void I_AtExit(atexit_func_t func, boolean run_on_error)
 {
     atexit_listentry_t *entry;
 
@@ -182,7 +182,7 @@ void I_PrintStartupBanner(char *gamedescription)
 }
 
 // Returns true if stdout is a real console, false if it is a file
-bool I_ConsoleStdout(void)
+boolean I_ConsoleStdout(void)
 {
 #if ORIGCODE
     return isatty(fileno(stdout));
@@ -295,14 +295,14 @@ static int ZenityErrorBox(char *message)
 
 #endif /* !defined(_WIN32) && !defined(__MACOSX__) */
 
-static bool already_quitting = false;
+static boolean already_quitting = False;
 
 void I_Error(char *error, ...)
 {
     char msgbuf[512];
     va_list argptr;
     atexit_listentry_t *entry;
-    bool exit_gui_popup;
+    boolean exit_gui_popup;
 
     if (already_quitting)
     {
@@ -313,7 +313,7 @@ void I_Error(char *error, ...)
     }
     else
     {
-        already_quitting = true;
+        already_quitting = True;
     }
 
     // Message first.
@@ -416,15 +416,15 @@ static unsigned char mem_dump_custom[DOS_MEM_DUMP_SIZE];
 
 static const unsigned char *dos_mem_dump = mem_dump_dos622;
 
-bool I_GetMemoryValue(unsigned int offset, void *value, int size)
+boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
 {
-    static bool firsttime = true;
+    static boolean firsttime = True;
 
     if (firsttime)
     {
         int p, i, val;
 
-        firsttime = false;
+        firsttime = False;
         i = 0;
 
         //!
@@ -476,18 +476,18 @@ bool I_GetMemoryValue(unsigned int offset, void *value, int size)
     {
     case 1:
         *((unsigned char *) value) = dos_mem_dump[offset];
-        return true;
+        return True;
     case 2:
         *((unsigned short *) value) = dos_mem_dump[offset]
                                     | (dos_mem_dump[offset + 1] << 8);
-        return true;
+        return True;
     case 4:
         *((unsigned int *) value) = dos_mem_dump[offset]
                                   | (dos_mem_dump[offset + 1] << 8)
                                   | (dos_mem_dump[offset + 2] << 16)
                                   | (dos_mem_dump[offset + 3] << 24);
-        return true;
+        return True;
     }
 
-    return false;
+    return False;
 }

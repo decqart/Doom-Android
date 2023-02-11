@@ -149,43 +149,43 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
     P_RecursiveSound (emmiter->subsector->sector, 0);
 }
 
-bool P_CheckMeleeRange(mobj_t *actor)
+boolean P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t *pl;
     fixed_t	dist;
 	
     if (!actor->target)
-        return false;
+        return False;
 		
     pl = actor->target;
     dist = P_AproxDistance (pl->x-actor->x, pl->y-actor->y);
 
     if (dist >= MELEERANGE-20*FRACUNIT+pl->info->radius)
-        return false;
+        return False;
 	
     if (!P_CheckSight(actor, actor->target))
-        return false;
+        return False;
 							
-    return true;		
+    return True;
 }
 
-bool P_CheckMissileRange(mobj_t *actor)
+boolean P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t	dist;
 	
     if (!P_CheckSight(actor, actor->target))
-        return false;
+        return False;
 	
     if (actor->flags & MF_JUSTHIT)
     {
         // the target just hit the enemy,
         // so fight back!
         actor->flags &= ~MF_JUSTHIT;
-        return true;
+        return True;
     }
 	
     if (actor->reactiontime)
-        return false;	// do not attack yet
+        return False;	// do not attack yet
 		
     // OPTIMIZE: get this from a global checksight
     dist = P_AproxDistance(actor->x-actor->target->x,
@@ -199,14 +199,14 @@ bool P_CheckMissileRange(mobj_t *actor)
     if (actor->type == MT_VILE)
     {
         if (dist > 14*64)	
-            return false;	// too far away
+            return False;	// too far away
     }
 	
 
     if (actor->type == MT_UNDEAD)
     {
         if (dist < 196)	
-            return false;	// close for fist attack
+            return False;	// close for fist attack
         dist >>= 1;
     }
 	
@@ -225,9 +225,9 @@ bool P_CheckMissileRange(mobj_t *actor)
         dist = 160;
 		
     if (P_Random() < dist)
-        return false;
+        return False;
 		
-    return true;
+    return True;
 }
 
 
@@ -239,7 +239,7 @@ bool P_CheckMissileRange(mobj_t *actor)
 fixed_t	xspeed[8] = {FRACUNIT,47000,0,-47000,-FRACUNIT,-47000,0,47000};
 fixed_t yspeed[8] = {0,47000,FRACUNIT,47000,0,-47000,-FRACUNIT,-47000};
 
-bool P_Move(mobj_t *actor)
+boolean P_Move(mobj_t *actor)
 {
     fixed_t	tryx;
     fixed_t	tryy;
@@ -248,11 +248,11 @@ bool P_Move(mobj_t *actor)
     
     // warning: 'catch', 'throw', and 'try'
     // are all C++ reserved words
-    bool try_ok;
-    bool good;
+    boolean try_ok;
+    boolean good;
 		
     if (actor->movedir == DI_NODIR)
-        return false;
+        return False;
 		
     if ((unsigned)actor->movedir >= 8)
         I_Error("Weird actor->movedir!");
@@ -274,14 +274,14 @@ bool P_Move(mobj_t *actor)
 		actor->z -= FLOATSPEED;
 
 	    actor->flags |= MF_INFLOAT;
-	    return true;
+	    return True;
 	}
 		
 	if (!numspechit)
-	    return false;
+	    return False;
 			
 	actor->movedir = DI_NODIR;
-	good = false;
+	good = False;
 	while (numspechit--)
 	{
 	    ld = spechit[numspechit];
@@ -289,7 +289,7 @@ bool P_Move(mobj_t *actor)
 	    // that can be opened,
 	    // return false
 	    if (P_UseSpecialLine (actor, ld,0))
-		good = true;
+		good = True;
 	}
 	return good;
     }
@@ -301,7 +301,7 @@ bool P_Move(mobj_t *actor)
 	
     if (! (actor->flags & MF_FLOAT) )	
 	actor->z = actor->floorz;
-    return true; 
+    return True;
 }
 
 
@@ -316,15 +316,15 @@ bool P_Move(mobj_t *actor)
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //
-bool P_TryWalk(mobj_t *actor)
+boolean P_TryWalk(mobj_t *actor)
 {	
     if (!P_Move(actor))
     {
-        return false;
+        return False;
     }
 
     actor->movecount = P_Random()&15;
-    return true;
+    return True;
 }
 
 void P_NewChaseDir(mobj_t *actor)
@@ -462,7 +462,7 @@ void P_NewChaseDir(mobj_t *actor)
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
 //
-bool P_LookForPlayers(mobj_t *actor, bool allaround)
+boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 {
     int		c;
     int		stop;
@@ -482,7 +482,7 @@ bool P_LookForPlayers(mobj_t *actor, bool allaround)
 	    || actor->lastlook == stop)
 	{
 	    // done looking
-	    return false;	
+	    return False;
 	}
 	
 	player = &players[actor->lastlook];
@@ -512,10 +512,10 @@ bool P_LookForPlayers(mobj_t *actor, bool allaround)
 	}
 		
 	actor->target = player->mo;
-	return true;
+	return True;
     }
 
-    return false;
+    return False;
 }
 
 
@@ -583,7 +583,7 @@ void A_Look(mobj_t *actor)
     }
 	
 	
-    if (!P_LookForPlayers (actor, false) )
+    if (!P_LookForPlayers (actor, False) )
 	return;
 		
     // go into chase state
@@ -665,7 +665,7 @@ void A_Chase (mobj_t*	actor)
 	|| !(actor->target->flags&MF_SHOOTABLE))
     {
 	// look for a new target
-	if (P_LookForPlayers(actor,true))
+	if (P_LookForPlayers(actor, True))
 	    return; 	// got a new target
 	
 	P_SetMobjState (actor, actor->info->spawnstate);
@@ -716,7 +716,7 @@ void A_Chase (mobj_t*	actor)
 	&& !actor->threshold
 	&& !P_CheckSight (actor, actor->target) )
     {
-	if (P_LookForPlayers(actor,true))
+	if (P_LookForPlayers(actor, True))
 	    return;	// got a new target
     }
     
@@ -1071,25 +1071,25 @@ mobj_t*		vileobj;
 fixed_t		viletryx;
 fixed_t		viletryy;
 
-bool PIT_VileCheck(mobj_t *thing)
+boolean PIT_VileCheck(mobj_t *thing)
 {
     int		maxdist;
-    bool check;
+    boolean check;
 	
     if (!(thing->flags & MF_CORPSE) )
-        return true;	// not a monster
+        return True;	// not a monster
     
     if (thing->tics != -1)
-        return true;	// not lying still yet
+        return True;	// not lying still yet
     
     if (thing->info->raisestate == S_NULL)
-        return true;	// monster doesn't have a raise state
+        return True;	// monster doesn't have a raise state
     
     maxdist = thing->info->radius + mobjinfo[MT_VILE].radius;
 	
     if (abs(thing->x - viletryx) > maxdist
         || abs(thing->y - viletryy) > maxdist)
-        return true;		// not actually touching
+        return True;		// not actually touching
 		
     corpsehit = thing;
     corpsehit->momx = corpsehit->momy = 0;
@@ -1098,9 +1098,9 @@ bool PIT_VileCheck(mobj_t *thing)
     corpsehit->height >>= 2;
 
     if (!check)
-        return true;		// doesn't fit here
+        return True;		// doesn't fit here
 		
-    return false;		// got one, so stop checking
+    return False;		// got one, so stop checking
 }
 
 //
@@ -1543,23 +1543,23 @@ void A_Explode(mobj_t *thingy)
 // This behavior changed in v1.9, the most notable effect of which
 // was to break uac_dead.wad
 
-static bool CheckBossEnd(mobjtype_t motype)
+static boolean CheckBossEnd(mobjtype_t motype)
 {
     if (gameversion < exe_ultimate)
     {
         if (gamemap != 8)
         {
-            return false;
+            return False;
         }
 
         // Baron death on later episodes is nothing special.
 
         if (motype == MT_BRUISER && gameepisode != 1)
         {
-            return false;
+            return False;
         }
 
-        return true;
+        return True;
     }
     else
     {
@@ -1914,7 +1914,7 @@ void A_SpawnFly(mobj_t* mo)
         type = MT_BRUISER;		
 
     newmobj	= P_SpawnMobj(targ->x, targ->y, targ->z, type);
-    if (P_LookForPlayers(newmobj, true) )
+    if (P_LookForPlayers(newmobj, True) )
         P_SetMobjState(newmobj, newmobj->info->seestate);
 	
     // telefrag anything in this spot

@@ -31,13 +31,13 @@
 // OPTIMIZE: closed two sided lines as single sided
 
 // True if any of the segs textures might be visible.
-bool segtextured;	
+boolean segtextured;
 
 // False if the back side is the same plane.
-bool markfloor;	
-bool markceiling;
+boolean markfloor;
+boolean markceiling;
 
-bool maskedtexture;
+boolean maskedtexture;
 int		toptexture;
 int		bottomtexture;
 int		midtexture;
@@ -425,7 +425,7 @@ void R_StoreWallRange(int start, int stop)
         // single sided line
         midtexture = texturetranslation[sidedef->midtexture];
         // a single sided line is terminal, so it must mark ends
-        markfloor = markceiling = true;
+        markfloor = markceiling = True;
         if (linedef->flags & ML_DONTPEGBOTTOM)
         {
             vtop = frontsector->floorheight +
@@ -505,12 +505,12 @@ void R_StoreWallRange(int start, int stop)
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel)
         {
-            markfloor = true;
+            markfloor = True;
         }
         else
         {
             // same plane on both sides
-            markfloor = false;
+            markfloor = False;
         }
 	
 			
@@ -518,19 +518,19 @@ void R_StoreWallRange(int start, int stop)
             || backsector->ceilingpic != frontsector->ceilingpic
             || backsector->lightlevel != frontsector->lightlevel)
         {
-            markceiling = true;
+            markceiling = True;
         }
         else
         {
             // same plane on both sides
-            markceiling = false;
+            markceiling = False;
         }
 	
         if (backsector->ceilingheight <= frontsector->floorheight
             || backsector->floorheight >= frontsector->ceilingheight)
         {
             // closed door
-            markceiling = markfloor = true;
+            markceiling = markfloor = True;
         }
 	
 
@@ -574,7 +574,7 @@ void R_StoreWallRange(int start, int stop)
         if (sidedef->midtexture)
         {
             // masked midtexture
-            maskedtexture = true;
+            maskedtexture = True;
             ds_p->maskedtexturecol = maskedtexturecol = lastopening - rw_x;
             lastopening += rw_stopx - rw_x;
         }
@@ -632,14 +632,14 @@ void R_StoreWallRange(int start, int stop)
     if (frontsector->floorheight >= viewz)
     {
         // above view plane
-        markfloor = false;
+        markfloor = False;
     }
     
     if (frontsector->ceilingheight <= viewz 
         && frontsector->ceilingpic != skyflatnum)
     {
         // below view plane
-        markceiling = false;
+        markceiling = False;
     }
 
     

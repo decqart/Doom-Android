@@ -91,7 +91,7 @@ static int snd_SfxVolume;
 
 // Whether songs are mus_paused
 
-static bool mus_paused;        
+static boolean mus_paused;
 
 // Music currently being played
 
@@ -136,7 +136,7 @@ void S_Init(int sfxVolume, int musicVolume)
         S_sfx[i].lumpnum = S_sfx[i].usefulness = -1;
     }
 
-    I_AtExit(I_ShutdownSound, true);
+    I_AtExit(I_ShutdownSound, True);
 }
 
 static void S_StopChannel(int cnum)
@@ -225,7 +225,7 @@ void S_Start(void)
         }
     }        
 
-    S_ChangeMusic(mnum, true);
+    S_ChangeMusic(mnum, True);
 }        
 
 void S_StopSound(mobj_t *origin)
@@ -460,7 +460,7 @@ void S_PauseSound(void)
     if (mus_playing && !mus_paused)
     {
         I_PauseSong();
-        mus_paused = true;
+        mus_paused = True;
     }
 }
 
@@ -469,7 +469,7 @@ void S_ResumeSound(void)
     if (mus_playing && mus_paused)
     {
         I_ResumeSong();
-        mus_paused = false;
+        mus_paused = False;
     }
 }
 
@@ -568,7 +568,7 @@ void S_SetSfxVolume(int volume)
 
 void S_StartMusic(int m_id)
 {
-    S_ChangeMusic(m_id, false);
+    S_ChangeMusic(m_id, False);
 }
 
 void S_ChangeMusic(int musicnum, int looping)

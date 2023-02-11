@@ -44,8 +44,8 @@ static struct
     { strife,    commercial, 1, 34 },
 };
 
-bool D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
-                       int episode, int map)
+boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
+                          int episode, int map)
 {
     int i;
 
@@ -77,7 +77,7 @@ bool D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
 
     // Unknown mode/mission combination
 
-    return false;
+    return False;
 }
 
 // Get the number of valid episodes for the specified mission/mode.
@@ -114,7 +114,7 @@ static struct {
     { strife,   exe_strife_1_31 },
 };
 
-bool D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
+boolean D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
 {
     int i;
 
@@ -131,11 +131,11 @@ bool D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
         if (valid_versions[i].mission == mission 
          && valid_versions[i].version == version)
         {
-            return true;
+            return True;
         }
     }
 
-    return false;
+    return False;
 }
 
 char *D_GameMissionString(GameMission_t mission)

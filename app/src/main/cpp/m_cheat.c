@@ -35,7 +35,7 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     // will not work in vanilla doom.  behave the same.
 
     if (cht->parameter_chars > 0 && strlen(cht->sequence) < cht->sequence_len)
-        return false;
+        return False;
     
     if (cht->chars_read < strlen(cht->sequence))
     {
@@ -65,11 +65,11 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     {
         cht->chars_read = cht->param_chars_read = 0;
 
-        return true;
+        return True;
     }
     
     // cheat not matched yet
-    return false;
+    return False;
 }
 
 void cht_GetParam(cheatseq_t *cht, char *buffer)
