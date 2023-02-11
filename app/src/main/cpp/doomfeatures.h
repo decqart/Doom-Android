@@ -12,8 +12,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     List of features which can be enabled/disabled to slim down the
-//     program.
+//  List of features which can be enabled/disabled to slim down the
+//  program.
 //
 
 #ifndef DOOM_FEATURES_H

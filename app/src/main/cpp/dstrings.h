@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	DOOM strings, by language.
+//  DOOM strings, by language.
 //
 
 #ifndef __DSTRINGS__

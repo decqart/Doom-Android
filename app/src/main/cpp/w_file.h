@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	WAD I/O functions.
+//  WAD I/O functions.
 //
 
 #ifndef __W_FILE__
@@ -24,8 +24,7 @@
 
 typedef struct _wad_file_s wad_file_t;
 
-struct _wad_file_s
-{
+struct _wad_file_s {
     // If this is NULL, the file cannot be mapped into memory.  If this
     // is non-NULL, it is a pointer to the mapped file.
 

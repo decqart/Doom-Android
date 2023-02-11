@@ -553,8 +553,8 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     if (lowres_turn)
     {
-        static signed short carry = 0;
-        signed short desired_angleturn;
+        static short carry = 0;
+        short desired_angleturn;
 
         desired_angleturn = cmd->angleturn + carry;
 
@@ -1091,12 +1091,12 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
 
     {
         fixed_t xa, ya;
-        signed int an;
+        int an;
 
         // This calculation overflows in Vanilla Doom, but here we deliberately
         // avoid integer overflow as it is undefined behavior, so the value of
         // 'an' will always be positive.
-        an = (ANG45 >> ANGLETOFINESHIFT) * ((signed int) mthing->angle / 45);
+        an = (ANG45 >> ANGLETOFINESHIFT) * ((int) mthing->angle / 45);
 
         switch (an)
         {

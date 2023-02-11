@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      Configuration file interface.
-//    
+//  Configuration file interface.
+//
 
 #ifndef __M_CONFIG__
 #define __M_CONFIG__

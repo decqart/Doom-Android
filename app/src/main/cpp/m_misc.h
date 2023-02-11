@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      Miscellaneous.
-//    
+//  Miscellaneous.
+//
 
 #ifndef __M_MISC__
 #define __M_MISC__

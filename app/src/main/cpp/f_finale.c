@@ -203,7 +203,7 @@ void F_TextWrite(void)
     byte *dest;
     
     int x, y, w;
-    signed int count;
+    int count;
     char *ch;
     int c;
     int cx;
@@ -234,7 +234,7 @@ void F_TextWrite(void)
     cy = 10;
     ch = finaletext;
 
-    count = ((signed int) finalecount - 10) / TEXTSPEED;
+    count = ((int) finalecount - 10) / TEXTSPEED;
     if (count < 0)
         count = 0;
     for (; count; count--)
@@ -544,7 +544,7 @@ void F_DrawPatchCol(int x, patch_t *patch, int col)
 
 void F_BunnyScroll(void)
 {
-    signed int scrolled;
+    int scrolled;
     int x;
     patch_t *p1;
     patch_t *p2;
@@ -557,7 +557,7 @@ void F_BunnyScroll(void)
 
     V_MarkRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
 
-    scrolled = (320 - ((signed int) finalecount-230)/2);
+    scrolled = (320 - ((int) finalecount-230)/2);
     if (scrolled > 320)
         scrolled = 320;
     if (scrolled < 0)

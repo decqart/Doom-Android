@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Refresh module, drawing LineSegs from BSP.
+//  Refresh module, drawing LineSegs from BSP.
 //
 
 #ifndef __R_SEGS__

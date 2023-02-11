@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Refresh (R_*) module, global header.
-//	All the rendering/drawing stuff is here.
+//  Refresh (R_*) module, global header.
+//  All the rendering/drawing stuff is here.
 //
 
 #ifndef __R_LOCAL__

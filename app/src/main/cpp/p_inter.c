@@ -699,7 +699,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 //
 void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 {
-    unsigned ang;
+    unsigned int ang;
     int saved;
     player_t *player;
     fixed_t	thrust;

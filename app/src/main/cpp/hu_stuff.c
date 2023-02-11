@@ -42,20 +42,20 @@
 //
 // Locally used constants, shortcuts.
 //
-#define HU_TITLE	(mapnames[(gameepisode-1)*9+gamemap-1])
-#define HU_TITLE2	(mapnames_commercial[gamemap-1])
-#define HU_TITLEP	(mapnames_commercial[gamemap-1 + 32])
-#define HU_TITLET	(mapnames_commercial[gamemap-1 + 64])
-#define HU_TITLE_CHEX   (mapnames[gamemap - 1])
-#define HU_TITLEHEIGHT	1
-#define HU_TITLEX	0
-#define HU_TITLEY	(167 - SHORT(hu_font[0]->height))
+#define HU_TITLE  (mapnames[(gameepisode-1)*9+gamemap-1])
+#define HU_TITLE2 (mapnames_commercial[gamemap-1])
+#define HU_TITLEP (mapnames_commercial[gamemap-1 + 32])
+#define HU_TITLET (mapnames_commercial[gamemap-1 + 64])
+#define HU_TITLE_CHEX (mapnames[gamemap - 1])
+#define HU_TITLEHEIGHT 1
+#define HU_TITLEX 0
+#define HU_TITLEY (167 - SHORT(hu_font[0]->height))
 
-#define HU_INPUTTOGGLE	't'
-#define HU_INPUTX	HU_MSGX
-#define HU_INPUTY	(HU_MSGY + HU_MSGHEIGHT*(SHORT(hu_font[0]->height) +1))
-#define HU_INPUTWIDTH	64
-#define HU_INPUTHEIGHT	1
+#define HU_INPUTTOGGLE 't'
+#define HU_INPUTX HU_MSGX
+#define HU_INPUTY (HU_MSGY + HU_MSGHEIGHT*(SHORT(hu_font[0]->height) +1))
+#define HU_INPUTWIDTH 64
+#define HU_INPUTHEIGHT 1
 
 char *chat_macros[10] = {
     HUSTR_CHATMACRO0,
@@ -77,34 +77,33 @@ char *player_names[] = {
     HUSTR_PLRRED
 };
 
-static player_t*	plr;
-patch_t*		hu_font[HU_FONTSIZE];
-static hu_textline_t	w_title;
+static player_t *plr;
+patch_t *hu_font[HU_FONTSIZE];
+static hu_textline_t w_title;
 boolean chat_on;
-static hu_itext_t	w_chat;
+static hu_itext_t w_chat;
 static boolean always_off = False;
-static char		chat_dest[MAXPLAYERS];
+static char chat_dest[MAXPLAYERS];
 static hu_itext_t w_inputbuffer[MAXPLAYERS];
 
 static boolean message_on;
 boolean message_dontfuckwithme;
 static boolean message_nottobefuckedwith;
 
-static hu_stext_t	w_message;
-static int		message_counter;
+static hu_stext_t w_message;
+static int message_counter;
 
-extern int		showMessages;
+extern int showMessages;
 
-static boolean		headsupactive = False;
+static boolean headsupactive = False;
 
 //
 // Builtin map names.
 // The actual names can be found in DStrings.h.
 //
 
-char *mapnames[] =	// DOOM shareware/registered/retail (Ultimate) names.
+char *mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
 {
-
     HUSTR_E1M1,
     HUSTR_E1M2,
     HUSTR_E1M3,
@@ -162,8 +161,7 @@ char *mapnames[] =	// DOOM shareware/registered/retail (Ultimate) names.
 // the layout in the Vanilla executable, where it is possible to
 // overflow the end of one array into the next.
 
-char *mapnames_commercial[] =
-{
+char *mapnames_commercial[] = {
     // DOOM 2 map names.
 
     HUSTR_1,
@@ -177,7 +175,7 @@ char *mapnames_commercial[] =
     HUSTR_9,
     HUSTR_10,
     HUSTR_11,
-	
+
     HUSTR_12,
     HUSTR_13,
     HUSTR_14,
@@ -187,7 +185,7 @@ char *mapnames_commercial[] =
     HUSTR_18,
     HUSTR_19,
     HUSTR_20,
-	
+
     HUSTR_21,
     HUSTR_22,
     HUSTR_23,
@@ -214,7 +212,7 @@ char *mapnames_commercial[] =
     PHUSTR_9,
     PHUSTR_10,
     PHUSTR_11,
-	
+
     PHUSTR_12,
     PHUSTR_13,
     PHUSTR_14,
@@ -224,7 +222,7 @@ char *mapnames_commercial[] =
     PHUSTR_18,
     PHUSTR_19,
     PHUSTR_20,
-	
+
     PHUSTR_21,
     PHUSTR_22,
     PHUSTR_23,
@@ -237,7 +235,7 @@ char *mapnames_commercial[] =
     PHUSTR_30,
     PHUSTR_31,
     PHUSTR_32,
-    
+
     // TNT WAD map names.
 
     THUSTR_1,
@@ -251,7 +249,7 @@ char *mapnames_commercial[] =
     THUSTR_9,
     THUSTR_10,
     THUSTR_11,
-	
+
     THUSTR_12,
     THUSTR_13,
     THUSTR_14,
@@ -261,7 +259,7 @@ char *mapnames_commercial[] =
     THUSTR_18,
     THUSTR_19,
     THUSTR_20,
-	
+
     THUSTR_21,
     THUSTR_22,
     THUSTR_23,
@@ -278,13 +276,12 @@ char *mapnames_commercial[] =
 
 void HU_Init(void)
 {
-    int	i;
     int j;
     char buffer[9];
 
     // load the heads-up font
     j = HU_FONTSTART;
-    for (i=0;i<HU_FONTSIZE;i++)
+    for (int i = 0; i < HU_FONTSIZE; i++)
     {
         snprintf(buffer, 9, "STCFN%.3d", j++);
         hu_font[i] = (patch_t *) W_CacheLumpName(buffer, PU_STATIC);
@@ -298,8 +295,8 @@ void HU_Stop(void)
 
 void HU_Start(void)
 {
-    int		i;
-    char*	s;
+    int i;
+    char *s;
 
     if (headsupactive)
         HU_Stop();
@@ -359,7 +356,7 @@ void HU_Start(void)
                     HU_FONTSTART, &chat_on);
 
     // create the inputbuffer widgets
-    for (i = 0; i<MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; i++)
         HUlib_initIText(&w_inputbuffer[i], 0, 0, 0, 0, &always_off);
 
     headsupactive = True;
@@ -411,7 +408,7 @@ void HU_Ticker(void)
     // check for incoming chat characters
     if (netgame)
     {
-        for (i = 0; i<MAXPLAYERS; i++)
+        for (i = 0; i < MAXPLAYERS; i++)
         {
             if (!playeringame[i])
                 continue;
@@ -448,12 +445,11 @@ void HU_Ticker(void)
     }
 }
 
-#define QUEUESIZE		128
+#define QUEUESIZE 128
 
-static char	chatchars[QUEUESIZE];
-static int	head = 0;
-static int	tail = 0;
-
+static char chatchars[QUEUESIZE];
+static int head = 0;
+static int tail = 0;
 
 void HU_queueChatChar(char c)
 {
@@ -487,18 +483,18 @@ char HU_dequeueChatChar(void)
 
 boolean HU_Responder(event_t *ev)
 {
-    static char		lastmessage[HU_MAXLINELENGTH+1];
-    char*		macromessage;
+    static char lastmessage[HU_MAXLINELENGTH+1];
+    char *macromessage;
     boolean eatkey = False;
     static boolean altdown = False;
-    unsigned char 	c;
-    int			i;
-    int			numplayers;
-    
-    static int		num_nobrainers = 0;
+    unsigned char c;
+    int i;
+    int numplayers;
+
+    static int num_nobrainers = 0;
 
     numplayers = 0;
-    for (i = 0; i<MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; i++)
         numplayers += playeringame[i];
 
     if (ev->data1 == KEY_RSHIFT)
@@ -530,7 +526,7 @@ boolean HU_Responder(event_t *ev)
         }
         else if (netgame && numplayers > 2)
         {
-            for (i=0; i<MAXPLAYERS ; i++)
+            for (i = 0; i < MAXPLAYERS; i++)
             {
                 if (ev->data2 == key_multi_msgplayer[i])
                 {
@@ -569,15 +565,15 @@ boolean HU_Responder(event_t *ev)
                 return False;
             // fprintf(stderr, "got here\n");
             macromessage = chat_macros[c];
-            
+
             // kill last message with a '\n'
             HU_queueChatChar(KEY_ENTER); // DEBUG!!!
-            
+
             // send the macro message
             while (*macromessage)
                 HU_queueChatChar(*macromessage++);
             HU_queueChatChar(KEY_ENTER);
-	    
+
             // leave chat mode and notify that it was sent
             chat_on = False;
             M_StringCopy(lastmessage, chat_macros[c], sizeof(lastmessage));
@@ -587,7 +583,7 @@ boolean HU_Responder(event_t *ev)
         else
         {
             c = ev->data2;
-            
+
             eatkey = HUlib_keyInIText(&w_chat, c);
             if (eatkey)
             {
@@ -610,4 +606,3 @@ boolean HU_Responder(event_t *ev)
 
     return eatkey;
 }
-

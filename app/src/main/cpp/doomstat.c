@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Put all global tate variables here.
+//  Put all global tate variables here.
 //
 
 #include <stdio.h>

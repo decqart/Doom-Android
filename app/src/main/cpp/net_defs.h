@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     Definitions for use in networking code.
+//  Definitions for use in networking code.
 //
 
 #ifndef NET_DEFS_H
@@ -38,16 +38,14 @@ typedef struct _net_module_s net_module_t;
 typedef struct _net_packet_s net_packet_t;
 typedef struct _net_addr_s net_addr_t;
 
-struct _net_packet_s
-{
+struct _net_packet_s {
     byte *data;
     size_t len;
     size_t alloced;
     unsigned int pos;
 };
 
-struct _net_module_s
-{
+struct _net_module_s {
     // Initialize this module for use as a client
 
     boolean (*InitClient)(void);
@@ -79,10 +77,7 @@ struct _net_module_s
     net_addr_t *(*ResolveAddress)(char *addr);
 };
 
-// net_addr_t
-
-struct _net_addr_s
-{
+struct _net_addr_s {
     net_module_t *module;
     void *handle;
 };

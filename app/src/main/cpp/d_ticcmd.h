@@ -14,7 +14,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	System specific interface stuff.
+//  System specific interface stuff.
 //
 
 #ifndef __D_TICCMD__
@@ -28,10 +28,9 @@
 // Mainly movements/button commands per game tick,
 // plus a checksum for internal state consistency.
 
-typedef struct
-{
-    signed char	forwardmove;	// *2048 for move
-    signed char	sidemove;	// *2048 for move
+typedef struct {
+    signed char	forwardmove; // *2048 for move
+    signed char	sidemove;    // *2048 for move
     short angleturn;            // <<16 for angle delta
     byte chatchar;
     byte buttons;
@@ -51,4 +50,3 @@ typedef struct
 } ticcmd_t;
 
 #endif
-

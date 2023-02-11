@@ -1197,8 +1197,8 @@ void A_Fire(mobj_t *actor)
 {
     mobj_t*	dest;
     mobj_t*     target;
-    unsigned	an;
-		
+    unsigned int an;
+
     dest = actor->tracer;
     if (!dest)
         return;

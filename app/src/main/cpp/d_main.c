@@ -13,10 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
-//	plus functions to determine game mode (shareware, registered),
-//	parse command line parameters, configure game parameters (turbo),
-//	and call the startup functions.
+//  DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
+//  plus functions to determine game mode (shareware, registered),
+//  parse command line parameters, configure game parameters (turbo),
+//  and call the startup functions.
 //
 
 #include <ctype.h>
@@ -92,12 +92,12 @@ boolean respawnparm;// checkparm of -respawn
 boolean fastparm;   // checkparm of -fast
 
 //extern int soundVolume;
-//extern  int	sfxVolume;
-//extern  int	musicVolume;
+//extern  int sfxVolume;
+//extern  int musicVolume;
 
 extern boolean inhelpscreens;
 
-skill_t	startskill;
+skill_t startskill;
 int startepisode;
 int startmap;
 boolean autostart;
@@ -125,8 +125,7 @@ void D_ProcessEvents(void)
     event_t *ev;
 
     // IF STORE DEMO, DO NOT ACCEPT INPUT
-    if (storedemo)
-        return;
+    if (storedemo) return;
 
     while ((ev = D_PopEvent()) != NULL)
     {
@@ -183,7 +182,7 @@ void D_Display(void)
 
     if (gamestate == GS_LEVEL && gametic)
         HU_Erase();
-    
+
     // do buffered drawing
     switch (gamestate)
     {
@@ -209,14 +208,14 @@ void D_Display(void)
         D_PageDrawer();
         break;
     }
-    
+
     // draw the view directly
     if (gamestate == GS_LEVEL && !automapactive && gametic)
         R_RenderPlayerView(&players[displayplayer]);
 
     if (gamestate == GS_LEVEL && gametic)
         HU_Drawer();
-    
+
     // clean up border stuff
     if (gamestate != oldgamestate && gamestate != GS_LEVEL)
         I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
@@ -250,7 +249,7 @@ void D_Display(void)
     viewactivestate = viewactive;
     inhelpscreensstate = inhelpscreens;
     oldgamestate = wipegamestate = gamestate;
-    
+
     // draw pause pic
     if (paused)
     {
@@ -274,7 +273,7 @@ void D_Display(void)
         I_FinishUpdate(); // page flip or blit buffer
         return;
     }
-    
+
     // wipe update
     wipe_EndScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
 
@@ -451,7 +450,7 @@ void D_DoAdvanceDemo(void)
       demosequence = (demosequence+1)%7;
     else
       demosequence = (demosequence+1)%6;
-    
+
     switch (demosequence)
     {
     case 0:
@@ -563,13 +562,13 @@ static char *GetGameName(char *gamename)
 {
     size_t i;
     char *deh_sub;
-    
+
     for (i = 0; i < arrlen(banners); ++i)
     {
         // Has the banner been replaced?
 
         deh_sub = banners[i];
-        
+
         if (deh_sub != banners[i])
         {
             size_t gamename_size;
@@ -647,7 +646,7 @@ void D_IdentifyVersion(void)
     {
         unsigned int i;
 
-        for (i=0; i<numlumps; ++i)
+        for (i = 0; i < numlumps; ++i)
         {
             if (!strncasecmp(lumpinfo[i].name, "MAP01", 8))
             {
@@ -832,22 +831,21 @@ void PrintDehackedBanners(void)
     }
 }
 
-static struct 
-{
+static struct {
     char *description;
     char *cmdline;
     GameVersion_t version;
 } gameversions[] = {
-    {"Doom 1.666",        "1.666",     exe_doom_1_666},
-    {"Doom 1.7/1.7a",     "1.7",       exe_doom_1_7},
-    {"Doom 1.8",          "1.8",       exe_doom_1_8},
-    {"Doom 1.9",          "1.9",       exe_doom_1_9},
-    {"Hacx",              "hacx",      exe_hacx},
-    {"Ultimate Doom",     "ultimate",  exe_ultimate},
-    {"Final Doom",        "final",     exe_final},
-    {"Final Doom (alt)",  "final2",    exe_final2},
-    {"Chex Quest",        "chex",      exe_chex},
-    { NULL,            NULL,         0},
+    {"Doom 1.666",       "1.666",    exe_doom_1_666},
+    {"Doom 1.7/1.7a",    "1.7",      exe_doom_1_7},
+    {"Doom 1.8",         "1.8",      exe_doom_1_8},
+    {"Doom 1.9",         "1.9",      exe_doom_1_9},
+    {"Hacx",             "hacx",     exe_hacx},
+    {"Ultimate Doom",    "ultimate", exe_ultimate},
+    {"Final Doom",       "final",    exe_final},
+    {"Final Doom (alt)", "final2",   exe_final2},
+    {"Chex Quest",       "chex",     exe_chex},
+    { NULL,            NULL,        0},
 };
 
 // Initialize the game version
@@ -881,7 +879,7 @@ static void InitGameVersion(void)
         {
             printf("Supported game versions:\n");
 
-            for (i=0; gameversions[i].description != NULL; ++i)
+            for (i = 0; gameversions[i].description != NULL; ++i)
             {
                 printf("\t%s (%s)\n", gameversions[i].cmdline,
                         gameversions[i].description);
@@ -936,7 +934,7 @@ static void InitGameVersion(void)
             }
         }
     }
-    
+
     // The original exe does not support retail - 4th episode not supported
 
     if (gameversion < exe_ultimate && gamemode == retail)
@@ -1003,7 +1001,7 @@ void D_DoomMain(void)
     //
     // Disable monsters.
     //
-	
+
     nomonsters = M_CheckParm("-nomonsters");
 
     //!
@@ -1055,7 +1053,7 @@ void D_DoomMain(void)
         deathmatch = 2;
 
     if(devparm) printf(D_DEVSTR);
-    
+
     // find which dir to use for config files
 
 #ifdef _WIN32
@@ -1108,7 +1106,7 @@ void D_DoomMain(void)
         sidemove[0] = sidemove[0]*scale/100;
         sidemove[1] = sidemove[1]*scale/100;
     }
-    
+
     // init subsystems
 
     // Load configuration files before initialising other subsystems.
@@ -1346,7 +1344,7 @@ void D_DoomMain(void)
         startmap = 1;
         autostart = True;
     }
-	
+
     timelimit = 0;
 
     //! 
@@ -1433,7 +1431,7 @@ void D_DoomMain(void)
     //
 
     p = M_CheckParmWithArgs("-loadgame", 1);
-    
+
     if (p)
     {
         startloadgame = atoi(myargv[p+1]);

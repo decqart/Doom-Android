@@ -491,7 +491,7 @@ void A_Saw
                              linetarget->x, linetarget->y);
     if (angle - player->mo->angle > ANG180)
     {
-        if ((signed int) (angle - player->mo->angle) < -ANG90/20)
+        if ((int) (angle - player->mo->angle) < -ANG90/20)
             player->mo->angle = angle + ANG90/21;
         else
             player->mo->angle -= ANG90/20;

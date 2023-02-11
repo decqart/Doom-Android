@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      Refresh/rendering module, shared data struct definitions.
+//  Refresh/rendering module, shared data struct definitions.
 //
 
 #ifndef V_PATCH_H

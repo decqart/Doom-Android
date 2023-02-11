@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Mission begin melt/wipe screen special effect.
+//  Mission begin melt/wipe screen special effect.
 //
 
 #include <string.h>
@@ -108,20 +108,20 @@ static int *y;
 int wipe_initMelt(int width, int height, int ticks)
 {
     int i, r;
-    
+
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, width*height);
-    
+
     // makes this wipe faster (in theory)
     // to have stuff in column-major format
-    wipe_shittyColMajorXform((short*)wipe_scr_start, width/2, height);
-    wipe_shittyColMajorXform((short*)wipe_scr_end, width/2, height);
-    
+    wipe_shittyColMajorXform((short *)wipe_scr_start, width/2, height);
+    wipe_shittyColMajorXform((short *)wipe_scr_end, width/2, height);
+
     // setup initial column positions
     // (y<0 => not ready to scroll yet)
     y = (int *) Z_Malloc(width*sizeof(int), PU_STATIC, 0);
     y[0] = -(M_Random()%16);
-    for (i=1;i<width;i++)
+    for (i = 1; i < width; i++)
     {
         r = (M_Random()%3) - 1;
         y[i] = y[i-1] + r;
@@ -140,7 +140,7 @@ int wipe_doMelt(int width, int height, int ticks)
     int j;
     int dy;
     int idx;
-    
+
     short *s;
     short *d;
     boolean done = True;

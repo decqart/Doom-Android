@@ -12,8 +12,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     Search for and locate an IWAD file, and initialize according
-//     to the IWAD type.
+//  Search for and locate an IWAD file, and initialize according
+//  to the IWAD type.
 //
 
 #include <stdio.h>
@@ -433,8 +433,7 @@ char *D_TryFindWADByName(char *filename)
 {
     char *result = D_FindWADByName(filename);
 
-    if (result != NULL)
-        return result;
+    if (result != NULL) return result;
 
     return filename;
 }

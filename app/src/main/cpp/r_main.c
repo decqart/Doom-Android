@@ -13,9 +13,9 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Rendering main loop and setup functions,
-//	 utility functions (BSP, geometry, trigonometry).
-//	See tables.c, too.
+//  Rendering main loop and setup functions,
+//  utility functions (BSP, geometry, trigonometry).
+//  See tables.c, too.
 //
 
 #include <stdlib.h>
@@ -224,7 +224,7 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
         return 0;
     }
     // back side
-    return 1;			
+    return 1;
 }
 
 
@@ -319,7 +319,7 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2)
 {
     viewx = x1;
     viewy = y1;
-    
+
     return R_PointToAngle(x2, y2);
 }
 
@@ -472,11 +472,11 @@ void R_InitTextureMapping(void)
 
 void R_InitLightTables(void)
 {
-    int	j;
-    int	level;
-    int	startmap;
-    int	scale;
-    
+    int j;
+    int level;
+    int startmap;
+    int scale;
+
     // Calculate the light levels to use
     //  for each level / distance combination.
     for (int i = 0; i< LIGHTLEVELS; i++)

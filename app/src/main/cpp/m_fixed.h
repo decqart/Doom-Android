@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Fixed point arithemtics, implementation.
+//  Fixed point arithemtics, implementation.
 //
 
 #ifndef __M_FIXED__

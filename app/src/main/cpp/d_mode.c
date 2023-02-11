@@ -22,8 +22,7 @@
 // Valid game mode/mission combinations, with the number of
 // episodes/maps for each.
 
-static struct
-{
+static struct {
     GameMission_t mission;
     GameMode_t mode;
     int episode;
@@ -47,10 +46,7 @@ static struct
 boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
                           int episode, int map)
 {
-    int i;
-
     // Hacks for Heretic secret episodes
-
     if (mission == heretic)
     {
         if (mode == retail && episode == 6)
@@ -65,10 +61,10 @@ boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
 
     // Find the table entry for this mission/mode combination.
 
-    for (i = 0; i < arrlen(valid_modes); ++i)
+    for (int i = 0; i < arrlen(valid_modes); ++i)
     {
-        if (mission == valid_modes[i].mission
-         && mode == valid_modes[i].mode)
+        if (mission == valid_modes[i].mission &&
+            mode == valid_modes[i].mode)
         {
             return episode >= 1 && episode <= valid_modes[i].episode
                 && map >= 1 && map <= valid_modes[i].map;
@@ -76,7 +72,6 @@ boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
     }
 
     // Unknown mode/mission combination
-
     return False;
 }
 
@@ -102,22 +97,20 @@ static struct {
     GameMission_t mission;
     GameVersion_t version;
 } valid_versions[] = {
-    { doom,     exe_doom_1_9 },
-    { doom,     exe_hacx },
-    { doom,     exe_ultimate },
-    { doom,     exe_final },
-    { doom,     exe_final2 },
-    { doom,     exe_chex },
-    { heretic,  exe_heretic_1_3 },
-    { hexen,    exe_hexen_1_1 },
-    { strife,   exe_strife_1_2 },
-    { strife,   exe_strife_1_31 },
+    { doom,    exe_doom_1_9    },
+    { doom,    exe_hacx        },
+    { doom,    exe_ultimate    },
+    { doom,    exe_final       },
+    { doom,    exe_final2      },
+    { doom,    exe_chex        },
+    { heretic, exe_heretic_1_3 },
+    { hexen,   exe_hexen_1_1   },
+    { strife,  exe_strife_1_2  },
+    { strife,  exe_strife_1_31 },
 };
 
 boolean D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
 {
-    int i;
-
     // All Doom variants can use the Doom versions.
 
     if (mission == doom2 || mission == pack_plut || mission == pack_tnt
@@ -126,7 +119,7 @@ boolean D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
         mission = doom;
     }
 
-    for (i=0; i<arrlen(valid_versions); ++i) 
+    for (int i = 0; i < arrlen(valid_versions); ++i)
     {
         if (valid_versions[i].mission == mission 
          && valid_versions[i].version == version)

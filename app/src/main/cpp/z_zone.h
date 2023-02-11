@@ -13,10 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      Zone Memory Allocation, perhaps NeXT ObjectiveC inspired.
-//	Remark: this was the only stuff that, according
-//	 to John Carmack, might have been useful for
-//	 Quake.
+//  Zone Memory Allocation, perhaps NeXT ObjectiveC inspired.
+//  Remark: this was the only stuff that, according
+//  to John Carmack, might have been useful for
+//  Quake.
 //
 
 #ifndef __Z_ZONE__
@@ -28,8 +28,7 @@
 // ZONE MEMORY
 // PU - purge tags.
 
-enum
-{
+enum {
     PU_STATIC = 1,                  // static entire execution time
     PU_SOUND,                       // static while playing
     PU_MUSIC,                       // static while playing
@@ -46,7 +45,6 @@ enum
 
     PU_NUM_TAGS
 };
-        
 
 void Z_Init(void);
 void *Z_Malloc(int size, int tag, void *ptr);

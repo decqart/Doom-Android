@@ -26,18 +26,9 @@
 #define SCREENWIDTH  320
 #define SCREENHEIGHT 200
 
-// Screen width used for "squash" scale functions
-
-#define SCREENWIDTH_4_3 256
-
-// Screen height used for "stretch" scale functions.
-
-#define SCREENHEIGHT_4_3 240
-
 #define MAX_MOUSE_BUTTONS 8
 
-typedef struct
-{
+typedef struct {
     // Screen width and height
 
     int width;

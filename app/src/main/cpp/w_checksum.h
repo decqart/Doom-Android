@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//       Generate a checksum of the WAD directory.
+//  Generate a checksum of the WAD directory.
 //
 
 #ifndef W_CHECKSUM_H

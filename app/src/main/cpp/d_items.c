@@ -40,7 +40,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         S_PUNCH,
         S_PUNCH1,
         S_NULL
-    },	
+    },
     {
         // pistol
         am_clip,
@@ -112,5 +112,5 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         S_DSGUN,
         S_DSGUN1,
         S_DSGUNFLASH1
-    },	
+    },
 };

@@ -23,7 +23,9 @@
 // #define macros to provide functions missing in Windows.
 // Outside Windows, we use strings.h for str[n]casecmp.
 
+#ifdef __ANDROID__
 #include "AndroidDriver.h"
+#endif
 
 #ifdef _WIN32
 #define strcasecmp _stricmp

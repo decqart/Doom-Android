@@ -98,7 +98,7 @@ void R_DrawColumn(void)
         return;
 
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH
+    if ((unsigned int)dc_x >= SCREENWIDTH
         || dc_yl < 0
         || dc_yh >= SCREENHEIGHT) 
         I_Error("R_DrawColumn: %i to %i at %i", dc_yl, dc_yh, dc_x); 
@@ -144,7 +144,7 @@ void R_DrawColumnLow(void)
     if (count < 0) return;
 
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0
+    if ((unsigned int)dc_x >= SCREENWIDTH || dc_yl < 0
         || dc_yh >= SCREENHEIGHT)
     {
         I_Error("R_DrawColumn: %i to %i at %i", dc_yl, dc_yh, dc_x);
@@ -222,7 +222,7 @@ void R_DrawFuzzColumn(void)
         return;
 
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH
+    if ((unsigned int)dc_x >= SCREENWIDTH
     || dc_yl < 0 || dc_yh >= SCREENHEIGHT)
     {
         I_Error("R_DrawFuzzColumn: %i to %i at %i",

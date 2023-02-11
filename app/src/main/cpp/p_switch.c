@@ -14,7 +14,7 @@
 //
 //
 // DESCRIPTION:
-//	Switches, buttons. Two-state animation. Exits.
+//  Switches, buttons. Two-state animation. Exits.
 //
 
 #include <stdio.h>
@@ -38,8 +38,7 @@
 //
 // CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE
 //
-switchlist_t alphSwitchList[] =
-{
+switchlist_t alphSwitchList[] = {
     // Doom shareware episode 1 switches
     {"SW1BRCOM",	"SW2BRCOM",	1},
     {"SW1BRN1",	"SW2BRN1",	1},
@@ -85,24 +84,22 @@ switchlist_t alphSwitchList[] =
     {"SW1TEK",		"SW2TEK",	3},
     {"SW1MARB",	"SW2MARB",	3},
     {"SW1SKULL",	"SW2SKULL",	3},
-	
+
     {"\0",		"\0",		0}
 };
 
-int		switchlist[MAXSWITCHES * 2];
-int		numswitches;
-button_t        buttonlist[MAXBUTTONS];
+int switchlist[MAXSWITCHES * 2];
+int numswitches;
+button_t buttonlist[MAXBUTTONS];
 
-//
-// P_InitSwitchList
+
 // Only called at game initialization.
-//
 void P_InitSwitchList(void)
 {
-    int		i;
-    int		index;
-    int		episode;
-	
+    int i;
+    int index;
+    int episode;
+
     episode = 1;
 
     if (gamemode == registered || gamemode == retail)
@@ -110,7 +107,7 @@ void P_InitSwitchList(void)
     else
         if (gamemode == commercial)
             episode = 3;
-		
+
     for (index = 0,i = 0;i < MAXSWITCHES;i++)
     {
         if (!alphSwitchList[i].episode)
@@ -119,7 +116,7 @@ void P_InitSwitchList(void)
             switchlist[index] = -1;
             break;
         }
-		
+
         if (alphSwitchList[i].episode <= episode)
         {
             switchlist[index++] = R_TextureNumForName(alphSwitchList[i].name1);
@@ -129,44 +126,39 @@ void P_InitSwitchList(void)
 }
 
 
-//
 // Start a button counting down till it turns off.
-//
-void
-P_StartButton
-( line_t*	line,
-  bwhere_e	w,
-  int		texture,
-  int		time )
+void P_StartButton
+( line_t *line,
+  bwhere_e w,
+  int texture,
+  int time)
 {
-    int		i;
-    
-    // See if button is already pressed
-    for (i = 0;i < MAXBUTTONS;i++)
-    {
-	if (buttonlist[i].btimer
-	    && buttonlist[i].line == line)
-	{
-	    
-	    return;
-	}
-    }
-    
+    int i;
 
-    
-    for (i = 0;i < MAXBUTTONS;i++)
+    // See if button is already pressed
+    for (i = 0; i < MAXBUTTONS; i++)
     {
-	if (!buttonlist[i].btimer)
-	{
-	    buttonlist[i].line = line;
-	    buttonlist[i].where = w;
-	    buttonlist[i].btexture = texture;
-	    buttonlist[i].btimer = time;
-	    buttonlist[i].soundorg = &line->frontsector->soundorg;
-	    return;
-	}
+        if (buttonlist[i].btimer &&
+            buttonlist[i].line == line)
+        {
+            return;
+        }
     }
-    
+
+
+    for (i = 0; i < MAXBUTTONS; i++)
+    {
+        if (!buttonlist[i].btimer)
+        {
+            buttonlist[i].line = line;
+            buttonlist[i].where = w;
+            buttonlist[i].btexture = texture;
+            buttonlist[i].btimer = time;
+            buttonlist[i].soundorg = &line->frontsector->soundorg;
+            return;
+        }
+    }
+
     I_Error("P_StartButton: no button slots left!");
 }
 
@@ -176,31 +168,28 @@ P_StartButton
 // Function that changes wall texture.
 // Tell it if switch is ok to use again (1=yes, it's a button).
 //
-void
-P_ChangeSwitchTexture
-(line_t *line,
- int useAgain)
+void P_ChangeSwitchTexture(line_t *line, int useAgain)
 {
     int texTop;
     int texMid;
     int texBot;
     int i;
     int sound;
-	
+
     if (!useAgain)
         line->special = 0;
 
     texTop = sides[line->sidenum[0]].toptexture;
     texMid = sides[line->sidenum[0]].midtexture;
     texBot = sides[line->sidenum[0]].bottomtexture;
-	
+
     sound = sfx_swtchn;
 
     // EXIT SWITCH?
-    if (line->special == 11)                
+    if (line->special == 11)
         sound = sfx_swtchx;
-	
-    for (i = 0; i < numswitches*2;i++)
+
+    for (i = 0; i < numswitches*2; i++)
     {
         if (switchlist[i] == texTop)
         {
@@ -242,11 +231,8 @@ P_ChangeSwitchTexture
 }
 
 
-//
-// P_UseSpecialLine
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
-//
 boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {               
     // Err...
@@ -291,11 +277,11 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     // do something  
     switch (line->special)
     {
-	// MANUALS
-      case 1:		// Vertical Door
-      case 26:		// Blue Door/Locked
-      case 27:		// Yellow Door /Locked
-      case 28:		// Red Door /Locked
+    // MANUALS
+      case 1: // Vertical Door
+      case 26: // Blue Door/Locked
+      case 27: // Yellow Door /Locked
+      case 28: // Red Door /Locked
 
       case 31:		// Manual door open
       case 32:		// Blue locked door open
@@ -615,9 +601,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 	EV_LightTurnOn(line,35);
 	P_ChangeSwitchTexture(line,1);
 	break;
-			
     }
-	
+
     return True;
 }
-

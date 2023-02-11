@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     Main loop code.
+//  Main loop code.
 //
 
 #include <stdlib.h>
@@ -34,8 +34,7 @@
 
 // The complete set of data for a particular tic.
 
-typedef struct
-{
+typedef struct {
     ticcmd_t cmds[NET_MAXPLAYERS];
     boolean ingame[NET_MAXPLAYERS];
 } ticcmd_set_t;
@@ -127,7 +126,7 @@ static int GetAdjustedTime(void)
 
 static boolean BuildNewTic(void)
 {
-    int	gameticdiv;
+    int gameticdiv;
     ticcmd_t cmd;
 
     gameticdiv = gametic/ticdup;
@@ -183,7 +182,7 @@ void NetUpdate(void)
 {
     int nowtime;
     int newtics;
-    int	i;
+    int i;
 
     // If we are running with singletics (timing a demo), this
     // is all done separately.
@@ -353,13 +352,13 @@ static void SinglePlayerClear(ticcmd_set_t *set)
 
 void TryRunTics(void)
 {
-    int	i;
-    int	lowtic;
-    int	entertic;
+    int i;
+    int lowtic;
+    int entertic;
     static int oldentertics;
     int realtics;
-    int	availabletics;
-    int	counts;
+    int availabletics;
+    int counts;
 
     // get real tics
     entertic = I_GetTime() / ticdup;

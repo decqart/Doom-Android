@@ -129,20 +129,20 @@
 //       or into the frame buffer?
 
 // AMMO number pos.
-#define ST_AMMOWIDTH		3
-#define ST_AMMOX			44
-#define ST_AMMOY			171
+#define ST_AMMOWIDTH 3
+#define ST_AMMOX 44
+#define ST_AMMOY 171
 
 // HEALTH number pos.
-#define ST_HEALTHWIDTH		3
-#define ST_HEALTHX			90
-#define ST_HEALTHY			171
+#define ST_HEALTHWIDTH 3
+#define ST_HEALTHX 90
+#define ST_HEALTHY 171
 
 // Weapon pos.
-#define ST_ARMSX			111
-#define ST_ARMSY			172
-#define ST_ARMSBGX			104
-#define ST_ARMSBGY			168
+#define ST_ARMSX   111
+#define ST_ARMSY   172
+#define ST_ARMSBGX 104
+#define ST_ARMSBGY 168
 #define ST_ARMSXSPACE		12
 #define ST_ARMSYSPACE		10
 
@@ -386,16 +386,15 @@ cheatseq_t cheat_ammonokey = CHEAT("idfa", 0);
 cheatseq_t cheat_noclip = CHEAT("idspispopd", 0);
 cheatseq_t cheat_commercial_noclip = CHEAT("idclip", 0);
 
-cheatseq_t cheat_powerup[7] =
-        {
-                CHEAT("idbeholdv", 0),
-                CHEAT("idbeholds", 0),
-                CHEAT("idbeholdi", 0),
-                CHEAT("idbeholdr", 0),
-                CHEAT("idbeholda", 0),
-                CHEAT("idbeholdl", 0),
-                CHEAT("idbehold", 0),
-        };
+cheatseq_t cheat_powerup[7] = {
+        CHEAT("idbeholdv", 0),
+        CHEAT("idbeholds", 0),
+        CHEAT("idbeholdi", 0),
+        CHEAT("idbeholdr", 0),
+        CHEAT("idbeholda", 0),
+        CHEAT("idbeholdl", 0),
+        CHEAT("idbehold", 0)
+};
 
 cheatseq_t cheat_choppers = CHEAT("idchoppers", 0);
 cheatseq_t cheat_clev = CHEAT("idclev", 2);

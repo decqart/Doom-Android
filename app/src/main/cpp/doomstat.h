@@ -51,10 +51,10 @@ extern boolean devparm;	// DEBUG: launched with -devparm
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
 //
-extern GameMode_t	gamemode;
-extern GameMission_t	gamemission;
-extern GameVersion_t    gameversion;
-extern char            *gamedescription;
+extern GameMode_t gamemode;
+extern GameMission_t gamemission;
+extern GameVersion_t gameversion;
+extern char         *gamedescription;
 
 // If true, we're using one of the mangled BFG edition IWADs.
 extern boolean bfgedition;
@@ -77,7 +77,7 @@ extern boolean modifiedgame;
 //
 
 // Defaults for menu, methinks.
-extern  skill_t		startskill;
+extern skill_t startskill;
 extern int startepisode;
 extern int startmap;
 
@@ -133,9 +133,9 @@ extern int snd_DesiredSfxDevice;
 // Status flags for refresh.
 //
 
-extern  boolean automapactive;	// In AutoMap mode?
-extern  boolean menuactive;	// Menu overlayed?
-extern  boolean paused;		// Game Pause?
+extern boolean automapactive;	// In AutoMap mode?
+extern boolean menuactive;	// Menu overlayed?
+extern boolean paused;		// Game Pause?
 
 
 extern boolean viewactive;
@@ -144,31 +144,31 @@ extern boolean nodrawers;
 
 
 extern boolean testcontrols;
-extern int  testcontrols_mousespeed;
+extern int testcontrols_mousespeed;
 
 
 
 
 // This one is related to the 3-screen display mode.
 // ANG90 = left side, ANG270 = right
-extern  int	viewangleoffset;
+extern int viewangleoffset;
 
 // Player taking events, and displaying.
-extern  int	consoleplayer;	
-extern  int	displayplayer;
+extern int consoleplayer;
+extern int displayplayer;
 
 
 // -------------------------------------
 // Scores, rating.
 // Statistics on a given map, for intermission.
 //
-extern  int	totalkills;
-extern	int	totalitems;
-extern	int	totalsecret;
+extern int totalkills;
+extern int totalitems;
+extern int totalsecret;
 
 // Timer, for scores.
-extern  int	levelstarttic;	// gametic at level start
-extern  int	leveltime;	// tics in game play for par
+extern int levelstarttic; // gametic at level start
+extern int leveltime; // tics in game play for par
 
 
 
@@ -192,10 +192,7 @@ extern boolean singledemo;
 
 
 //?
-extern  gamestate_t     gamestate;
-
-
-
+extern gamestate_t gamestate;
 
 
 
@@ -208,23 +205,23 @@ extern  gamestate_t     gamestate;
 
 
 // Bookkeeping on players - state.
-extern	player_t	players[MAXPLAYERS];
+extern player_t players[MAXPLAYERS];
 
 // Alive? Disconnected?
 extern boolean playeringame[MAXPLAYERS];
 
 
 // Player spawn spots for deathmatch.
-#define MAX_DM_STARTS   10
-extern  mapthing_t      deathmatchstarts[MAX_DM_STARTS];
-extern  mapthing_t*	deathmatch_p;
+#define MAX_DM_STARTS 10
+extern mapthing_t deathmatchstarts[MAX_DM_STARTS];
+extern mapthing_t *deathmatch_p;
 
 // Player spawn spots.
-extern  mapthing_t      playerstarts[MAXPLAYERS];
+extern mapthing_t playerstarts[MAXPLAYERS];
 
 // Intermission stats.
 // Parameters for world map / intermission.
-extern  wbstartstruct_t		wminfo;	
+extern wbstartstruct_t wminfo;
 
 
 
@@ -236,16 +233,16 @@ extern  wbstartstruct_t		wminfo;
 extern char *savegamedir;
 
 // if true, load all graphics at level load
-extern  boolean precache;
+extern boolean precache;
 
 
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw
-extern  gamestate_t     wipegamestate;
+extern gamestate_t wipegamestate;
 
-extern  int             mouseSensitivity;
+extern int mouseSensitivity;
 
-extern int       bodyqueslot;
+extern int bodyqueslot;
 
 
 

@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//   Menu widget stuff, episode selection and such.
+//  Menu widget stuff, episode selection and such.
 //
 
 #ifndef __M_MENU__

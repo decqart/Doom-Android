@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	System specific interface stuff.
+//  System specific interface stuff.
 //
 
 #ifndef __I_SYSTEM__
@@ -60,7 +60,6 @@ void I_PrintStartupBanner(char *gamedescription);
 void I_PrintBanner(char *text);
 
 // Print a dividing line for startup banners.
-
 void I_PrintDivider(void);
 
 #endif

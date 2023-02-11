@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      Refresh/rendering module, shared data struct definitions.
+//  Refresh/rendering module, shared data struct definitions.
 //
 
 #ifndef __R_DEFS__
@@ -39,12 +39,12 @@
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.
-#define SIL_NONE		0
-#define SIL_BOTTOM		1
-#define SIL_TOP			2
-#define SIL_BOTH		3
+#define SIL_NONE   0
+#define SIL_BOTTOM 1
+#define SIL_TOP  2
+#define SIL_BOTH 3
 
-#define MAXDRAWSEGS		256
+#define MAXDRAWSEGS 256
 
 
 //
@@ -57,10 +57,9 @@
 // Note: transformed values not buffered locally,
 //  like some DOOM-alikes ("wt", "WebView") did.
 //
-typedef struct
-{
-    fixed_t	x;
-    fixed_t	y; 
+typedef struct {
+    fixed_t x;
+    fixed_t y;
 } vertex_t;
 
 
@@ -73,13 +72,11 @@ struct line_s;
 //  moving objects (doppler), because
 //  position is prolly just buffered, not
 //  updated.
-typedef struct
-{
-    thinker_t		thinker;	// not used for anything
-    fixed_t		x;
-    fixed_t		y;
-    fixed_t		z;
-
+typedef struct {
+    thinker_t thinker; // not used for anything
+    fixed_t x;
+    fixed_t y;
+    fixed_t z;
 } degenmobj_t;
 
 //
