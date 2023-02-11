@@ -191,6 +191,12 @@ void SetupApplication(void)
     SetupBatchInternal();
 }
 
+int button_x[8] = {-1};
+int button_y[8] = {-1};
+int motion_x[8] = {0};
+int motion_y[8] = {0};
+int button_down[8] = {0};
+
 int32_t handle_input(struct android_app *app, AInputEvent *event)
 {
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
@@ -199,6 +205,7 @@ int32_t handle_input(struct android_app *app, AInputEvent *event)
         int whichSource = action >> 8;
         action &= AMOTION_EVENT_ACTION_MASK;
         size_t pointerCount = AMotionEvent_getPointerCount(event);
+        if (pointerCount > 8) pointerCount = 8;
 
         for (size_t i = 0; i < pointerCount; ++i)
         {
@@ -211,18 +218,25 @@ int32_t handle_input(struct android_app *app, AInputEvent *event)
             {
                 int id = index;
                 if (action == AMOTION_EVENT_ACTION_POINTER_DOWN && id != whichSource) continue;
-                HandleButton(x, y, id, 1);
+                button_x[id] = x;
+                button_y[id] = y;
+                motion_x[index] = x;
+                motion_y[index] = y;
+                button_down[id] = 1;
                 ANativeActivity_showSoftInput(gapp->activity, ANATIVEACTIVITY_SHOW_SOFT_INPUT_FORCED);
             }
             else if (action == AMOTION_EVENT_ACTION_POINTER_UP || action == AMOTION_EVENT_ACTION_UP || action == AMOTION_EVENT_ACTION_CANCEL)
             {
                 int id = index;
                 if (action == AMOTION_EVENT_ACTION_POINTER_UP && id != whichSource) continue;
-                HandleButton(x, y, id, 0);
+                button_x[id] = -1;
+                button_y[id] = -1;
+                button_down[id] = 0;
             }
             else if (action == AMOTION_EVENT_ACTION_MOVE)
             {
-                HandleMotion(x, y, index);
+                motion_x[index] = x;
+                motion_y[index] = y;
             }
         }
         return 1;

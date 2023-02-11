@@ -18,6 +18,29 @@ static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
 static unsigned int s_KeyQueueReadIndex = 0;
 
+static bool pointer_touched_in(int x, int y, int x2, int y2, int *id)
+{
+    bool touched = false;
+    for (int i = 0; i < 8; ++i)
+    {
+        touched = (x < button_x[i] && button_x[i] < x2) && (y < button_y[i] && button_y[i] < y2);
+        *id = i;
+        if (touched) break;
+    }
+    return touched;
+}
+
+static bool pointer_motion_in(int x, int y, int x2, int y2)
+{
+    bool motion = false;
+    for (int i = 0; i < 8; ++i)
+    {
+        motion = (x < motion_x[i] && motion_x[i] < x2) && (y < motion_y[i] && motion_y[i] < y2);
+        if (motion) break;
+    }
+    return motion;
+}
+
 static void addKeyToQueue(int pressed, unsigned char key)
 {
     unsigned short keyData = (pressed << 8) | key;
@@ -46,14 +69,15 @@ void VirtualButton(int x, int y, int id, unsigned char keycode)
     int lh = y + 200;
     DrawCircle(x, y, 100, 0x808080ff);
 
-    if ((x < lastMotionX && lastMotionX < lw) && (y < lastMotionX && lastMotionY < lh) &&
-        (x < lastButtonX && lastButtonX < lw) && (y < lastButtonY && lastButtonY < lh))
+    int idx;
+    if (pointer_motion_in(x, y, lw, lh) &&
+        pointer_touched_in(x, y, lw, lh, &idx))
     {
         DrawCircle(x, y, 100, 0x4c4c4cff);
         pressable[id] = true;
     }
 
-    if (!(x < lastMotionX && lastMotionX < lw) || !(y < lastMotionY && lastMotionY < lh))
+    if (!pointer_motion_in(x, y, lw, lh))
         pressable[id] = false;
 
     if (pressed[id]) // after 1 cycle it returns pressed 0
@@ -62,7 +86,7 @@ void VirtualButton(int x, int y, int id, unsigned char keycode)
         addKeyToQueue(0, keycode);
     }
 
-    if (pressable[id] && !buttonDown)
+    if (pressable[id] && !button_down[idx])
     {
         pressable[id] = false;
         pressed[id] = true;
@@ -79,11 +103,11 @@ void VirtualJoystick(void)
     static bool left = false;
     static bool right = false;
     DrawCircle(screen_x/18, screen_y-300, 100, 0x4c4c4cff);
-    if (screen_x/18 < lastButtonX && lastButtonX < screen_x/18+200 &&
-        screen_y-300 < lastButtonY && lastButtonY < screen_y-100)
+    int id;
+    if (pointer_touched_in(screen_x/18, screen_y-300, screen_x/18+200, screen_y-100, &id))
     {
-        DrawCircle(lastMotionX-80, lastMotionY-80, 80, 0x808080ff);
-        if (lastMotionY < screen_y-250) {
+        DrawCircle(motion_x[id]-80, motion_y[id]-80, 80, 0x808080ff);
+        if (motion_y[id] < screen_y-250) {
             if (!forward) {
                 addKeyToQueue(1, KEY_UPARROW);
                 forward = true;
@@ -92,7 +116,7 @@ void VirtualJoystick(void)
                 addKeyToQueue(0, KEY_DOWNARROW);
                 backward = false;
             }
-        } else if (screen_y-150 < lastMotionY) {
+        } else if (screen_y-150 < motion_y[id]) {
             if (!backward) {
                 addKeyToQueue(1, KEY_DOWNARROW);
                 backward = true;
@@ -103,7 +127,7 @@ void VirtualJoystick(void)
             }
         }
 
-        if (lastMotionX > screen_x/18+150) {
+        if (motion_x[id] > screen_x/18+150) {
             if (!right) {
                 addKeyToQueue(1, KEY_RIGHTARROW);
                 right = true;
@@ -112,7 +136,7 @@ void VirtualJoystick(void)
                 addKeyToQueue(0, KEY_LEFTARROW);
                 left = false;
             }
-        } else if (screen_x/18+50 > lastMotionX) {
+        } else if (screen_x/18+50 > motion_x[id]) {
             if (!left) {
                 addKeyToQueue(1, KEY_LEFTARROW);
                 left = true;

@@ -3,21 +3,16 @@
 
 #include <stdint.h>
 
-extern int lastButtonX;
-extern int lastButtonY;
-extern int buttonDown;
-extern int lastMotionX;
-extern int lastMotionY;
-extern int lastButtonId;
-extern int lastMask;
+extern int button_x[8];
+extern int button_y[8];
+extern int motion_x[8];
+extern int motion_y[8];
+extern int button_down[8];
 
 void GetScreenDimensions(int *x, int *y);
 
 void SetupApplication(void);
 void HandleInput(void);
-
-void HandleButton(int x, int y, int button, int bDown);
-void HandleMotion(int x, int y, int mask);
 
 void DrawCircle(int x, int y, float radius, uint32_t color);
 void DrawImage(uint32_t *data, int x, int y, int w, int h);

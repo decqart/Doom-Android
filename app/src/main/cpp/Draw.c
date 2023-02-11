@@ -224,7 +224,7 @@ void DrawImage(uint32_t *data, int x, int y, int w, int h)
 
     glUseProgram(imageProgram);
     glUniform4f(imageProgramUX, 1.0f / lastWidthResize, -1.0f / lastHeightResize,
-		-0.5f+x/(float)lastWidthResize, 0.5f - y / (float)lastHeightResize);
+        -0.5f+x/(float)lastWidthResize, 0.5f - y / (float)lastHeightResize);
     glUniform1i(imageProgramUT, 0);
 
     glBindTexture(GL_TEXTURE_2D, imageProgramTex);
@@ -253,35 +253,4 @@ void ClearFrame(void)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 255.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-}
-
-int lastButtonX = -1;
-int lastButtonY = -1;
-int buttonDown = 0;
-int lastMotionX = -1;
-int lastMotionY = -1;
-int lastButtonId = 0;
-int lastMask = 0;
-
-void HandleButton(int x, int y, int button, int bDown)
-{
-    lastButtonId = button;
-    if (bDown)
-    {
-        lastButtonX = x; lastButtonY = y;
-        lastMotionX = x; lastMotionY = y;
-    }
-    else
-    {
-        lastButtonX = -1;
-        lastButtonY = -1;
-    }
-    buttonDown = bDown;
-}
-
-void HandleMotion(int x, int y, int mask)
-{
-    lastMask = mask;
-    lastMotionX = x;
-    lastMotionY = y;
 }
