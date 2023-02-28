@@ -1997,13 +1997,6 @@ float M_GetFloatVariable(char *name)
     return *((float *) variable->location);
 }
 
-// Get the path to the default configuration dir to use, if NULL
-// is passed to M_SetConfigDir.
-static char *GetDefaultConfigDir(void)
-{
-    return strdup(".");
-}
-
 // Sets the location of the configuration directory, where configuration
 // files are stored - default.cfg, chocolate-doom.cfg, savegames, etc.
 void M_SetConfigDir(char *dir)
@@ -2015,7 +2008,7 @@ void M_SetConfigDir(char *dir)
     }
     else
     {
-        configdir = GetDefaultConfigDir();
+        configdir = "."; // default dir
     }
 
     if (strcmp(configdir, "") != 0)
@@ -2024,7 +2017,6 @@ void M_SetConfigDir(char *dir)
     }
 
     // Make the directory if it doesn't already exist:
-
     M_MakeDirectory(configdir);
 }
 
@@ -2042,7 +2034,7 @@ char *M_GetSaveGameDir(char *iwadname)
 
     if (!strcmp(configdir, ""))
     {
-    	savegamedir = strdup("");
+        savegamedir = "";
     }
     else
     {
@@ -2062,9 +2054,8 @@ char *M_GetSaveGameDir(char *iwadname)
         savegamedir = M_StringJoin(configdir, DIR_SEPARATOR_S, ".savegame/", NULL);
 
         M_MakeDirectory(savegamedir);
-
-        printf("Using %s for savegames\n", savegamedir);
 #endif
+        printf("Using %s for savegames\n", savegamedir);
     }
 
     return savegamedir;

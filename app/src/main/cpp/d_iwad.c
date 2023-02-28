@@ -273,9 +273,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
     printf("Trying IWAD file:%s\n", filename);
 
     if (M_FileExists(filename))
-    {
         return filename;
-    }
 
     free(filename);
 
