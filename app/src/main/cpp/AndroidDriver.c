@@ -9,7 +9,7 @@ static int is_app_paused = 0;
 #include <android/asset_manager.h>
 #include <android_native_app_glue.h>
 
-#include "Draw.h"
+#include "AndroidRenderer.h"
 
 #include <stdio.h>
 #include <stdlib.h>

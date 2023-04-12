@@ -85,7 +85,7 @@ add_library(main SHARED
         i_video.c
         doomgeneric.c
         doomgeneric_android.c
-        Draw.c
+        AndroidRenderer.c
         AndroidDriver.c)
 
 target_include_directories(main PRIVATE

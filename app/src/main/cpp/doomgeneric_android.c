@@ -1,4 +1,4 @@
-#include "Draw.h"
+#include "AndroidRenderer.h"
 
 #include "doomkeys.h"
 #include "doomgeneric.h"
@@ -67,13 +67,13 @@ void VirtualButton(int x, int y, int id, unsigned char keycode)
     static bool pressed[2] = { false, false };
     int lw = x + 200;
     int lh = y + 200;
-    DrawCircle(x, y, 100, 0x808080ff);
+    RenderCircle(x, y, 100, 0x808080ff);
 
     int idx;
     if (pointer_motion_in(x, y, lw, lh) &&
         pointer_touched_in(x, y, lw, lh, &idx))
     {
-        DrawCircle(x, y, 100, 0x4c4c4cff);
+        RenderCircle(x, y, 100, 0x4c4c4cff);
         pressable[id] = true;
     }
 
@@ -102,11 +102,11 @@ void VirtualJoystick(void)
     static bool backward = false;
     static bool left = false;
     static bool right = false;
-    DrawCircle(screen_x/18, screen_y-300, 100, 0x4c4c4cff);
+    RenderCircle(screen_x / 18, screen_y - 300, 100, 0x4c4c4cff);
     int id;
     if (pointer_touched_in(screen_x/18, screen_y-300, screen_x/18+200, screen_y-100, &id))
     {
-        DrawCircle(motion_x[id]-80, motion_y[id]-80, 80, 0x808080ff);
+        RenderCircle(motion_x[id] - 80, motion_y[id] - 80, 80, 0x808080ff);
         if (motion_y[id] < screen_y-250) {
             if (!forward) {
                 addKeyToQueue(1, KEY_UPARROW);
@@ -151,7 +151,7 @@ void VirtualJoystick(void)
     }
     else
     {
-        DrawCircle(screen_x/16, screen_y-280, 80, 0x808080ff);
+        RenderCircle(screen_x / 16, screen_y - 280, 80, 0x808080ff);
 
         if (forward) {
             addKeyToQueue(0, KEY_UPARROW);
@@ -182,7 +182,8 @@ void VirtualJoystick(void)
 void DG_DrawFrame(void)
 {
     ClearFrame();
-    DrawImage(DG_ScreenBuffer, screen_x/2-DOOMGENERIC_RESX/2, screen_y/2-DOOMGENERIC_RESY/2, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
+    RenderImage(DG_ScreenBuffer, screen_x / 2 - DOOMGENERIC_RESX / 2,
+                screen_y / 2 - DOOMGENERIC_RESY / 2, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
     VirtualJoystick();
     HandleInput();
     SwapBuffers();

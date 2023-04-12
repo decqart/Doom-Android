@@ -46,7 +46,7 @@
 #endif
 
 #define DEFAULT_RAM 6 /* MiB */
-#define MIN_RAM     6  /* MiB */
+#define MIN_RAM     6 /* MiB */
 
 
 typedef struct atexit_listentry_s atexit_listentry_t;
@@ -78,14 +78,12 @@ void I_AtExit(atexit_func_t func, boolean run_on_error)
 
 static byte *AutoAllocMemory(int *size, int default_ram, int min_ram)
 {
-    byte *zonemem;
+    byte *zonemem = NULL;
 
     // Allocate the zone memory.  This loop tries progressively smaller
     // zone sizes until a size is found that can be allocated.
     // If we used the -mb command line parameter, only the parameter
     // provided is accepted.
-
-    zonemem = NULL;
 
     while (zonemem == NULL)
     {
@@ -171,7 +169,7 @@ void I_PrintStartupBanner(char *gamedescription)
     I_PrintDivider();
     I_PrintBanner(gamedescription);
     I_PrintDivider();
-    
+
     printf(
     " " PACKAGE_NAME " is free software, covered by the GNU General Public\n"
     " License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS\n"
@@ -187,7 +185,7 @@ boolean I_ConsoleStdout(void)
 #if ORIGCODE
     return isatty(fileno(stdout));
 #else
-	return 0;
+    return 0;
 #endif
 }
 
@@ -209,91 +207,6 @@ void I_Quit(void)
     exit(0);
 #endif
 }
-
-#if !defined(_WIN32) && !defined(__MACOSX__)
-#define ZENITY_BINARY "/usr/bin/zenity"
-
-// returns non-zero if zenity is available
-
-static int ZenityAvailable(void)
-{
-    return system(ZENITY_BINARY " --help >/dev/null 2>&1") == 0;
-}
-
-// Escape special characters in the given string so that they can be
-// safely enclosed in shell quotes.
-
-static char *EscapeShellString(char *string)
-{
-    char *result;
-    char *r, *s;
-
-    // In the worst case, every character might be escaped.
-    result = malloc(strlen(string) * 2 + 3);
-    r = result;
-
-    // Enclosing quotes.
-    *r = '"';
-    ++r;
-
-    for (s = string; *s != '\0'; ++s)
-    {
-        // From the bash manual:
-        //
-        //  "Enclosing characters in double quotes preserves the literal
-        //   value of all characters within the quotes, with the exception
-        //   of $, `, \, and, when history expansion is enabled, !."
-        //
-        // Therefore, escape these characters by prefixing with a backslash.
-
-        if (strchr("$`\\!", *s) != NULL)
-        {
-            *r = '\\';
-            ++r;
-        }
-
-        *r = *s;
-        ++r;
-    }
-
-    // Enclosing quotes.
-    *r = '"';
-    ++r;
-    *r = '\0';
-
-    return result;
-}
-
-// Open a native error box with a message using zenity
-
-static int ZenityErrorBox(char *message)
-{
-    int result;
-    char *escaped_message;
-    char *errorboxpath;
-    static size_t errorboxpath_size;
-
-    if (!ZenityAvailable())
-    {
-        return 0;
-    }
-
-    escaped_message = EscapeShellString(message);
-
-    errorboxpath_size = strlen(ZENITY_BINARY) + strlen(escaped_message) + 19;
-    errorboxpath = malloc(errorboxpath_size);
-    M_snprintf(errorboxpath, errorboxpath_size, "%s --error --text=%s",
-               ZENITY_BINARY, escaped_message);
-
-    result = system(errorboxpath);
-
-    free(errorboxpath);
-    free(escaped_message);
-
-    return result;
-}
-
-#endif /* !defined(_WIN32) && !defined(__MACOSX__) */
 
 static boolean already_quitting = False;
 
@@ -391,7 +304,7 @@ void I_Error(char *error, ...)
     }
 #else
     {
-        ZenityErrorBox(msgbuf);
+
     }
 #endif
 
