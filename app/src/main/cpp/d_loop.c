@@ -78,7 +78,7 @@ static int skiptics = 0;
 // Reduce the bandwidth needed by sampling game input less and transmitting
 // less.  If ticdup is 2, sample half normal, 3 = one third normal, etc.
 
-int	ticdup;
+int ticdup;
 
 // Amount to offset the timer for game sync.
 

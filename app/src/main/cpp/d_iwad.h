@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     Find IWAD and initialize according to IWAD type.
+//  Find IWAD and initialize according to IWAD type.
 //
 
 #ifndef __D_IWAD__

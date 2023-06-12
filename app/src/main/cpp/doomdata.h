@@ -162,7 +162,7 @@ typedef struct {
 // BSP node structure.
 
 // Indicate a leaf.
-#define	NF_SUBSECTOR 0x8000
+#define NF_SUBSECTOR 0x8000
 
 typedef struct {
     // Partition line from (x,y) to x+dx,y+dy)
@@ -191,4 +191,4 @@ typedef struct {
     short options;
 } PACKEDATTR mapthing_t;
 
-#endif // __DOOMDATA__
+#endif /* __DOOMDATA__ */

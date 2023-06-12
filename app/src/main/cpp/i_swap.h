@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//  Endianess handling, swapping 16bit and 32bit.
+//  Endianness handling, swapping 16bit and 32bit.
 //
 
 #ifndef __I_SWAP__
@@ -22,4 +22,4 @@
 #define SHORT(x) ((signed short) (x))
 #define LONG(x)  ((signed int) (x))
 
-#endif
+#endif /* __I_SWAP__ */

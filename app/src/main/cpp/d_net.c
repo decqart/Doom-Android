@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	DOOM Network game communication and protocol,
-//	all OS independend parts.
+//  DOOM Network game communication and protocol,
+//  all OS independend parts.
 //
 
 #include <stdlib.h>
@@ -65,7 +65,7 @@ static void PlayerQuitGame(player_t *player)
     }
 }
 
-static void RunTic(ticcmd_t *cmds, boolean *ingame)
+static void RunTic(ticcmd_t *cmds, const boolean *ingame)
 {
     extern boolean advancedemo;
     unsigned int i;
@@ -226,10 +226,7 @@ void D_ConnectNetGame(void)
     }
 }
 
-//
-// D_CheckNetGame
 // Works out player numbers among the net participants
-//
 void D_CheckNetGame(void)
 {
     net_gamesettings_t settings;

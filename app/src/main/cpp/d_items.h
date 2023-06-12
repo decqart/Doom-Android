@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Items: key cards, artifacts, weapon, ammunition.
+//  Items: key cards, artifacts, weapon, ammunition.
 //
 
 #ifndef __D_ITEMS__

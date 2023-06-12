@@ -27,8 +27,7 @@
 #include "w_file.h"
 #include "z_zone.h"
 
-typedef struct
-{
+typedef struct {
     wad_file_t wad;
     FILE *fstream;
 } stdc_wad_file_t;
@@ -36,7 +35,7 @@ typedef struct
 wad_file_t *W_OpenFile(char *path)
 {
     stdc_wad_file_t *result;
-    FILE *fstream;
+    FILE *fstream = NULL;
 
 #ifdef __ANDROID__
 #include "AndroidDriver.h"
@@ -60,29 +59,21 @@ wad_file_t *W_OpenFile(char *path)
 
 void W_CloseFile(wad_file_t *wad)
 {
-    stdc_wad_file_t *stdc_wad;
-
-    stdc_wad = (stdc_wad_file_t *) wad;
+    stdc_wad_file_t *stdc_wad = (stdc_wad_file_t *) wad;
 
     fclose(stdc_wad->fstream);
     Z_Free(stdc_wad);
 }
 
-size_t W_Read(wad_file_t *wad, unsigned int offset,
-              void *buffer, size_t buffer_len)
+size_t W_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
-    stdc_wad_file_t *stdc_wad;
-    size_t result;
-
-    stdc_wad = (stdc_wad_file_t *) wad;
+    stdc_wad_file_t *stdc_wad = (stdc_wad_file_t *) wad;
 
     // Jump to the specified position in the file.
-
     fseek(stdc_wad->fstream, offset, SEEK_SET);
 
     // Read into the buffer.
-
-    result = fread(buffer, 1, buffer_len, stdc_wad->fstream);
+    size_t result = fread(buffer, 1, buffer_len, stdc_wad->fstream);
 
     return result;
 }

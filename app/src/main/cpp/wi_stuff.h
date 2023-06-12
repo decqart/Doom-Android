@@ -23,8 +23,7 @@
 
 // States for the intermission
 
-typedef enum
-{
+typedef enum {
     NoState = -1,
     StatCount,
     ShowNextLoc,
@@ -43,4 +42,4 @@ void WI_Start(wbstartstruct_t *wbstartstruct);
 // Shut down the intermission screen
 void WI_End(void);
 
-#endif
+#endif /* __WI_STUFF__ */

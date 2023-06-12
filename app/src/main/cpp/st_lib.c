@@ -71,11 +71,11 @@ void STlib_drawNum(st_number_t *n, boolean refresh)
 {
     int numdigits = n->width;
     int num = *n->num;
-    
+
     int w = SHORT(n->p[0]->width);
     int h = SHORT(n->p[0]->height);
     int x = n->x;
-    
+
     int neg;
 
     n->oldnum = *n->num;
@@ -138,14 +138,13 @@ void STlib_updatePercent(st_percent_t *per, int refresh)
 {
     if (refresh && *per->n.on)
         V_DrawPatch(per->n.x, per->n.y, per->p);
-    
+
     STlib_updateNum(&per->n, refresh);
 }
 
 void STlib_initMultIcon
 (st_multicon_t *i,
- int x,
- int y,
+ int x, int y,
  patch_t **il,
  int *inum,
  boolean *on)

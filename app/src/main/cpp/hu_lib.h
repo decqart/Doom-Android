@@ -12,7 +12,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// DESCRIPTION:  none
+// DESCRIPTION: none
 //
 
 #ifndef __HULIB__
@@ -107,14 +107,8 @@ void HUlib_eraseTextLine(hu_textline_t *l);
 //
 
 // ?
-void HUlib_initSText
-(hu_stext_t*	s,
- int		x,
- int		y,
- int		h,
- patch_t**	font,
- int		startchar,
- boolean *on);
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h,
+                     patch_t **font, int startchar, boolean *on);
 
 // add a new line
 void HUlib_addLineToSText(hu_stext_t *s);
@@ -129,22 +123,17 @@ void HUlib_drawSText(hu_stext_t *s);
 void HUlib_eraseSText(hu_stext_t *s);
 
 // Input Text Line widget routines
-void HUlib_initIText
-(hu_itext_t*	it,
- int		x,
- int		y,
- patch_t**	font,
- int		startchar,
- boolean *on);
+void HUlib_initIText(hu_itext_t *it, int x, int y,
+                     patch_t **font, int startchar, boolean *on);
 
 // enforces left margin
-void HUlib_delCharFromIText(hu_itext_t* it);
+void HUlib_delCharFromIText(hu_itext_t *it);
 
 // enforces left margin
-void HUlib_eraseLineFromIText(hu_itext_t* it);
+void HUlib_eraseLineFromIText(hu_itext_t *it);
 
 // resets line and left margin
-void HUlib_resetIText(hu_itext_t* it);
+void HUlib_resetIText(hu_itext_t *it);
 
 // left of left-margin
 void HUlib_addPrefixToIText(hu_itext_t *it, char *str);
@@ -152,9 +141,9 @@ void HUlib_addPrefixToIText(hu_itext_t *it, char *str);
 // whether eaten
 boolean HUlib_keyInIText(hu_itext_t *it, unsigned char ch);
 
-void HUlib_drawIText(hu_itext_t* it);
+void HUlib_drawIText(hu_itext_t *it);
 
 // erases all itext lines
-void HUlib_eraseIText(hu_itext_t* it); 
+void HUlib_eraseIText(hu_itext_t *it);
 
 #endif

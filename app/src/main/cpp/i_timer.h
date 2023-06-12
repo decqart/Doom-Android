@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//      System-specific timer interface
+//  System-specific timer interface
 //
 
 #ifndef __I_TIMER__

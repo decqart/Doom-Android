@@ -13,13 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Random number LUT.
+//  Random number LUT.
 //
 
-//
-// M_Random
-// Returns a 0-255 number
-//
+#include "m_random.h"
 
 static const unsigned char rndtable[256] = {
     0,   8, 109, 220, 222, 241, 149, 107,  75, 248, 254, 140,  16,  66 ,
@@ -43,8 +40,8 @@ static const unsigned char rndtable[256] = {
     120, 163, 236, 249
 };
 
-int	rndindex = 0;
-int	prndindex = 0;
+int rndindex = 0;
+int prndindex = 0;
 
 // Which one is deterministic?
 int P_Random(void)
@@ -53,6 +50,7 @@ int P_Random(void)
     return rndtable[prndindex];
 }
 
+// Returns a 0-255 number
 int M_Random(void)
 {
     rndindex = (rndindex+1)&0xff;

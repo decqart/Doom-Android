@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//     SHA-1 digest.
+//  SHA-1 digest.
 //
 
 #ifndef __SHA1_H__

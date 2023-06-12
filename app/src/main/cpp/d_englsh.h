@@ -13,15 +13,15 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Printed strings for translation.
-//	English language support (default).
+//  Printed strings for translation.
+//  English language support (default).
 //
 
 #ifndef __D_ENGLSH__
 #define __D_ENGLSH__
 
 //
-//	Printed strings for translation
+// Printed strings for translation
 //
 
 //
@@ -31,11 +31,11 @@
 #define D_CDROM	 "CD-ROM Version: default.cfg from c:\\doomdata\n"
 
 //
-//	M_Menu.c
+// M_Menu.c
 //
 #define PRESSKEY  "press a key."
 #define PRESSYN   "press y or n."
-#define QUITMSG	  "are you sure you want to\nquit this great game?"
+#define QUITMSG   "are you sure you want to\nquit this great game?"
 #define LOADNET   "you can't do load while in a net game!\n\n"PRESSKEY
 #define QLOADNET  "you can't quickload during a netgame!\n\n"PRESSKEY
 #define QSAVESPOT "you haven't picked a quicksave slot yet!\n\n"PRESSKEY
@@ -72,7 +72,7 @@
 #define EMPTYSTRING	"empty slot"
 
 //
-//	P_inter.c
+// P_inter.c
 //
 #define GOTARMOR	"Picked up the armor."
 #define GOTMEGA	    "Picked up the MegaArmor!"
@@ -690,4 +690,3 @@
 #define CC_HERO	"OUR HERO"
 
 #endif
-

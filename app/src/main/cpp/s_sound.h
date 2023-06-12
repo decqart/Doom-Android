@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	The not so system specific sound interface.
+//  The not so system specific sound interface.
 //
 
 #ifndef __S_SOUND__
@@ -66,9 +66,7 @@ void S_PauseSound(void);
 void S_ResumeSound(void);
 
 
-//
 // Updates music & sounds
-//
 void S_UpdateSounds(mobj_t *listener);
 
 void S_SetMusicVolume(int volume);

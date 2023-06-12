@@ -43,16 +43,16 @@
 
 
 // For use if I do walls with outsides/insides
-#define REDS		(256-5*16)
-#define REDRANGE	16
-#define GREENS		(7*16)
-#define GREENRANGE	16
-#define GRAYS		(6*16)
-#define GRAYSRANGE	16
-#define BROWNS		(4*16)
-#define YELLOWS		(256-32+7)
-#define BLACK		0
-#define WHITE		(256-47)
+#define REDS       (256-5*16)
+#define REDRANGE   16
+#define GREENS     (7*16)
+#define GREENRANGE 16
+#define GRAYS      (6*16)
+#define GRAYSRANGE 16
+#define BROWNS     (4*16)
+#define YELLOWS    (256-32+7)
+#define BLACK      0
+#define WHITE      (256-47)
 
 // Automap colors
 #define BACKGROUND	BLACK
@@ -75,7 +75,7 @@
 #define INITSCALEMTOF (.2*FRACUNIT)
 // how much the automap moves window per tic in frame-buffer coordinates
 // moves 140 pixels in 1 second
-#define F_PANINC	4
+#define F_PANINC 4
 // how much zoom-in per tic
 // goes to 2x in 1 second
 #define M_ZOOMIN ((int) (1.02*FRACUNIT))
@@ -182,22 +182,22 @@ static int f_y;
 static int f_w;
 static int f_h;
 
-static int 	lightlev; 		// used for funky strobing effect
-static byte *fb;   	        // pseudo-frame buffer
-static int 	amclock;
+static int lightlev; // used for funky strobing effect
+static byte *fb;     // pseudo-frame buffer
+static int amclock;
 
 static mpoint_t m_paninc; // how far the window pans each tic (map coords)
-static fixed_t 	mtof_zoommul; // how far the window zooms in each tic (map coords)
-static fixed_t 	ftom_zoommul; // how far the window zooms in each tic (fb coords)
+static fixed_t mtof_zoommul; // how far the window zooms in each tic (map coords)
+static fixed_t ftom_zoommul; // how far the window zooms in each tic (fb coords)
 
-static fixed_t 	m_x, m_y;   // LL x,y where the window is on the map (map coords)
-static fixed_t 	m_x2, m_y2; // UR x,y where the window is on the map (map coords)
+static fixed_t m_x, m_y;   // LL x,y where the window is on the map (map coords)
+static fixed_t m_x2, m_y2; // UR x,y where the window is on the map (map coords)
 
 //
 // width/height of window on map (map coords)
 //
-static fixed_t 	m_w;
-static fixed_t	m_h;
+static fixed_t m_w;
+static fixed_t m_h;
 
 // based on level size
 static fixed_t min_x;
@@ -298,14 +298,13 @@ void AM_addMark(void)
 //
 void AM_findMinMaxBoundaries(void)
 {
-    int i;
     fixed_t a;
     fixed_t b;
 
     min_x = min_y =  INT_MAX;
     max_x = max_y = -INT_MAX;
   
-    for (i = 0; i < numvertexes; i++)
+    for (int i = 0; i < numvertexes; i++)
     {
         if (vertexes[i].x < min_x)
             min_x = vertexes[i].x;
@@ -1103,11 +1102,11 @@ void AM_drawPlayers(void)
     {
         if (cheating)
             AM_drawLineCharacter
-                (cheat_player_arrow, arrlen(cheat_player_arrow), 0,
+                (cheat_player_arrow, ARRLEN(cheat_player_arrow), 0,
                  plr->mo->angle, WHITE, plr->mo->x, plr->mo->y);
         else
             AM_drawLineCharacter
-                (player_arrow, arrlen(player_arrow), 0, plr->mo->angle,
+                (player_arrow, ARRLEN(player_arrow), 0, plr->mo->angle,
                  WHITE, plr->mo->x, plr->mo->y);
         return;
     }
@@ -1129,7 +1128,7 @@ void AM_drawPlayers(void)
             color = their_colors[their_color];
 	
         AM_drawLineCharacter
-            (player_arrow, arrlen(player_arrow), 0, p->mo->angle,
+            (player_arrow, ARRLEN(player_arrow), 0, p->mo->angle,
              color, p->mo->x, p->mo->y);
     }
 }
@@ -1144,7 +1143,7 @@ void AM_drawThings(int colors, int colorrange)
         while (t)
         {
             AM_drawLineCharacter
-                (thintriangle_guy, arrlen(thintriangle_guy),
+                (thintriangle_guy, ARRLEN(thintriangle_guy),
                  16<<FRACBITS, t->angle, colors+lightlev, t->x, t->y);
             t = t->snext;
         }

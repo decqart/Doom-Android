@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Mission start screen wipe/melt, special effects.
-//	
+//  Mission start screen wipe/melt, special effects.
+//
 
 #ifndef __F_WIPE_H__
 #define __F_WIPE_H__
@@ -23,8 +23,7 @@
 //  SCREEN WIPE PACKAGE
 //
 
-enum
-{
+enum {
     // simple gradual pixel change for 8-bit only
     wipe_ColorXForm,
     
@@ -40,4 +39,4 @@ int wipe_EndScreen(int x, int y, int width, int height);
 
 int wipe_ScreenWipe(int wipeno, int width, int height, int ticks);
 
-#endif
+#endif /* __F_WIPE_H__ */

@@ -60,8 +60,7 @@
 #define NORM_PRIORITY 64
 #define NORM_SEP 128
 
-typedef struct
-{
+typedef struct {
     // sound information (if null, channel avail.)
     sfxinfo_t *sfxinfo;
 
@@ -240,11 +239,7 @@ void S_StopSound(mobj_t *origin)
     }
 }
 
-//
-// S_GetChannel :
-//   If none available, return -1.  Otherwise channel #.
-//
-
+// If none available, return -1.  Otherwise channel #.
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {
     // channel number to use
@@ -449,12 +444,9 @@ void S_StartSound(void *origin_p, int sfx_id)
     }
 
     channels[cnum].handle = I_StartSound(sfx, cnum, volume, sep);
-}        
+}
 
-//
 // Stop and resume music, during game PAUSE.
-//
-
 void S_PauseSound(void)
 {
     if (mus_playing && !mus_paused)
@@ -473,10 +465,7 @@ void S_ResumeSound(void)
     }
 }
 
-//
 // Updates music & sounds
-//
-
 void S_UpdateSounds(mobj_t *listener)
 {
     int audible;
@@ -545,9 +534,7 @@ void S_UpdateSounds(mobj_t *listener)
 void S_SetMusicVolume(int volume)
 {
     if (volume < 0 || volume > 127)
-    {
         I_Error("Attempt to set music volume at %d", volume);
-    }    
 
     I_SetMusicVolume(volume);
 }
@@ -555,17 +542,12 @@ void S_SetMusicVolume(int volume)
 void S_SetSfxVolume(int volume)
 {
     if (volume < 0 || volume > 127)
-    {
         I_Error("Attempt to set sfx volume at %d", volume);
-    }
 
     snd_SfxVolume = volume;
 }
 
-//
 // Starts some music with the music id found in sounds.h.
-//
-
 void S_StartMusic(int m_id)
 {
     S_ChangeMusic(m_id, False);

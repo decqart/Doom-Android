@@ -13,13 +13,13 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Status bar code.
-//	Does the face/direction indicator animatin.
-//	Does palette indicators as well (red pain/berserk, bright pickup)
+//  Status bar code.
+//  Does the face/direction indicator animatin.
+//  Does palette indicators as well (red pain/berserk, bright pickup)
 //
 
-#ifndef __STSTUFF_H__
-#define __STSTUFF_H__
+#ifndef ST_STUFF_H
+#define ST_STUFF_H
 
 #include "doomtype.h"
 #include "d_event.h"
@@ -27,9 +27,9 @@
 
 // Size of statusbar.
 // Now sensitive for scaling.
-#define ST_HEIGHT	32
-#define ST_WIDTH	SCREENWIDTH
-#define ST_Y		(SCREENHEIGHT - ST_HEIGHT)
+#define ST_HEIGHT 32
+#define ST_WIDTH  SCREENWIDTH
+#define ST_Y      (SCREENHEIGHT - ST_HEIGHT)
 
 
 //
@@ -53,16 +53,14 @@ void ST_Init(void);
 
 
 // States for status bar code.
-typedef enum
-{
+typedef enum {
     AutomapState,
     FirstPersonState  
 } st_stateenum_t;
 
 
 // States for the chat code.
-typedef enum
-{
+typedef enum {
     StartChatState,
     WaitDestState,
     GetChatState  
@@ -80,4 +78,4 @@ extern cheatseq_t cheat_choppers;
 extern cheatseq_t cheat_clev;
 extern cheatseq_t cheat_mypos;
 
-#endif
+#endif /* ST_STUFF_H */

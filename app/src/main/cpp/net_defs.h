@@ -84,8 +84,7 @@ struct _net_addr_s {
 
 // packet types
 
-typedef enum
-{
+typedef enum {
     NET_PACKET_TYPE_SYN,
     NET_PACKET_TYPE_ACK,
     NET_PACKET_TYPE_REJECTED,
@@ -104,8 +103,7 @@ typedef enum
     NET_PACKET_TYPE_LAUNCH,
 } net_packet_type_t;
 
-typedef enum
-{
+typedef enum {
     NET_MASTER_PACKET_TYPE_ADD,
     NET_MASTER_PACKET_TYPE_ADD_RESPONSE,
     NET_MASTER_PACKET_TYPE_QUERY,
@@ -119,9 +117,7 @@ typedef enum
 } net_master_packet_type_t;
 
 // Settings specified when the client connects to the server.
-
-typedef struct
-{
+typedef struct {
     int gamemode;
     int gamemission;
     int lowres_turn;
@@ -135,9 +131,7 @@ typedef struct
 
 // Game settings sent by client to server when initiating game start,
 // and received from the server by clients when the game starts.
-
-typedef struct
-{
+typedef struct {
     int ticdup;
     int extratics;
     int deathmatch;

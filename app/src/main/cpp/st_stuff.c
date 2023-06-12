@@ -458,7 +458,7 @@ boolean ST_Responder(event_t *ev)
                     if (plyr->mo)
                         plyr->mo->health = 100;
 
-                    plyr->health = deh_god_mode_health;
+                    plyr->health = DEH_GOD_MODE_HEALTH;
                     plyr->message = STSTR_DQDON;
                 }
                 else
@@ -466,8 +466,8 @@ boolean ST_Responder(event_t *ev)
             } // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2))
             {
-                plyr->armorpoints = deh_idfa_armor;
-                plyr->armortype = deh_idfa_armor_class;
+                plyr->armorpoints = DEH_IDFA_ARMOR;
+                plyr->armortype = DEH_IDFA_ARMOR_CLASS;
 
                 for (i = 0; i<NUMWEAPONS; i++)
                     plyr->weaponowned[i] = True;
@@ -479,8 +479,8 @@ boolean ST_Responder(event_t *ev)
             } // 'kfa' cheat for key full ammo
             else if (cht_CheckCheat(&cheat_ammo, ev->data2))
             {
-                plyr->armorpoints = deh_idkfa_armor;
-                plyr->armortype = deh_idkfa_armor_class;
+                plyr->armorpoints = DEH_IDKFA_ARMOR;
+                plyr->armortype = DEH_IDKFA_ARMOR_CLASS;
 
                 for (i=0;i<NUMWEAPONS;i++)
                     plyr->weaponowned[i] = True;

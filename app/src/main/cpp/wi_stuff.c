@@ -238,9 +238,9 @@ static anim_t epsd2animinfo[] = {
 };
 
 static int NUMANIMS[NUMEPISODES] = {
-    arrlen(epsd0animinfo),
-    arrlen(epsd1animinfo),
-    arrlen(epsd2animinfo),
+        ARRLEN(epsd0animinfo),
+        ARRLEN(epsd1animinfo),
+        ARRLEN(epsd2animinfo),
 };
 
 static anim_t *anims[NUMEPISODES] = {

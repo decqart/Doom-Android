@@ -25,8 +25,7 @@
 // and we compose textures from the TEXTURE1/2 lists
 // of patches.
 
-typedef struct 
-{ 
+typedef struct {
     short width;        // bounding box size 
     short height;
     short leftoffset;   // pixels to the left of origin 
@@ -36,13 +35,12 @@ typedef struct
 } PACKEDATTR patch_t;
 
 // posts are runs of non masked source pixels
-typedef struct
-{
+typedef struct {
     byte topdelta; // -1 is the last post in a column
-    byte length;    // length data bytes follows
+    byte length;   // length data bytes follows
 } PACKEDATTR post_t;
 
 // column_t is a list of 0 or more post_t, (byte)-1 terminated
 typedef post_t column_t;
 
-#endif
+#endif /* V_PATCH_H */

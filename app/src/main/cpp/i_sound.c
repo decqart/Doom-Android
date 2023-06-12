@@ -90,7 +90,6 @@ static music_module_t *music_modules[] = {
 };
 
 // Check if a sound device is in the given list of devices
-
 static boolean SndDeviceInList(snddevice_t device, const snddevice_t *list, int len)
 {
     for (int i = 0; i < len; ++i)
@@ -292,7 +291,7 @@ void I_PrecacheSounds(sfxinfo_t *sounds, int num_sounds)
 {
     if (sound_module != NULL && sound_module->CacheSounds != NULL)
     {
-	    sound_module->CacheSounds(sounds, num_sounds);
+        sound_module->CacheSounds(sounds, num_sounds);
     }
 }
 

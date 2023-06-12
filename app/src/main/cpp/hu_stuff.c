@@ -12,7 +12,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// DESCRIPTION:  Heads-up displays
+// DESCRIPTION: Heads-up displays
 //
 
 #include <ctype.h>

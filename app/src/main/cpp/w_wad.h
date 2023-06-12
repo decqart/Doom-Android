@@ -13,11 +13,11 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	WAD I/O functions.
+//  WAD I/O functions.
 //
 
-#ifndef __W_WAD__
-#define __W_WAD__
+#ifndef W_WAD_H
+#define W_WAD_H
 
 #include <stdio.h>
 
@@ -26,29 +26,20 @@
 
 #include "w_file.h"
 
-
-//
-// TYPES
-//
-
 //
 // WADFILE I/O related stuff.
 //
 
-typedef struct lumpinfo_s lumpinfo_t;
-
-struct lumpinfo_s
-{
-    char	name[8];
+typedef struct lumpinfo_s {
+    char name[8];
     wad_file_t *wad_file;
-    int		position;
-    int		size;
-    void       *cache;
+    int position;
+    int size;
+    void *cache;
 
     // Used for hash table lookups
-
-    lumpinfo_t *next;
-};
+    struct lumpinfo_s *next;
+} lumpinfo_t;
 
 
 extern lumpinfo_t *lumpinfo;
@@ -74,4 +65,4 @@ void W_ReleaseLumpName(char *name);
 
 void W_CheckCorrectIWAD(GameMission_t mission);
 
-#endif
+#endif /* W_WAD_H */

@@ -563,7 +563,7 @@ static char *GetGameName(char *gamename)
     size_t i;
     char *deh_sub;
 
-    for (i = 0; i < arrlen(banners); ++i)
+    for (i = 0; i < ARRLEN(banners); ++i)
     {
         // Has the banner been replaced?
 
@@ -614,7 +614,7 @@ static void SetMissionForPackName(char *pack_name)
         { "plutonia", pack_plut },
     };
 
-    for (i = 0; i < arrlen(packs); ++i)
+    for (i = 0; i < ARRLEN(packs); ++i)
     {
         if (!strcasecmp(pack_name, packs[i].name))
         {
@@ -625,7 +625,7 @@ static void SetMissionForPackName(char *pack_name)
 
     printf("Valid mission packs are:\n");
 
-    for (i = 0; i < arrlen(packs); ++i)
+    for (i = 0; i < ARRLEN(packs); ++i)
     {
         printf("\t%s\n", packs[i].name);
     }
@@ -812,7 +812,7 @@ static char *copyright_banners[] = {
 // Prints a message only if it has been modified by dehacked.
 void PrintDehackedBanners(void)
 {
-    for (size_t i = 0; i < arrlen(copyright_banners); ++i)
+    for (size_t i = 0; i < ARRLEN(copyright_banners); ++i)
     {
         char *deh_s = copyright_banners[i];
 

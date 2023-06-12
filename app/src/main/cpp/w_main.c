@@ -182,9 +182,7 @@ boolean W_ParseCommandLine(void)
         modifiedgame = True;            // homebrew levels
         while (++p != myargc && myargv[p][0] != '-')
         {
-            char *filename;
-            
-            filename = D_TryFindWADByName(myargv[p]);
+            char *filename = D_TryFindWADByName(myargv[p]);
 
             printf(" adding %s\n", filename);
             W_AddFile(filename);

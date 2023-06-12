@@ -38,4 +38,4 @@ void M_FindResponseFile(void);
 
 boolean M_ParmExists(char *check);
 
-#endif
+#endif /* __M_ARGV__ */

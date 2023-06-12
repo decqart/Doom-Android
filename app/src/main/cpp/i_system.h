@@ -62,4 +62,4 @@ void I_PrintBanner(char *text);
 // Print a dividing line for startup banners.
 void I_PrintDivider(void);
 
-#endif
+#endif /* __I_SYSTEM__ */

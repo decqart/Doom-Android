@@ -50,33 +50,30 @@
 // Animating textures and planes
 // There is another anim_t used in wi_stuff, unrelated.
 //
-typedef struct
-{
+typedef struct {
     boolean istexture;
-    int		picnum;
-    int		basepic;
-    int		numpics;
-    int		speed;
-    
+    int picnum;
+    int basepic;
+    int numpics;
+    int speed;
 } anim_t;
 
 //
-//      source animation definition
+//  source animation definition
 //
-typedef struct
-{
-    int 	istexture;	// if false, it is a flat
-    char	endname[9];
-    char	startname[9];
-    int		speed;
+typedef struct {
+    int istexture; // if false, it is a flat
+    char endname[9];
+    char startname[9];
+    int speed;
 } animdef_t;
 
 
 
 #define MAXANIMS 32
 
-extern anim_t	anims[MAXANIMS];
-extern anim_t*	lastanim;
+extern anim_t anims[MAXANIMS];
+extern anim_t *lastanim;
 
 //
 // P_InitPicAnims
@@ -91,8 +88,7 @@ extern anim_t*	lastanim;
 //  and end entry, in the order found in
 //  the WAD file.
 //
-animdef_t animdefs[] =
-{
+animdef_t animdefs[] = {
     {False, "NUKAGE3",  "NUKAGE1",  8},
     {False, "FWATER4",  "FWATER1",  8},
     {False, "SWATER4",  "SWATER1",  8},
@@ -120,32 +116,28 @@ animdef_t animdefs[] =
     {True,  "SFALL4",   "SFALL1",   8},
     {True,  "WFALL4",   "WFALL1",   8},
     {True,  "DBRAIN4",  "DBRAIN1",  8},
-	
+
     {-1,    "",         "",         0},
 };
 
-anim_t		anims[MAXANIMS];
-anim_t*		lastanim;
+anim_t anims[MAXANIMS];
+anim_t *lastanim;
 
 
 //
-//      Animating line specials
+//  Animating line specials
 //
-#define MAXLINEANIMS            64
+#define MAXLINEANIMS 64
 
-extern  short	numlinespecials;
-extern  line_t*	linespeciallist[MAXLINEANIMS];
-
+extern short numlinespecials;
+extern line_t *linespeciallist[MAXLINEANIMS];
 
 
 void P_InitPicAnims(void)
 {
-    int i;
-
-    
-    //	Init animation
+    // Init animation
     lastanim = anims;
-    for (i = 0; animdefs[i].istexture != -1; i++)
+    for (int i = 0; animdefs[i].istexture != -1; i++)
     {
         char *startname, *endname;
 
@@ -156,7 +148,7 @@ void P_InitPicAnims(void)
         {
             // different episode ?
             if (R_CheckTextureNumForName(startname) == -1)
-                continue;	
+                continue;
 
             lastanim->picnum = R_TextureNumForName(endname);
             lastanim->basepic = R_TextureNumForName(startname);
@@ -176,7 +168,7 @@ void P_InitPicAnims(void)
         if (lastanim->numpics < 2)
             I_Error("P_InitPicAnims: bad cycle from %s to %s",
                     startname, endname);
-	
+
         lastanim->speed = animdefs[i].speed;
         lastanim++;
     }
@@ -193,8 +185,7 @@ void P_InitPicAnims(void)
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
 //
-side_t *getSide(int currentSector,
-                int line, int side)
+side_t *getSide(int currentSector, int line, int side)
 {
     return &sides[(sectors[currentSector].lines[line])->sidenum[side]];
 }
@@ -227,17 +218,14 @@ int twoSided(int sector, int line)
 // Return sector_t * of sector next to current.
 // NULL if not two-sided line
 //
-sector_t*
-getNextSector
-( line_t*	line,
-  sector_t*	sec )
+sector_t *getNextSector(line_t *line, sector_t *sec)
 {
     if (!(line->flags & ML_TWOSIDED))
-	return NULL;
-		
+        return NULL;
+
     if (line->frontsector == sec)
-	return line->backsector;
-	
+        return line->backsector;
+
     return line->frontsector;
 }
 
@@ -1453,15 +1441,14 @@ void P_SpawnSpecials (void)
 	}
     }
 
-    
+
     //	Init other misc stuff
     for (i = 0;i < MAXCEILINGS; i++)
         activeceilings[i] = NULL;
 
     for (i = 0;i < MAXPLATS; i++)
         activeplats[i] = NULL;
-    
+
     for (i = 0;i < MAXBUTTONS; i++)
         memset(&buttonlist[i],0,sizeof(button_t));
 }
-

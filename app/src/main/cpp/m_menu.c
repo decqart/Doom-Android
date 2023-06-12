@@ -123,8 +123,7 @@ char endstring[160];
 //
 // MENU TYPEDEFS
 //
-typedef struct
-{
+typedef struct {
     // 0 = no cursor here, 1 = ok, 2 = arrows ok
     short status;
 
@@ -139,15 +138,14 @@ typedef struct
     char alphaKey;
 } menuitem_t;
 
-typedef struct menu_s
-{
+typedef struct menu_s {
     short numitems;	// # of menu items
     struct menu_s *prevMenu;	// previous menu
     menuitem_t *menuitems;	// menu items
-    void		(*routine)();	// draw routine
-    short		x;
-    short		y;		// x,y of menu
-    short		lastOn;		// last item user was on in menu
+    void (*routine)();	// draw routine
+    short x;
+    short y; // x,y of menu
+    short lastOn; // last item user was on in menu
 } menu_t;
 
 short itemOn; // menu item skull is on
@@ -156,7 +154,7 @@ short whichSkull; // which skull to draw
 
 // graphic name of skulls
 // warning: initializer-string for array of chars is too long
-char    *skullName[2] = {"M_SKULL1","M_SKULL2"};
+char *skullName[2] = {"M_SKULL1","M_SKULL2"};
 
 // current menudef
 menu_t *currentMenu;
@@ -612,7 +610,7 @@ void M_SaveGame(int choice)
 //
 //      M_QuickSave
 //
-char    tempstring[80];
+char tempstring[80];
 
 void M_QuickSaveResponse(int key)
 {

@@ -36,7 +36,7 @@ static const iwad_t iwads[] = {
     { "plutonia.wad", pack_plut, commercial, "Final Doom: Plutonia Experiment" },
     { "tnt.wad",      pack_tnt,  commercial, "Final Doom: TNT: Evilution" },
     { "doom.wad",     doom,      retail,     "Doom" },
-    { "DOOM1.WAD",    doom,      shareware,  "Doom Shareware" },
+    { "doom1.wad",    doom,      shareware,  "Doom Shareware" },
     { "chex.wad",     pack_chex, shareware,  "Chex Quest" },
     { "hacx.wad",     pack_hacx, commercial, "Hacx" },
     { "freedm.wad",   doom2,     commercial, "FreeDM" },
@@ -213,7 +213,7 @@ static void CheckCollectorsEdition(void)
         return;
     }
 
-    for (i=0; i<arrlen(collectors_edition_subdirs); ++i)
+    for (i=0; i<ARRLEN(collectors_edition_subdirs); ++i)
     {
         subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
                                collectors_edition_subdirs[i], NULL);
@@ -287,7 +287,7 @@ static char *SearchDirectoryForIWAD(char *dir, int mask, GameMission_t *mission)
 {
     char *filename;
 
-    for (size_t i = 0; i < arrlen(iwads); ++i)
+    for (size_t i = 0; i < ARRLEN(iwads); ++i)
     {
         if (((1 << iwads[i].mission) & mask) == 0)
         {
@@ -325,7 +325,7 @@ static GameMission_t IdentifyIWADByName(char *name, int mask)
 
     mission = none;
 
-    for (i = 0; i < arrlen(iwads); ++i)
+    for (i = 0; i < ARRLEN(iwads); ++i)
     {
         // Check if the filename is this IWAD name.
 
@@ -500,7 +500,7 @@ char *D_SaveGameIWADName(GameMission_t gamemission)
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
 
-    for (size_t i = 0; i < arrlen(iwads); ++i)
+    for (size_t i = 0; i < ARRLEN(iwads); ++i)
     {
         if (gamemission == iwads[i].mission)
         {
@@ -514,7 +514,7 @@ char *D_SaveGameIWADName(GameMission_t gamemission)
 
 char *D_SuggestGameName(GameMission_t mission, GameMode_t mode)
 {
-    for (int i = 0; i < arrlen(iwads); ++i)
+    for (int i = 0; i < ARRLEN(iwads); ++i)
     {
         if (iwads[i].mission == mission &&
             (mode == indetermined || iwads[i].mode == mode))

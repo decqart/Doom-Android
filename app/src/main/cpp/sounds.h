@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Created by the sound utility written by Dave Taylor.
-//	Kept as a sample, DOOM2  sounds. Frozen.
+//  Created by the sound utility written by Dave Taylor.
+//  Kept as a sample, DOOM2  sounds. Frozen.
 //
 
 #ifndef __SOUNDS__
@@ -26,14 +26,13 @@
 extern sfxinfo_t S_sfx[];
 
 // the complete set of music
-extern musicinfo_t	S_music[];
+extern musicinfo_t S_music[];
 
 //
 // Identifiers for all music in game.
 //
 
-typedef enum
-{
+typedef enum {
     mus_None,
     mus_e1m1,
     mus_e1m2,
@@ -110,8 +109,7 @@ typedef enum
 // Identifiers for all sfx in game.
 //
 
-typedef enum
-{
+typedef enum {
     sfx_None,
     sfx_pistol,
     sfx_shotgn,

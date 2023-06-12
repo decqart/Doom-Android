@@ -319,13 +319,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     {
         // armor
     case SPR_ARM1:
-        if (!P_GiveArmor(player, deh_green_armor_class))
+        if (!P_GiveArmor(player, DEH_GREEN_ARMOR_CLASS))
             return;
         player->message = GOTARMOR;
         break;
 		
     case SPR_ARM2:
-        if (!P_GiveArmor(player, deh_blue_armor_class))
+        if (!P_GiveArmor(player, DEH_BLUE_ARMOR_CLASS))
             return;
         player->message = GOTMEGA;
         break;
@@ -333,16 +333,16 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
         // bonus items
     case SPR_BON1:
         player->health++;		// can go over 100%
-        if (player->health > deh_max_health)
-            player->health = deh_max_health;
+        if (player->health > DEH_MAX_HEALTH)
+            player->health = DEH_MAX_HEALTH;
         player->mo->health = player->health;
         player->message = GOTHTHBONUS;
         break;
         
     case SPR_BON2:
         player->armorpoints++;		// can go over 100%
-        if (player->armorpoints > deh_max_armor)
-            player->armorpoints = deh_max_armor;
+        if (player->armorpoints > DEH_MAX_ARMOR)
+            player->armorpoints = DEH_MAX_ARMOR;
         // deh_green_armor_class only applies to the green armor shirt;
         // for the armor helmets, armortype 1 is always used.
         if (!player->armortype)
@@ -351,9 +351,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
         break;
         
     case SPR_SOUL:
-        player->health += deh_soulsphere_health;
-        if (player->health > deh_max_soulsphere)
-            player->health = deh_max_soulsphere;
+        player->health += DEH_SOULSPHERE_HEALTH;
+        if (player->health > DEH_MAX_SOULSPHERE)
+            player->health = DEH_MAX_SOULSPHERE;
         player->mo->health = player->health;
         player->message = GOTSUPER;
         sound = sfx_getpow;
@@ -362,7 +362,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_MEGA:
         if (gamemode != commercial)
             return;
-        player->health = deh_megasphere_health;
+        player->health = DEH_MEGASPHERE_HEALTH;
         player->mo->health = player->health;
         // We always give armor type 2 for the megasphere; dehacked only 
         // affects the MegaArmor.

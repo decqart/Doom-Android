@@ -13,11 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Gamma correction LUT.
-//	Functions to draw patches (by post) directly to screen.
-//	Functions to blit a block to the screen.
+//  Gamma correction LUT.
+//  Functions to draw patches (by post) directly to screen.
+//  Functions to blit a block to the screen.
 //
-
 
 #ifndef __V_VIDEO__
 #define __V_VIDEO__
@@ -31,7 +30,7 @@
 // VIDEO
 //
 
-#define CENTERY			(SCREENHEIGHT/2)
+#define CENTERY (SCREENHEIGHT/2)
 
 
 extern int dirtybox[4];
@@ -99,5 +98,4 @@ void V_LoadXlaTable(void);
 
 void V_DrawMouseSpeedBox(int speed);
 
-#endif
-
+#endif /* __V_VIDEO__ */

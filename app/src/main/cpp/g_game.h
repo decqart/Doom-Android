@@ -67,4 +67,4 @@ int G_VanillaVersionCode(void);
 extern int vanilla_savegame_limit;
 extern int vanilla_demo_limit;
 
-#endif
+#endif /* __G_GAME__ */

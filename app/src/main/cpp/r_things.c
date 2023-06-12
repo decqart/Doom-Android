@@ -33,8 +33,7 @@
 #define MINZ        (FRACUNIT*4)
 #define BASEYCENTER 100
 
-typedef struct
-{
+typedef struct {
     int x1;
     int x2;
 
@@ -140,7 +139,7 @@ void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, boolean fl
 //  letter/number appended.
 // The rotation character can be 0 to signify no rotations.
 //
-void R_InitSpriteDefs (char** namelist) 
+void R_InitSpriteDefs(char** namelist)
 { 
     char **check;
     int i;

@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Main loop stuff.
+//  Main loop stuff.
 //
 
 #ifndef __D_LOOP__
@@ -28,24 +28,19 @@
 typedef boolean (*netgame_startup_callback_t)(int ready_players,
                                               int num_players);
 
-typedef struct
-{
+typedef struct {
     // Read events from the event queue, and process them.
-
-    void (*ProcessEvents)();
+    void (*ProcessEvents)(void);
 
     // Given the current input state, fill in the fields of the specified
     // ticcmd_t structure with data for a new tic.
-
     void (*BuildTiccmd)(ticcmd_t *cmd, int maketic);
 
     // Advance the game forward one tic, using the specified player input.
-
-    void (*RunTic)(ticcmd_t *cmds, boolean *ingame);
+    void (*RunTic)(ticcmd_t *cmds, const boolean *ingame);
 
     // Run the menu (runs independently of the game).
-
-    void (*RunMenu)();
+    void (*RunMenu)(void);
 } loop_interface_t;
 
 // Register callback functions for the main loop code to use.
@@ -73,4 +68,4 @@ void D_StartNetGame(net_gamesettings_t *settings,
 extern boolean singletics;
 extern int gametic, ticdup;
 
-#endif
+#endif /* __D_LOOP__ */

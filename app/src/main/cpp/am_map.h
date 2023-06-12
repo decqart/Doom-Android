@@ -16,8 +16,8 @@
 //  AutoMap module.
 //
 
-#ifndef __AMMAP_H__
-#define __AMMAP_H__
+#ifndef AM_MAP_H
+#define AM_MAP_H
 
 #include "d_event.h"
 #include "m_cheat.h"
@@ -44,4 +44,4 @@ void AM_Stop(void);
 
 extern cheatseq_t cheat_amap;
 
-#endif
+#endif /* AM_MAP_H */

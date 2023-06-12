@@ -74,9 +74,9 @@
 #define KEY_INS      (0x80+0x52)
 #define KEY_DEL      (0x80+0x53)
 
-#define KEYP_5          '5'
+#define KEYP_5        '5'
 
-#define KEYP_PLUS       '+'
-#define KEYP_MULTIPLY   '*'
+#define KEYP_PLUS     '+'
+#define KEYP_MULTIPLY '*'
 
 #endif /* __DOOMKEYS__ */

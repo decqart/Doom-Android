@@ -14,7 +14,7 @@
 //
 // DESCRIPTION:
 //  Internally used data structures for virtually everything,
-//   lots of other stuff.
+//  lots of other stuff.
 //
 
 #ifndef __DOOMDEF__
@@ -83,7 +83,7 @@ typedef enum {
     it_blueskull,
     it_yellowskull,
     it_redskull,
-    
+
     NUMCARDS
 } card_t;
 
@@ -104,10 +104,9 @@ typedef enum {
     wp_supershotgun,
 
     NUMWEAPONS,
-    
+
     // No pending weapon change.
     wp_nochange
-
 } weapontype_t;
 
 
@@ -119,7 +118,6 @@ typedef enum {
     am_misl, // Missile launcher.
     NUMAMMO,
     am_noammo // Unlimited for chainsaw / fist.
-
 } ammotype_t;
 
 
@@ -132,7 +130,6 @@ typedef enum {
     pw_allmap,
     pw_infrared,
     NUMPOWERS
-
 } powertype_t;
 
 //
@@ -145,7 +142,6 @@ typedef enum {
     INVISTICS  = (60*TICRATE),
     INFRATICS  = (120*TICRATE),
     IRONTICS   = (60*TICRATE)
-
 } powerduration_t;
 
 #endif /* __DOOMDEF__ */

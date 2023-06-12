@@ -51,8 +51,7 @@
 
 typedef struct atexit_listentry_s atexit_listentry_t;
 
-struct atexit_listentry_s
-{
+struct atexit_listentry_s {
     atexit_func_t func;
     boolean run_on_error;
     atexit_listentry_t *next;
@@ -157,9 +156,7 @@ void I_PrintBanner(char *msg)
 void I_PrintDivider(void)
 {
     for (int i = 0; i < 75; ++i)
-    {
         putchar('=');
-    }
 
     putchar('\n');
 }
@@ -182,21 +179,18 @@ void I_PrintStartupBanner(char *gamedescription)
 // Returns true if stdout is a real console, false if it is a file
 boolean I_ConsoleStdout(void)
 {
-#if ORIGCODE
-    return isatty(fileno(stdout));
+#if __unix__
+    return isatty(STDOUT_FILENO);
 #else
-    return 0;
+    return False;
 #endif
 }
 
 void I_Quit(void)
 {
-    atexit_listentry_t *entry;
+    atexit_listentry_t *entry = exit_funcs;
 
     // Run through all exit functions
- 
-    entry = exit_funcs; 
-
     while (entry != NULL)
     {
         entry->func();
@@ -308,7 +302,7 @@ void I_Error(char *error, ...)
     }
 #endif
 
-    exit(-1);
+    exit(1);
 }
 
 //
@@ -335,10 +329,9 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
 
     if (firsttime)
     {
-        int p, i, val;
+        int p, val;
 
         firsttime = False;
-        i = 0;
 
         //!
         // @category compat
@@ -353,13 +346,13 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
 
         if (p > 0)
         {
-            if (!strcasecmp(myargv[p + 1], "dos622"))
-            {
-                dos_mem_dump = mem_dump_dos622;
-            }
             if (!strcasecmp(myargv[p + 1], "dos71"))
             {
                 dos_mem_dump = mem_dump_win98;
+            }
+            else if (!strcasecmp(myargv[p + 1], "dos622"))
+            {
+                dos_mem_dump = mem_dump_dos622;
             }
             else if (!strcasecmp(myargv[p + 1], "dosbox"))
             {
@@ -367,7 +360,7 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
             }
             else
             {
-                for (i = 0; i < DOS_MEM_DUMP_SIZE; ++i)
+                for (int i = 0; i < DOS_MEM_DUMP_SIZE; ++i)
                 {
                     ++p;
 

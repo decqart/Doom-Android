@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	The not so system specific sound interface.
+//  The not so system specific sound interface.
 //
 
 #ifndef __I_SOUND__
@@ -27,8 +27,7 @@
 //
 typedef struct sfxinfo_struct sfxinfo_t;
 
-struct sfxinfo_struct
-{
+struct sfxinfo_struct {
     // lump name.  If we are running with use_sfx_prefix=true, a
     // 'DS' (or 'DP' for PC speaker sounds) is prepended to this.
 
@@ -52,7 +51,7 @@ struct sfxinfo_struct
     int usefulness;
 
     // lump number of sfx
-    int lumpnum;		
+    int lumpnum;
 
     // Maximum number of channels that the sound can be played on 
     // (Heretic)
@@ -65,8 +64,7 @@ struct sfxinfo_struct
 //
 // MusicInfo struct.
 //
-typedef struct
-{
+typedef struct {
     // up to 6-character name
     char *name;
 
@@ -80,8 +78,7 @@ typedef struct
     void *handle;
 } musicinfo_t;
 
-typedef enum 
-{
+typedef enum {
     SNDDEVICE_NONE = 0,
     SNDDEVICE_PCSPEAKER = 1,
     SNDDEVICE_ADLIB = 2,
@@ -97,8 +94,7 @@ typedef enum
 
 // Interface for sound modules
 
-typedef struct
-{
+typedef struct {
     // List of sound devices that this sound module is used for.
 
     snddevice_t *sound_devices;
@@ -156,8 +152,7 @@ void I_PrecacheSounds(sfxinfo_t *sounds, int num_sounds);
 
 // Interface for music modules
 
-typedef struct
-{
+typedef struct {
     // List of sound devices that this music module is used for.
 
     snddevice_t *sound_devices;

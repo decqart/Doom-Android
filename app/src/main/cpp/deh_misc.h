@@ -19,21 +19,21 @@
 
 #include "doomfeatures.h"
 
-#define deh_initial_health     100
-#define deh_initial_bullets    50
-#define deh_max_health         200
-#define deh_max_armor          200
-#define deh_green_armor_class  1
-#define deh_blue_armor_class   2
-#define deh_max_soulsphere     200
-#define deh_soulsphere_health  100
-#define deh_megasphere_health  200
-#define deh_god_mode_health    100
-#define deh_idfa_armor         200
-#define deh_idfa_armor_class   2
-#define deh_idkfa_armor        200
-#define deh_idkfa_armor_class  2
-#define deh_bfg_cells_per_shot 40
-#define deh_species_infighting 0
+#define DEH_INITIAL_HEALTH     100
+#define DEH_INITIAL_BULLETS    50
+#define DEH_MAX_HEALTH         200
+#define DEH_MAX_ARMOR          200
+#define DEH_GREEN_ARMOR_CLASS  1
+#define DEH_BLUE_ARMOR_CLASS   2
+#define DEH_MAX_SOULSPHERE     200
+#define DEH_SOULSPHERE_HEALTH  100
+#define DEH_MEGASPHERE_HEALTH  200
+#define DEH_GOD_MODE_HEALTH    100
+#define DEH_IDFA_ARMOR         200
+#define DEH_IDFA_ARMOR_CLASS   2
+#define DEH_IDKFA_ARMOR        200
+#define DEH_IDKFA_ARMOR_CLASS  2
+#define DEH_BFG_CELLS_PER_SHOT 40
+#define DEH_SPECIES_INFIGHTING 0
 
 #endif /* DEH_MISC_H */

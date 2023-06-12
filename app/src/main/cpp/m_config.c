@@ -673,9 +673,9 @@ static default_t doom_defaults_list[] =
 
 static default_collection_t doom_defaults =
 {
-    doom_defaults_list,
-    arrlen(doom_defaults_list),
-    NULL,
+        doom_defaults_list,
+        ARRLEN(doom_defaults_list),
+        NULL,
 };
 
 //! @begin_config_file extended
@@ -1529,9 +1529,9 @@ static default_t extra_defaults_list[] =
 
 static default_collection_t extra_defaults =
 {
-    extra_defaults_list,
-    arrlen(extra_defaults_list),
-    NULL,
+        extra_defaults_list,
+        ARRLEN(extra_defaults_list),
+        NULL,
 };
 
 // Search a collection for a variable
@@ -1585,13 +1585,13 @@ static void SaveDefaultCollection(default_collection_t *collection)
     default_t *defaults;
     int i, v;
     FILE *f;
-	
+
     f = fopen(collection->filename, "w");
     if (!f)
-	return; // can't write the file, but don't complain
+    return; // can't write the file, but don't complain
 
     defaults = collection->defaults;
-		
+
     for (i=0 ; i<collection->numdefaults ; i++)
     {
         int chars_written;
@@ -1657,15 +1657,15 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     }
                 }
 
-	        fprintf(f, "%i", v);
+            fprintf(f, "%i", v);
                 break;
 
             case DEFAULT_INT:
-	        fprintf(f, "%i", * (int *) defaults[i].location);
+            fprintf(f, "%i", * (int *) defaults[i].location);
                 break;
 
             case DEFAULT_INT_HEX:
-	        fprintf(f, "0x%x", * (int *) defaults[i].location);
+            fprintf(f, "0x%x", * (int *) defaults[i].location);
                 break;
 
             case DEFAULT_FLOAT:
@@ -1673,7 +1673,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 break;
 
             case DEFAULT_STRING:
-	        fprintf(f,"\"%s\"", * (char **) (defaults[i].location));
+            fprintf(f,"\"%s\"", * (char **) (defaults[i].location));
                 break;
         }
 

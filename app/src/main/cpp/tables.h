@@ -28,8 +28,7 @@
 //
 //	int tantoangle[2049]	- ArcTan LUT,
 //	  maps tan(angle) to angle fast. Gotta search.	
-//    
-
+//
 
 #ifndef __TABLES__
 #define __TABLES__
@@ -37,13 +36,13 @@
 #include "doomtype.h"
 
 #include "m_fixed.h"
-	
+
 #define FINEANGLES		8192
 #define FINEMASK		(FINEANGLES-1)
 
 
 // 0x100000000 to 0x2000
-#define ANGLETOFINESHIFT	19		
+#define ANGLETOFINESHIFT	19
 
 // Effective size is 10240.
 extern const fixed_t finesine[5*FINEANGLES/4];
@@ -90,5 +89,4 @@ extern const angle_t tantoangle[SLOPERANGE+1];
 //  called by R_PointToAngle.
 int SlopeDiv(unsigned int num, unsigned int den);
 
-#endif
-
+#endif /* __TABLES__ */

@@ -64,4 +64,4 @@ unsigned int Z_ZoneSize(void);
 //
 #define Z_ChangeTag(p,t) Z_ChangeTag2((p), (t), __FILE__, __LINE__)
 
-#endif
+#endif /* __Z_ZONE__ */

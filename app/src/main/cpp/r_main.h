@@ -52,7 +52,7 @@ extern int linecount;
 // Lighting constants.
 // Now why not 32 levels here?
 #define LIGHTLEVELS        16
-#define LIGHTSEGSHIFT         4
+#define LIGHTSEGSHIFT      4
 
 #define MAXLIGHTSCALE   48
 #define LIGHTSCALESHIFT 12
@@ -121,4 +121,4 @@ void R_Init(void);
 // Called by M_Responder.
 void R_SetViewSize(int blocks, int detail);
 
-#endif
+#endif /* __R_MAIN__ */

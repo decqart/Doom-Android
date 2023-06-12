@@ -151,50 +151,50 @@ wad_file_t *W_AddFile(char *filename)
 
     if (wad_file == NULL)
     {
-		printf(" couldn't open %s\n", filename);
-		return NULL;
+        printf(" couldn't open %s\n", filename);
+        return NULL;
     }
 
     newnumlumps = numlumps;
 
     if (strcasecmp(filename+strlen(filename)-3 , "wad"))
     {
-    	// single lump file
+        // single lump file
 
         // fraggle: Swap the filepos and size here.  The WAD directory
         // parsing code expects a little-endian directory, so will swap
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
 
-		fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
-		fileinfo->filepos = LONG(0);
-		fileinfo->size = LONG(wad_file->length);
+        fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
+        fileinfo->filepos = LONG(0);
+        fileinfo->size = LONG(wad_file->length);
 
         // Name the lump after the base of the filename (without the
         // extension).
 
-		M_ExtractFileBase(filename, fileinfo->name);
-		newnumlumps++;
+        M_ExtractFileBase(filename, fileinfo->name);
+        newnumlumps++;
     }
     else 
     {
-    	// WAD file
+        // WAD file
         W_Read(wad_file, 0, &header, sizeof(header));
 
-		if (strncmp(header.identification, "IWAD", 4))
-		{
-			// Homebrew levels?
-			if (strncmp(header.identification, "PWAD", 4))
-			{
+        if (strncmp(header.identification, "IWAD", 4))
+        {
+            // Homebrew levels?
+            if (strncmp(header.identification, "PWAD", 4))
+            {
                 I_Error("Wad file %s doesn't have IWAD "
                         "or PWAD id\n", filename);
-			}
-		}
+            }
+        }
 
-		header.numlumps = LONG(header.numlumps);
-		header.infotableofs = LONG(header.infotableofs);
-		length = header.numlumps*sizeof(filelump_t);
-		fileinfo = Z_Malloc(length, PU_STATIC, 0);
+        header.numlumps = LONG(header.numlumps);
+        header.infotableofs = LONG(header.infotableofs);
+        length = header.numlumps*sizeof(filelump_t);
+        fileinfo = Z_Malloc(length, PU_STATIC, 0);
 
         W_Read(wad_file, header.infotableofs, fileinfo, length);
         newnumlumps += header.numlumps;
@@ -210,11 +210,11 @@ wad_file_t *W_AddFile(char *filename)
 
     for (i = startlump; i < numlumps; ++i)
     {
-		lump_p->wad_file = wad_file;
-		lump_p->position = LONG(filerover->filepos);
-		lump_p->size = LONG(filerover->size);
+        lump_p->wad_file = wad_file;
+        lump_p->position = LONG(filerover->filepos);
+        lump_p->size = LONG(filerover->size);
         lump_p->cache = NULL;
-		strncpy(lump_p->name, filerover->name, 8);
+        strncpy(lump_p->name, filerover->name, 8);
 
         ++lump_p;
         ++filerover;
@@ -231,25 +231,20 @@ wad_file_t *W_AddFile(char *filename)
     return wad_file;
 }
 
-//
-// W_CheckNumForName
 // Returns -1 if name not found.
-//
 int W_CheckNumForName(char *name)
 {
     lumpinfo_t *lump_p;
-    int i;
 
     // Do we have a hash table yet?
-
     if (lumphash != NULL)
     {
         int hash;
-        
+
         // We do! Excellent.
 
         hash = W_LumpNameHash(name) % numlumps;
-        
+
         for (lump_p = lumphash[hash]; lump_p != NULL; lump_p = lump_p->next)
         {
             if (!strncasecmp(lump_p->name, name, 8))
@@ -264,7 +259,7 @@ int W_CheckNumForName(char *name)
         // 
         // scan backwards so patch lump files take precedence
 
-        for (i=numlumps-1; i >= 0; --i)
+        for (int i = numlumps-1; i >= 0; --i)
         {
             if (!strncasecmp(lumpinfo[i].name, name, 8))
             {
@@ -277,28 +272,20 @@ int W_CheckNumForName(char *name)
     return -1;
 }
 
-
-//
-// W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.
-//
 int W_GetNumForName(char *name)
 {
-    int	i = W_CheckNumForName(name);
+    int i = W_CheckNumForName(name);
 
     if (i < 0)
     {
         I_Error("W_GetNumForName: %s not found!", name);
     }
- 
+
     return i;
 }
 
-
-//
-// W_LumpLength
 // Returns the buffer size needed to load the given lump.
-//
 int W_LumpLength(unsigned int lump)
 {
     if (lump >= numlumps)
@@ -317,22 +304,19 @@ int W_LumpLength(unsigned int lump)
 //
 void W_ReadLump(unsigned int lump, void *dest)
 {
-    int c;
-    lumpinfo_t *l;
-	
     if (lump >= numlumps)
     {
         I_Error("W_ReadLump: %i >= numlumps", lump);
     }
 
-    l = lumpinfo+lump;
-		
-    c = W_Read(l->wad_file, l->position, dest, l->size);
+    lumpinfo_t *l = lumpinfo+lump;
+
+    int c = W_Read(l->wad_file, l->position, dest, l->size);
 
     if (c < l->size)
     {
         I_Error("W_ReadLump: only read %i of %i on lump %i",
-                c, l->size, lump);	
+                c, l->size, lump);
     }
 }
 
@@ -386,7 +370,7 @@ void *W_CacheLumpNum(int lumpnum, int tag)
         W_ReadLump(lumpnum, lump->cache);
         result = lump->cache;
     }
-	
+
     return result;
 }
 
@@ -468,8 +452,7 @@ void W_GenerateHashTable(void)
 // Lump names that are unique to particular game types. This lets us check
 // the user is not trying to play with the wrong executable, eg.
 // chocolate-doom -iwad hexen.wad.
-static const struct
-{
+static const struct {
     GameMission_t mission;
     char *lumpname;
 } unique_lumps[] = {
@@ -483,7 +466,7 @@ void W_CheckCorrectIWAD(GameMission_t mission)
 {
     int lumpnum;
 
-    for (int i = 0; i < arrlen(unique_lumps); ++i)
+    for (int i = 0; i < ARRLEN(unique_lumps); ++i)
     {
         if (mission != unique_lumps[i].mission)
         {

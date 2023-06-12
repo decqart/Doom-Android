@@ -13,11 +13,11 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Created by a sound utility.
-//	Kept as a sample, DOOM2 sounds.
+//  Created by a sound utility.
+//  Kept as a sample, DOOM2 sounds.
 //
 
-#include <stdlib.h>
+#include <stddef.h>
 
 #include "doomtype.h"
 #include "sounds.h"

@@ -13,10 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Main loop menu stuff.
-//	Random number LUT.
-//	Default Config File.
-//	PCX Screenshots.
+//  Main loop menu stuff.
+//  Random number LUT.
+//  Default Config File.
+//  PCX Screenshots.
 //
 
 #include "m_bbox.h"

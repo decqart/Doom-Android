@@ -16,8 +16,8 @@
 //  Miscellaneous.
 //
 
-#ifndef __M_MISC__
-#define __M_MISC__
+#ifndef M_MISC_H
+#define M_MISC_H
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -38,4 +38,4 @@ boolean M_StringEndsWith(const char *s, const char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 
-#endif
+#endif /* M_MISC_H */

@@ -274,7 +274,7 @@ static int G_NextWeapon(int direction)
         weapon = players[consoleplayer].pendingweapon;
     }
 
-    for (i=0; i<arrlen(weapon_order_table); ++i)
+    for (i=0; i < ARRLEN(weapon_order_table); ++i)
     {
         if (weapon_order_table[i].weapon == weapon)
         {
@@ -287,7 +287,7 @@ static int G_NextWeapon(int direction)
     do
     {
         i += direction;
-        i = (i + arrlen(weapon_order_table)) % arrlen(weapon_order_table);
+        i = (i + ARRLEN(weapon_order_table)) % ARRLEN(weapon_order_table);
     } while (i != start_i && !WeaponSelectable(weapon_order_table[i].weapon));
 
     return weapon_order_table[i].weapon_num;
@@ -429,7 +429,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     {
         // Check weapon keys.
 
-        for (i = 0; i < arrlen(weapon_keys); ++i)
+        for (i = 0; i < ARRLEN(weapon_keys); ++i)
         {
             int key = *weapon_keys[i];
 
@@ -1021,11 +1021,11 @@ void G_PlayerReborn(int player)
  
     p->usedown = p->attackdown = True;	// don't do anything immediately
     p->playerstate = PST_LIVE;       
-    p->health = deh_initial_health;     // Use dehacked value
+    p->health = DEH_INITIAL_HEALTH;     // Use dehacked value
     p->readyweapon = p->pendingweapon = wp_pistol; 
     p->weaponowned[wp_fist] = True;
     p->weaponowned[wp_pistol] = True;
-    p->ammo[am_clip] = deh_initial_bullets; 
+    p->ammo[am_clip] = DEH_INITIAL_BULLETS;
 	 
     for (i = 0; i < NUMAMMO; i++)
         p->maxammo[i] = maxammo[i];

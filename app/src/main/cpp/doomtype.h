@@ -13,9 +13,9 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Simple basic typedefs, isolated here to make it easier
-//	 separating modules.
-//    
+//  Simple basic typedefs, isolated here to make it easier
+//  separating modules.
+//
 
 #ifndef __DOOMTYPE__
 #define __DOOMTYPE__
@@ -50,25 +50,16 @@
 #define PACKEDATTR
 #endif
 
-// C99 integer types; with gcc we just use this.  Other compilers 
-// should add conditional statements that define the C99 types.
-
-// What is really wanted here is stdint.h; however, some old versions
-// of Solaris don't have stdint.h and only have inttypes.h (the 
-// pre-standardisation version).  inttypes.h is also in the C99 
-// standard and defined to include stdint.h, so include this. 
-
-#include <inttypes.h>
+#include <stdint.h>
+#include <limits.h>
 
 typedef enum {
     False = 0,
     True  = 1,
-    undef = 0xFFFFFFFF
+    undef = 0xFFFFFFF
 } boolean;
 
 typedef uint8_t byte;
-
-#include <limits.h>
 
 #ifdef _WIN32
 #define DIR_SEPARATOR '\\'
@@ -80,6 +71,6 @@ typedef uint8_t byte;
 #define PATH_SEPARATOR ':'
 #endif
 
-#define arrlen(array) (sizeof(array) / sizeof(*array))
+#define ARRLEN(array) (sizeof(array) / sizeof(*array))
 
-#endif
+#endif /* __DOOMTYPE__ */

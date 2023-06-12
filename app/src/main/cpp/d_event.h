@@ -61,7 +61,7 @@ typedef struct
     int data1, data2, data3, data4;
 } event_t;
 
- 
+
 //
 // Button/action code definitions.
 //
@@ -117,11 +117,10 @@ typedef enum
 } buttoncode2_t;
 
 // Called by IO functions when input is detected.
-void D_PostEvent (event_t *ev);
+void D_PostEvent(event_t *ev);
 
 // Read an event from the event queue
 
-event_t *D_PopEvent();
+event_t *D_PopEvent(void);
 
 #endif
-

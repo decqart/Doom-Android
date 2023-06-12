@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//   
+//
 
 #ifndef __F_FINALE__
 #define __F_FINALE__
@@ -20,7 +20,7 @@
 #include "d_event.h"
 
 // Called by main loop.
-boolean F_Responder(event_t* ev);
+boolean F_Responder(event_t *ev);
 
 // Called by main loop.
 void F_Ticker(void);
@@ -30,4 +30,4 @@ void F_Drawer(void);
 
 void F_StartFinale(void);
 
-#endif
+#endif /* __F_FINALE__ */

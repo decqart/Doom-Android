@@ -12,14 +12,13 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// DESCRIPTION:  Head up display
+// DESCRIPTION: Head up display
 //
 
 #ifndef __HU_STUFF_H__
 #define __HU_STUFF_H__
 
 #include "d_event.h"
-
 
 //
 // Globally visible constants.
@@ -55,5 +54,4 @@ void HU_Erase(void);
 
 extern char *chat_macros[10];
 
-#endif
-
+#endif /* __HU_STUFF_H__ */
