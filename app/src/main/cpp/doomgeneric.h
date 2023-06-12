@@ -1,5 +1,5 @@
-#ifndef DOOM_GENERIC
-#define DOOM_GENERIC
+#ifndef DOOMGENERIC_H
+#define DOOMGENERIC_H
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -7,12 +7,14 @@
 #ifdef __ANDROID__
 extern int DOOMGENERIC_RESY;
 extern int DOOMGENERIC_RESX;
+
+extern uint32_t *DG_ScreenBuffer;
 #else
 #define DOOMGENERIC_RESX 640
 #define DOOMGENERIC_RESY 400
-#endif
 
-extern uint32_t *DG_ScreenBuffer;
+extern uint32_t DG_ScreenBuffer[];
+#endif
 
 void DG_Init(void);
 void DG_DrawFrame(void);
@@ -21,4 +23,4 @@ uint32_t DG_GetTicksMs(void);
 int DG_GetKey(int *pressed, unsigned char *key);
 void DG_SetWindowTitle(const char *title);
 
-#endif /* DOOM_GENERIC */
+#endif /* DOOMGENERIC_H */

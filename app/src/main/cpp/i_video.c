@@ -40,18 +40,14 @@
 
 #include <sys/types.h>
 
-struct FB_BitField
-{
+struct FB_BitField {
     uint32_t offset; /* beginning of bitfield */
     uint32_t length; /* length of bitfield */
 };
 
-struct FB_ScreenInfo
-{
+struct FB_ScreenInfo {
     uint32_t xres; /* visible resolution */
     uint32_t yres;
-    uint32_t xres_virtual; /* virtual resolution */
-    uint32_t yres_virtual;
 
     uint32_t bits_per_pixel; /* guess what */
 
@@ -106,8 +102,7 @@ int mouse_threshold = 10;
 
 int usegamma = 0;
 
-typedef struct
-{
+typedef struct {
     byte r;
     byte g;
     byte b;
@@ -167,13 +162,9 @@ void cmap_to_fb(uint8_t *out, uint8_t *in, int in_pixels)
 
 void I_InitGraphics(void)
 {
-    int i;
-
     memset(&s_Fb, 0, sizeof(struct FB_ScreenInfo));
     s_Fb.xres = DOOMGENERIC_RESX;
     s_Fb.yres = DOOMGENERIC_RESY;
-    s_Fb.xres_virtual = s_Fb.xres;
-    s_Fb.yres_virtual = s_Fb.yres;
     s_Fb.bits_per_pixel = 32;
 
     s_Fb.blue.length = 8;
@@ -186,8 +177,8 @@ void I_InitGraphics(void)
     s_Fb.red.offset = 16;
     s_Fb.transp.offset = 24;
 
-    printf("I_InitGraphics: framebuffer: x_res: %d, y_res: %d, x_virtual: %d, y_virtual: %d, bpp: %d\n",
-           s_Fb.xres, s_Fb.yres, s_Fb.xres_virtual, s_Fb.yres_virtual, s_Fb.bits_per_pixel);
+    printf("I_InitGraphics: framebuffer: x_res: %d, y_res: %d, bpp: %d\n",
+           s_Fb.xres, s_Fb.yres,  s_Fb.bits_per_pixel);
 
     printf("I_InitGraphics: framebuffer: RGBA: %d%d%d%d, red_off: %d, green_off: %d, blue_off: %d, transp_off: %d\n",
            s_Fb.red.length, s_Fb.green.length, s_Fb.blue.length, s_Fb.transp.length, s_Fb.red.offset, s_Fb.green.offset, s_Fb.blue.offset, s_Fb.transp.offset);
@@ -195,7 +186,7 @@ void I_InitGraphics(void)
     printf("I_InitGraphics: DOOM screen size: w x h: %d x %d\n", SCREENWIDTH, SCREENHEIGHT);
 
 
-    i = M_CheckParmWithArgs("-scaling", 1);
+    int i = M_CheckParmWithArgs("-scaling", 1);
     if (i > 0) {
         i = atoi(myargv[i + 1]);
         fb_scaling = i;
@@ -243,8 +234,7 @@ void I_FinishUpdate(void)
 
     while (y--)
     {
-        int i;
-        for (i = 0; i < fb_scaling; i++) {
+        for (int i = 0; i < fb_scaling; i++) {
             line_out += x_offset;
 #ifdef CMAP256
             for (fb_scaling == 1) {
@@ -262,6 +252,8 @@ void I_FinishUpdate(void)
     }
 
     DG_DrawFrame();
+    //s_Fb.xres = DG_WindowWidth;
+    //s_Fb.yres = DG_WindowWidth;
 }
 
 void I_ReadScreen(byte *scr)
@@ -288,11 +280,9 @@ void I_SetPalette(byte *palette)
 }
 
 // Given an RGB value, find the closest matching palette index.
-
 int I_GetPaletteIndex(int r, int g, int b)
 {
     int best, best_diff, diff;
-    int i;
     col_t color;
 
     printf("I_GetPaletteIndex\n");
@@ -300,7 +290,7 @@ int I_GetPaletteIndex(int r, int g, int b)
     best = 0;
     best_diff = INT_MAX;
 
-    for (i = 0; i < 256; ++i)
+    for (int i = 0; i < 256; ++i)
     {
         color.r = GFX_RGB565_R(rgb565_palette[i]);
         color.g = GFX_RGB565_G(rgb565_palette[i]);
@@ -317,9 +307,7 @@ int I_GetPaletteIndex(int r, int g, int b)
         }
 
         if (diff == 0)
-        {
             break;
-        }
     }
 
     return best;

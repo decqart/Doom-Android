@@ -1,18 +1,17 @@
-#include "doomkeys.h"
-
-#include "doomgeneric.h"
-
-#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/time.h>
+#include <time.h>
+#include <ctype.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 #include <X11/XKBlib.h>
 
+#include "doomkeys.h"
+#include "doomgeneric.h"
+
+//XWindowAttributes win_attr;
 static Display *display = NULL;
 static Window  window;
 static int     screen = 0;
@@ -27,59 +26,59 @@ static unsigned int   s_KeyQueueReadIndex = 0;
 
 static unsigned char convertToDoomKey(unsigned int key)
 {
-	switch (key)
-	{
+    switch (key)
+    {
     case XK_Return:
-		key = KEY_ENTER;
-		break;
+        key = KEY_ENTER;
+        break;
     case XK_Escape:
-		key = KEY_ESCAPE;
-		break;
+        key = KEY_ESCAPE;
+        break;
     case XK_a:
-		key = KEY_LEFTARROW;
-		break;
+        key = KEY_LEFTARROW;
+        break;
     case XK_d:
-		key = KEY_RIGHTARROW;
-		break;
+        key = KEY_RIGHTARROW;
+        break;
     case XK_w:
-		key = KEY_UPARROW;
-		break;
+        key = KEY_UPARROW;
+        break;
     case XK_s:
-		key = KEY_DOWNARROW;
-		break;
+        key = KEY_DOWNARROW;
+        break;
     case XK_Control_L:
     case XK_Control_R:
-		key = KEY_FIRE;
-		break;
+        key = KEY_FIRE;
+        break;
     case XK_e:
-		key = KEY_USE;
-		break;
+        key = KEY_USE;
+        break;
     case XK_Shift_L:
     case XK_Shift_R:
-		key = KEY_RSHIFT;
-		break;
-	default:
-		key = tolower(key);
-		break;
-	}
+        key = KEY_RSHIFT;
+        break;
+    default:
+        key = tolower(key);
+        break;
+    }
 
-	return key;
+    return key;
 }
 
 static void addKeyToQueue(int pressed, unsigned int keyCode)
 {
-	unsigned char key = convertToDoomKey(keyCode);
+    unsigned char key = convertToDoomKey(keyCode);
 
-	unsigned short keyData = (pressed << 8) | key;
+    unsigned short keyData = (pressed << 8) | key;
 
-	s_KeyQueue[s_KeyQueueWriteIndex] = keyData;
-	s_KeyQueueWriteIndex++;
-	s_KeyQueueWriteIndex %= KEYQUEUE_SIZE;
+    s_KeyQueue[s_KeyQueueWriteIndex] = keyData;
+    s_KeyQueueWriteIndex++;
+    s_KeyQueueWriteIndex %= KEYQUEUE_SIZE;
 }
 
 void DG_Init(void)
 {
-	memset(s_KeyQueue, 0, KEYQUEUE_SIZE * sizeof(unsigned short));
+    memset(s_KeyQueue, 0, KEYQUEUE_SIZE * sizeof(unsigned short));
 
     // window creation
     display = XOpenDisplay(NULL);
@@ -102,7 +101,7 @@ void DG_Init(void)
     {
         printf("Failed to create window");
         XCloseDisplay(display);
-        exit(-1);
+        exit(1);
     }
 
     XSelectInput(display, window, KeyPressMask | KeyReleaseMask);
@@ -120,71 +119,85 @@ void DG_Init(void)
 
 void DG_DrawFrame(void)
 {
-    if (display)
+    if (display == NULL) return;
+
+    while (XPending(display))
     {
-        while (XPending(display) > 0)
+        XEvent ev;
+        XNextEvent(display, &ev);
+        if (ev.type == KeyPress)
         {
-            XEvent ev;
-            XNextEvent(display, &ev);
-            if (ev.type == KeyPress)
-            {
-                KeySym sym = XkbKeycodeToKeysym(display, ev.xkey.keycode, 0, ev.xkey.state & ShiftMask ? 1 : 0);
-                addKeyToQueue(1, sym);
-            }
-            else if (ev.type == KeyRelease)
-            {
-                KeySym sym = XkbKeycodeToKeysym(display, ev.xkey.keycode, 0, ev.xkey.state & ShiftMask ? 1 : 0);
-                addKeyToQueue(0, sym);
-            }
+            KeySym sym = XkbKeycodeToKeysym(display, ev.xkey.keycode, 0, ev.xkey.state & ShiftMask ? 1 : 0);
+            addKeyToQueue(1, sym);
         }
-        XSizeHints *size_hint = XAllocSizeHints();
-
-        size_hint->flags = PMinSize | PMaxSize;
-        size_hint->min_width = DOOMGENERIC_RESX;
-        size_hint->min_height = DOOMGENERIC_RESY;
-        size_hint->max_width = DOOMGENERIC_RESX;
-        size_hint->max_height = DOOMGENERIC_RESY;
-    
-        XSetWMSizeHints(display, window, size_hint, XA_WM_NORMAL_HINTS);
-        XFree(size_hint);
-
-        XPutImage(display, window, window_gc, s_Image, 0, 0, 0, 0, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
+        else if (ev.type == KeyRelease)
+        {
+            KeySym sym = XkbKeycodeToKeysym(display, ev.xkey.keycode, 0, ev.xkey.state & ShiftMask ? 1 : 0);
+            addKeyToQueue(0, sym);
+        }
     }
+    XSizeHints *size_hint = XAllocSizeHints();
+
+    size_hint->flags = PMinSize | PMaxSize;
+    size_hint->min_width = DOOMGENERIC_RESX;
+    size_hint->min_height = DOOMGENERIC_RESY;
+    size_hint->max_width = DOOMGENERIC_RESX;
+    size_hint->max_height = DOOMGENERIC_RESY;
+
+    XSetWMSizeHints(display, window, size_hint, XA_WM_NORMAL_HINTS);
+    XFree(size_hint);
+
+    /*
+    XGetWindowAttributes(display, window, &win_attr);
+    if (DG_WindowWidth != win_attr.width || DG_WindowHeight != win_attr.height)
+    {
+        DG_WindowWidth = win_attr.width;
+        DG_WindowHeight = win_attr.height;
+        DG_ScreenBuffer = realloc(DG_ScreenBuffer, DG_WindowWidth*DG_WindowHeight*4);
+        XFree(s_Image);
+        int depth = DefaultDepth(display, screen);
+        s_Image = XCreateImage(display, DefaultVisual(display, screen), depth, ZPixmap, 0, (char *) DG_ScreenBuffer, DG_WindowWidth, DG_WindowHeight, 32, 0);
+    }
+    */
+
+    XPutImage(display, window, window_gc, s_Image, 0, 0, 0, 0, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
 }
 
 void DG_SleepMs(uint32_t ms)
 {
-    usleep(ms * 1000);
+    struct timespec req = {
+            .tv_sec = 0,
+            .tv_nsec = (long) ms*1000000
+    };
+    nanosleep(&req, NULL);
 }
 
 uint32_t DG_GetTicksMs(void)
 {
-    struct timeval  tp;
-    struct timezone tzp;
+    struct timespec tp;
+    clock_gettime(CLOCK_REALTIME, &tp);
 
-    gettimeofday(&tp, &tzp);
-
-    return (tp.tv_sec * 1000) + (tp.tv_usec / 1000); /* return milliseconds */
+    return (tp.tv_sec * 1000) + (tp.tv_nsec / 1000000); /* return milliseconds */
 }
 
 int DG_GetKey(int *pressed, unsigned char *doomKey)
 {
-	if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
-	{
-		//key queue is empty
-		return 0;
-	}
-	else
-	{
-		unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
-		s_KeyQueueReadIndex++;
-		s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
+    if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
+    {
+        //key queue is empty
+        return 0;
+    }
+    else
+    {
+        unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
+        s_KeyQueueReadIndex++;
+        s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
 
-		*pressed = keyData >> 8;
-		*doomKey = keyData & 0xFF;
+        *pressed = keyData >> 8;
+        *doomKey = keyData & 0xFF;
 
-		return 1;
-	}
+        return 1;
+    }
 }
 
 void DG_SetWindowTitle(const char *title)

@@ -1,13 +1,13 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
+
 #include "AndroidRenderer.h"
 
 #include "doomkeys.h"
 #include "doomgeneric.h"
 #include "doomstat.h"
-
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/time.h>
 
 #define KEYQUEUE_SIZE 16
 
@@ -191,17 +191,19 @@ void DG_DrawFrame(void)
 
 void DG_SleepMs(uint32_t ms)
 {
-    usleep(ms * 1000);
+    struct timespec req = {
+            .tv_sec = 0,
+            .tv_nsec = (long) ms*1000000
+    };
+    nanosleep(&req, NULL);
 }
 
 uint32_t DG_GetTicksMs(void)
 {
-    struct timeval tp;
-    struct timezone tzp;
+    struct timespec tp;
+    clock_gettime(CLOCK_REALTIME, &tp);
 
-    gettimeofday(&tp, &tzp);
-
-    return (tp.tv_sec * 1000) + (tp.tv_usec / 1000); /* return milliseconds */
+    return (tp.tv_sec * 1000) + (tp.tv_nsec / 1000000); /* return milliseconds */
 }
 
 int DG_GetKey(int *pressed, unsigned char *doomKey)
