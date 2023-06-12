@@ -1,21 +1,21 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
-    namespace 'com.deckart.doom'
-    compileSdkVersion 33
+    namespace "com.deckart.doom"
+    compileSdk 33
     ndkVersion "25.2.9519653"
 
     defaultConfig {
         applicationId "com.deckart.doom"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdk 19
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         externalNativeBuild {
             cmake {
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-                arguments '-DANDROID_PLATFORM=android-19'
+                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+                arguments "-DANDROID_PLATFORM=android-19"
             }
         }
     }
@@ -24,7 +24,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt")
         }
         android.applicationVariants.all { variant ->
             variant.outputs.all { output ->
@@ -35,8 +35,8 @@ android {
     }
     externalNativeBuild {
         cmake {
-            version '3.22.1'
-            path file('src/main/cpp/CMakeLists.txt')
+            version "3.22.1"
+            path file("src/main/cpp/CMakeLists.txt")
         }
     }
 }
