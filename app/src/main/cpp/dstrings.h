@@ -20,7 +20,6 @@
 #define __DSTRINGS__
 
 // All important printed strings.
-
 #include "d_englsh.h"
 
 // Misc. other strings.
@@ -34,4 +33,4 @@
 extern char *doom1_endmsg[];
 extern char *doom2_endmsg[];
 
-#endif
+#endif /* __DSTRINGS__ */

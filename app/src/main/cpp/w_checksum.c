@@ -16,12 +16,9 @@
 //  Generate a checksum of the WAD directory.
 //
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "m_misc.h"
-#include "sha1.h"
 #include "w_checksum.h"
 #include "w_wad.h"
 
@@ -35,9 +32,7 @@ static int GetFileNumber(wad_file_t *handle)
     for (int i = 0; i < num_open_wadfiles; ++i)
     {
         if (open_wadfiles[i] == handle)
-        {
             return i;
-        }
     }
 
     // Not found in list.  This is a new file we haven't seen yet.
@@ -75,9 +70,7 @@ void W_Checksum(sha1_digest_t digest)
     // about each entry to the SHA1 hash.
 
     for (size_t i = 0; i < numlumps; ++i)
-    {
         ChecksumAddLump(&sha1_context, &lumpinfo[i]);
-    }
-    
+
     SHA1_Final(digest, &sha1_context);
 }

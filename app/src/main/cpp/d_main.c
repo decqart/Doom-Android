@@ -19,10 +19,10 @@
 //  and call the startup functions.
 //
 
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "config.h"
 #include "doomdef.h"
@@ -339,13 +339,11 @@ void D_BindVariables(void)
 // Called to determine whether to grab the mouse pointer
 boolean D_GrabMouseCallback(void)
 {
-    // when menu is active or game is paused, release the mouse 
- 
+    // when menu is active or game is paused, release the mouse
     if (menuactive || paused)
         return False;
 
     // only grab mouse when playing levels (but not demos)
-
     return (gamestate == GS_LEVEL) && !demoplayback && !advancedemo;
 }
 
@@ -375,9 +373,7 @@ void D_DoomLoop(void)
     D_StartGameLoop();
 
     if (testcontrols)
-    {
         wipegamestate = gamestate;
-    }
 
     while (1)
     {
@@ -390,9 +386,7 @@ void D_DoomLoop(void)
 
         // Update display, next frame, with current state.
         if (screenvisible)
-        {
             D_Display();
-        }
     }
 }
 
@@ -560,10 +554,9 @@ static char *banners[] = {
 // Otherwise, use the name given
 static char *GetGameName(char *gamename)
 {
-    size_t i;
     char *deh_sub;
 
-    for (i = 0; i < ARRLEN(banners); ++i)
+    for (size_t i = 0; i < ARRLEN(banners); ++i)
     {
         // Has the banner been replaced?
 
@@ -604,8 +597,7 @@ static char *GetGameName(char *gamename)
 static void SetMissionForPackName(char *pack_name)
 {
     int i;
-    static const struct
-    {
+    static const struct {
         char *name;
         int mission;
     } packs[] = {
@@ -644,9 +636,7 @@ void D_IdentifyVersion(void)
 
     if (gamemission == none)
     {
-        unsigned int i;
-
-        for (i = 0; i < numlumps; ++i)
+        for (unsigned int i = 0; i < numlumps; ++i)
         {
             if (!strncasecmp(lumpinfo[i].name, "MAP01", 8))
             {
@@ -774,15 +764,11 @@ void D_SetGameDescription(void)
     }
 }
 
-// print title for every printed line
-char title[128];
 
 static boolean D_AddFile(char *filename)
 {
-    wad_file_t *handle;
-
     printf(" adding %s\n", filename);
-    handle = W_AddFile(filename);
+    wad_file_t *handle = W_AddFile(filename);
 
     return handle != NULL;
 }
@@ -822,11 +808,8 @@ void PrintDehackedBanners(void)
 
             // Make sure the modified banner always ends in a newline character.
             // If it doesn't, add a newline.  This fixes av.wad.
-
             if (deh_s[strlen(deh_s) - 1] != '\n')
-            {
                 printf("\n");
-            }
         }
     }
 }
@@ -1515,8 +1498,8 @@ void D_DoomMain(void)
         if (autostart || netgame)
             G_InitNew(startskill, startepisode, startmap);
         else
-            D_StartTitle();       // start up intro loop
+            D_StartTitle(); // start up intro loop
     }
 
-    D_DoomLoop();  // never returns
+    D_DoomLoop(); // never returns
 }

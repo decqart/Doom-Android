@@ -1563,7 +1563,7 @@ static const int scantokey[128] = {
     0  ,    27,     '1',    '2',    '3',    '4',    '5',    '6',
     '7',    '8',    '9',    '0',    '-',    '=',    KEY_BACKSPACE, 9,
     'q',    'w',    'e',    'r',    't',    'y',    'u',    'i',
-    'o',    'p',    '[',    ']',    13,		KEY_RCTRL, 'a',    's',
+    'o',    'p',    '[',    ']',    13,     KEY_RCTRL, 'a',    's',
     'd',    'f',    'g',    'h',    'j',    'k',    'l',    ';',
     '\'',   '`',    KEY_RSHIFT,'\\',   'z',    'x',    'c',    'v',
     'b',    'n',    'm',    ',',    '.',    '/',    KEY_RSHIFT,KEYP_MULTIPLY,
@@ -1685,7 +1685,6 @@ static void SaveDefaultCollection(default_collection_t *collection)
 }
 
 // Parses integer values in the configuration file
-
 static int ParseIntParameter(char *strparm)
 {
     int parm;
@@ -1821,13 +1820,9 @@ void M_SaveDefaults(void)
 // Save defaults to alternate filenames
 void M_SaveDefaultsAlternate(char *main, char *extra)
 {
-    char *orig_main;
-    char *orig_extra;
-
     // Temporarily change the filenames
-
-    orig_main = doom_defaults.filename;
-    orig_extra = extra_defaults.filename;
+    char *orig_main = doom_defaults.filename;
+    char *orig_extra = extra_defaults.filename;
 
     doom_defaults.filename = main;
     extra_defaults.filename = extra;
@@ -1835,7 +1830,6 @@ void M_SaveDefaultsAlternate(char *main, char *extra)
     M_SaveDefaults();
 
     // Restore normal filenames
-
     doom_defaults.filename = orig_main;
     extra_defaults.filename = orig_extra;
 }
@@ -1898,36 +1892,24 @@ void M_LoadDefaults(void)
 
 static default_t *GetDefaultForName(char *name)
 {
-    default_t *result;
-
     // Try the main list and the extras
-
-    result = SearchCollection(&doom_defaults, name);
+    default_t *result = SearchCollection(&doom_defaults, name);
 
     if (result == NULL)
-    {
         result = SearchCollection(&extra_defaults, name);
-    }
 
     // Not found? Internal error.
-
     if (result == NULL)
-    {
         I_Error("Unknown configuration variable: '%s'", name);
-    }
 
     return result;
 }
 
-//
-// Bind a variable to a given configuration file variable, by name.
-//
 
+// Bind a variable to a given configuration file variable, by name.
 void M_BindVariable(char *name, void *location)
 {
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
+    default_t *variable = GetDefaultForName(name);
 
     variable->location = location;
     variable->bound = True;
@@ -1937,14 +1919,10 @@ void M_BindVariable(char *name, void *location)
 // parts of the program to assign values to config variables by name.
 boolean M_SetVariable(char *name, char *value)
 {
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
+    default_t *variable = GetDefaultForName(name);
 
     if (variable == NULL || !variable->bound)
-    {
         return False;
-    }
 
     SetVariable(variable, value);
 
@@ -1954,12 +1932,10 @@ boolean M_SetVariable(char *name, char *value)
 // Get the value of a variable.
 int M_GetIntVariable(char *name)
 {
-    default_t *variable;
+    default_t *variable = GetDefaultForName(name);
 
-    variable = GetDefaultForName(name);
-
-    if (variable == NULL || !variable->bound
-     || (variable->type != DEFAULT_INT && variable->type != DEFAULT_INT_HEX))
+    if (variable == NULL || !variable->bound ||
+        (variable->type != DEFAULT_INT && variable->type != DEFAULT_INT_HEX))
     {
         return 0;
     }
@@ -1969,30 +1945,20 @@ int M_GetIntVariable(char *name)
 
 const char *M_GetStrVariable(char *name)
 {
-    default_t *variable;
+    default_t *variable = GetDefaultForName(name);
 
-    variable = GetDefaultForName(name);
-
-    if (variable == NULL || !variable->bound
-     || variable->type != DEFAULT_STRING)
-    {
+    if (variable == NULL || !variable->bound || variable->type != DEFAULT_STRING)
         return NULL;
-    }
 
     return *((const char **) variable->location);
 }
 
 float M_GetFloatVariable(char *name)
 {
-    default_t *variable;
+    default_t *variable = GetDefaultForName(name);
 
-    variable = GetDefaultForName(name);
-
-    if (variable == NULL || !variable->bound
-     || variable->type != DEFAULT_FLOAT)
-    {
+    if (variable == NULL || !variable->bound || variable->type != DEFAULT_FLOAT)
         return 0;
-    }
 
     return *((float *) variable->location);
 }
@@ -2003,18 +1969,12 @@ void M_SetConfigDir(char *dir)
 {
     // Use the directory that was passed, or find the default.
     if (dir != NULL)
-    {
         configdir = dir;
-    }
     else
-    {
         configdir = "."; // default dir
-    }
 
     if (strcmp(configdir, "") != 0)
-    {
         printf("Using %s for configuration and saves\n", configdir);
-    }
 
     // Make the directory if it doesn't already exist:
     M_MakeDirectory(configdir);

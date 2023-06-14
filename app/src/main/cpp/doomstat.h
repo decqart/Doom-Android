@@ -41,9 +41,9 @@
 // ------------------------
 // Command line parameters.
 //
-extern boolean nomonsters;	// checkparm of -nomonsters
+extern boolean nomonsters; // checkparm of -nomonsters
 extern boolean respawnparm; // checkparm of -respawn
-extern boolean fastparm;	// checkparm of -fast
+extern boolean fastparm; // checkparm of -fast
 
 extern boolean devparm; // DEBUG: launched with -devparm
 
@@ -64,8 +64,8 @@ extern boolean bfgedition;
 // just modified versions of doom and doom2, and should be interpreted
 // as the same most of the time.
 
-#define logical_gamemission                             \
-    (gamemission == pack_chex ? doom :                  \
+#define logical_gamemission                          \
+    (gamemission == pack_chex ? doom :               \
      gamemission == pack_hacx ? doom2 : gamemission)
 
 // Set if homebrew PWAD stuff has been added.
@@ -133,9 +133,9 @@ extern int snd_DesiredSfxDevice;
 // Status flags for refresh.
 //
 
-extern boolean automapactive;	// In AutoMap mode?
-extern boolean menuactive;	// Menu overlayed?
-extern boolean paused;		// Game Pause?
+extern boolean automapactive; // In AutoMap mode?
+extern boolean menuactive; // Menu overlayed?
+extern boolean paused; // Game Pause?
 
 
 extern boolean viewactive;
@@ -257,4 +257,4 @@ extern int rndindex;
 
 extern ticcmd_t *netcmds;
 
-#endif
+#endif /* __D_STATE__ */

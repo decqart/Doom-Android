@@ -20,15 +20,14 @@
 
 #include "d_mode.h"
 
-#define IWAD_MASK_DOOM    ((1 << doom)           \
-                         | (1 << doom2)          \
-                         | (1 << pack_tnt)       \
-                         | (1 << pack_plut)      \
-                         | (1 << pack_chex)      \
-                         | (1 << pack_hacx))
+#define IWAD_MASK_DOOM ((1 << doom)           \
+                      | (1 << doom2)          \
+                      | (1 << pack_tnt)       \
+                      | (1 << pack_plut)      \
+                      | (1 << pack_chex)      \
+                      | (1 << pack_hacx))
 
-typedef struct
-{
+typedef struct {
     char *name;
     GameMission_t mission;
     GameMode_t mode;
@@ -41,4 +40,4 @@ char *D_FindIWAD(int mask, GameMission_t *mission);
 char *D_SaveGameIWADName(GameMission_t gamemission);
 char *D_SuggestGameName(GameMission_t mission, GameMode_t mode);
 
-#endif
+#endif /* __D_IWAD__ */

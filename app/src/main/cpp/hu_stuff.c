@@ -276,11 +276,10 @@ char *mapnames_commercial[] = {
 
 void HU_Init(void)
 {
-    int j;
     char buffer[9];
 
     // load the heads-up font
-    j = HU_FONTSTART;
+    int j = HU_FONTSTART;
     for (int i = 0; i < HU_FONTSIZE; i++)
     {
         snprintf(buffer, 9, "STCFN%.3d", j++);
@@ -295,7 +294,6 @@ void HU_Stop(void)
 
 void HU_Start(void)
 {
-    int i;
     char *s;
 
     if (headsupactive)
@@ -356,7 +354,7 @@ void HU_Start(void)
                     HU_FONTSTART, &chat_on);
 
     // create the inputbuffer widgets
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (int i = 0; i < MAXPLAYERS; i++)
         HUlib_initIText(&w_inputbuffer[i], 0, 0, 0, 0, &always_off);
 
     headsupactive = True;
@@ -466,16 +464,12 @@ void HU_queueChatChar(char c)
 
 char HU_dequeueChatChar(void)
 {
-    char c;
+    char c = 0;
 
     if (head != tail)
     {
         c = chatchars[tail];
         tail = (tail + 1) & (QUEUESIZE-1);
-    }
-    else
-    {
-        c = 0;
     }
 
     return c;

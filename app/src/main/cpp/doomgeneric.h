@@ -1,7 +1,6 @@
 #ifndef DOOMGENERIC_H
 #define DOOMGENERIC_H
 
-#include <stdlib.h>
 #include <stdint.h>
 
 #ifdef __ANDROID__

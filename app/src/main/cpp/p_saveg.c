@@ -13,12 +13,13 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Archiving: SaveGame I/O.
+//  Archiving: SaveGame I/O.
 //
 
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "dstrings.h"
 #include "i_system.h"

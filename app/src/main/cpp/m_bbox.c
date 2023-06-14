@@ -19,6 +19,8 @@
 //  PCX Screenshots.
 //
 
+#include <limits.h>
+
 #include "m_bbox.h"
 
 void M_ClearBox(fixed_t *box)

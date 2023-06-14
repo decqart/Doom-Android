@@ -79,14 +79,10 @@ void V_CopyRect(int srcx, int srcy, byte *source,
     byte *dest; 
  
 #ifdef RANGECHECK 
-    if (srcx < 0
-     || srcx + width > SCREENWIDTH
-     || srcy < 0
-     || srcy + height > SCREENHEIGHT 
-     || destx < 0
-     || destx + width > SCREENWIDTH
-     || desty < 0
-     || desty + height > SCREENHEIGHT)
+    if (srcx < 0 || srcx + width > SCREENWIDTH ||
+        srcy < 0 || srcy + height > SCREENHEIGHT ||
+        destx < 0 || destx + width > SCREENWIDTH ||
+        desty < 0 || desty + height > SCREENHEIGHT)
     {
         I_Error("Bad V_CopyRect");
     }
@@ -97,7 +93,7 @@ void V_CopyRect(int srcx, int srcy, byte *source,
     src = source + SCREENWIDTH * srcy + srcx; 
     dest = dest_screen + SCREENWIDTH * desty + destx; 
 
-    for (; height>0; height--) 
+    for (; height > 0; height--)
     { 
         memcpy(dest, src, width); 
         src += SCREENWIDTH; 
@@ -127,9 +123,8 @@ void V_DrawPatch(int x, int y, patch_t *patch)
     }
 
 #ifdef RANGECHECK
-    if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH
-        || y < 0
-        || y + SHORT(patch->height) > SCREENHEIGHT)
+    if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH ||
+        y < 0 || y + SHORT(patch->height) > SCREENHEIGHT)
     {
         I_Error("Bad V_DrawPatch x=%i y=%i patch.width=%i patch.height=%i topoffset=%i leftoffset=%i", x, y, patch->width, patch->height, patch->topoffset, patch->leftoffset);
     }
@@ -186,10 +181,8 @@ void V_DrawPatchFlipped(int x, int y, patch_t *patch)
     }
 
 #ifdef RANGECHECK 
-    if (x < 0
-        || x + SHORT(patch->width) > SCREENWIDTH
-        || y < 0
-        || y + SHORT(patch->height) > SCREENHEIGHT)
+    if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH ||
+        y < 0 || y + SHORT(patch->height) > SCREENHEIGHT)
     {
         I_Error("Bad V_DrawPatchFlipped");
     }
@@ -240,10 +233,8 @@ void V_DrawTLPatch(int x, int y, patch_t * patch)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    if (x < 0
-     || x + SHORT(patch->width) > SCREENWIDTH 
-     || y < 0
-     || y + SHORT(patch->height) > SCREENHEIGHT)
+    if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH ||
+        y < 0 || y + SHORT(patch->height) > SCREENHEIGHT)
     {
         I_Error("Bad V_DrawTLPatch");
     }
@@ -329,10 +320,8 @@ void V_DrawAltTLPatch(int x, int y, patch_t * patch)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    if (x < 0
-     || x + SHORT(patch->width) > SCREENWIDTH
-     || y < 0
-     || y + SHORT(patch->height) > SCREENHEIGHT)
+    if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH ||
+        y < 0 || y + SHORT(patch->height) > SCREENHEIGHT)
     {
         I_Error("Bad V_DrawAltTLPatch");
     }
@@ -375,10 +364,8 @@ void V_DrawShadowedPatch(int x, int y, patch_t *patch)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    if (x < 0
-     || x + SHORT(patch->width) > SCREENWIDTH
-     || y < 0
-     || y + SHORT(patch->height) > SCREENHEIGHT)
+    if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH ||
+        y < 0 || y + SHORT(patch->height) > SCREENHEIGHT)
     {
         I_Error("Bad V_DrawShadowedPatch");
     }
@@ -414,31 +401,22 @@ void V_DrawShadowedPatch(int x, int y, patch_t *patch)
     }
 }
 
-//
-// Load tint table from TINTTAB lump.
-//
 
-void V_LoadTintTable()
+// Load tint table from TINTTAB lump.
+void V_LoadTintTable(void)
 {
     tinttable = W_CacheLumpName("TINTTAB", PU_STATIC);
 }
 
-//
-// V_LoadXlaTable
-//
-// villsa [STRIFE] Load xla table from XLATAB lump.
-//
 
-void V_LoadXlaTable()
+// villsa [STRIFE] Load xla table from XLATAB lump.
+void V_LoadXlaTable(void)
 {
     xlatab = W_CacheLumpName("XLATAB", PU_STATIC);
 }
 
-//
-// V_DrawBlock
-// Draw a linear block of pixels into the view buffer.
-//
 
+// Draw a linear block of pixels into the view buffer.
 void V_DrawBlock(int x, int y, int width, int height, byte *src) 
 { 
     byte *dest; 
@@ -518,16 +496,6 @@ void V_DrawBox(int x, int y, int w, int h, int c)
     V_DrawVertLine(x+w-1, y, h, c);
 }
 
-//
-// Draw a "raw" screen (lump containing raw data to blit directly
-// to the screen)
-//
- 
-void V_DrawRawScreen(byte *raw)
-{
-    memcpy(dest_screen, raw, SCREENWIDTH * SCREENHEIGHT);
-}
-
 
 // Set the buffer that the code draws to.
 void V_UseBuffer(byte *buffer)
@@ -535,8 +503,8 @@ void V_UseBuffer(byte *buffer)
     dest_screen = buffer;
 }
 
-// Restore screen buffer to the i_video screen buffer.
 
+// Restore screen buffer to the i_video screen buffer.
 void V_RestoreBuffer(void)
 {
     dest_screen = I_VideoBuffer;
@@ -544,9 +512,9 @@ void V_RestoreBuffer(void)
 
 void V_ScreenShot(char *format)
 {
-    int i;
     char lbmname[16]; // haleyjd 20110213: BUG FIX - 12 is too small!
 
+    int i;
     for (i = 0; i <= 99; i++)
     {
         M_snprintf(lbmname, sizeof(lbmname), format, i, "pcx");

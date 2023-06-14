@@ -24,15 +24,12 @@
 #include "m_fixed.h"
 
 // Fixme. __USE_C_FIXED__ or something.
-
 fixed_t FixedMul(fixed_t a, fixed_t b)
 {
     return ((int64_t) a * (int64_t) b) >> FRACBITS;
 }
 
-//
 // FixedDiv, C version.
-//
 fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     if ((abs(a) >> 14) >= abs(b))
@@ -41,9 +38,7 @@ fixed_t FixedDiv(fixed_t a, fixed_t b)
     }
     else
     {
-        int64_t result;
-
-        result = ((int64_t) a << 16) / b;
+        int64_t result = ((int64_t) a << 16) / b;
 
         return (fixed_t) result;
     }

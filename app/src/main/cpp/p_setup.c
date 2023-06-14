@@ -13,10 +13,11 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Do all the WAD I/O, get map description,
-//	set up initial state and misc. LUTs.
+//  Do all the WAD I/O, get map description,
+//  set up initial state and misc. LUTs.
 //
 
+#include <string.h>
 #include <math.h>
 
 #include "z_zone.h"

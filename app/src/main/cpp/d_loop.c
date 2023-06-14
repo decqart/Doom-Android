@@ -180,18 +180,14 @@ int lasttime;
 // sends out a packet
 void NetUpdate(void)
 {
-    int nowtime;
-    int newtics;
-    int i;
-
     // If we are running with singletics (timing a demo), this
     // is all done separately.
 
     if (singletics) return;
 
     // check time
-    nowtime = GetAdjustedTime() / ticdup;
-    newtics = nowtime - lasttime;
+    int nowtime = GetAdjustedTime() / ticdup;
+    int newtics = nowtime - lasttime;
 
     lasttime = nowtime;
 
@@ -208,7 +204,7 @@ void NetUpdate(void)
 
     // build new ticcmds for console player
 
-    for (i = 0; i < newtics; i++)
+    for (int i = 0; i < newtics; i++)
     {
         if (!BuildNewTic()) break;
     }
@@ -315,9 +311,7 @@ static boolean PlayersInGame(void)
     // we are in the game.
 
     if (!drone)
-    {
         result = True;
-    }
 
     return result;
 }
@@ -344,9 +338,7 @@ static void SinglePlayerClear(ticcmd_set_t *set)
     for (size_t i = 0; i < NET_MAXPLAYERS; ++i)
     {
         if (i != localplayer)
-        {
             set->ingame[i] = False;
-        }
     }
 }
 
@@ -424,9 +416,7 @@ void TryRunTics(void)
         // so return to update the screen
 
         if (I_GetTime() / ticdup - entertic > 0)
-        {
             return;
-        }
 
         I_Sleep(1);
     }
@@ -434,21 +424,15 @@ void TryRunTics(void)
     // run the count * ticdup dics
     while (counts--)
     {
-        ticcmd_set_t *set;
-
         if (!PlayersInGame())
-        {
             return;
-        }
 
-        set = &ticdata[(gametic / ticdup) % BACKUPTICS];
+        ticcmd_set_t *set = &ticdata[(gametic / ticdup) % BACKUPTICS];
 
         if (!net_client_connected)
-        {
             SinglePlayerClear(set);
-        }
 
-        for (i=0 ; i<ticdup ; i++)
+        for (i = 0; i < ticdup; i++)
         {
             if (gametic/ticdup > lowtic)
                 I_Error("gametic>lowtic");
@@ -459,7 +443,7 @@ void TryRunTics(void)
             gametic++;
 
             // modify command for duplicated tics
-            
+
             TicdupSquash(set);
         }
 

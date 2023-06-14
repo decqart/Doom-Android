@@ -1,5 +1,5 @@
-#ifndef _DRAW_H
-#define _DRAW_H
+#ifndef ANDROID_RENDERER_H
+#define ANDROID_RENDERER_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -28,4 +28,4 @@ void SetupBatchInternal(void);
 #include "AndroidDriver.h"
 #endif
 
-#endif /* _DRAW_H */
+#endif /* ANDROID_RENDERER_H */

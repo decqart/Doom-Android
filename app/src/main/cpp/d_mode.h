@@ -24,8 +24,7 @@
 
 // The "mission" controls what game we are playing.
 
-typedef enum
-{
+typedef enum {
     doom,            // Doom 1
     doom2,           // Doom 2
     pack_tnt,        // Final Doom: TNT: Evilution

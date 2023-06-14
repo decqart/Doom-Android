@@ -1,5 +1,5 @@
-#ifndef _ANDROID_DRIVER_H
-#define _ANDROID_DRIVER_H
+#ifndef ANDROID_DRIVER_H
+#define ANDROID_DRIVER_H
 
 #include <stdio.h>
 
@@ -11,4 +11,4 @@
 void AndroidMakeFullscreen(void);
 FILE *android_fopen(const char *fname, const char *mode);
 
-#endif /* _ANDROID_DRIVER_H */
+#endif /* ANDROID_DRIVER_H */

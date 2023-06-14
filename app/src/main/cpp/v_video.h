@@ -67,27 +67,19 @@ void V_DrawHorizLine(int x, int y, int w, int c);
 void V_DrawVertLine(int x, int y, int h, int c);
 void V_DrawBox(int x, int y, int w, int h, int c);
 
-// Draw a raw screen lump
-
-void V_DrawRawScreen(byte *raw);
-
 // Temporarily switch to using a different buffer to draw graphics, etc.
-
 void V_UseBuffer(byte *buffer);
 
 // Return to using the normal screen buffer to draw graphics.
-
 void V_RestoreBuffer(void);
 
 // Save a screenshot of the current screen to a file, named in the 
 // format described in the string passed to the function, eg.
 // "DOOM%02i.pcx"
-
 void V_ScreenShot(char *format);
 
 // Load the lookup table for translucency calculations from the TINTTAB
 // lump.
-
 void V_LoadTintTable(void);
 
 // villsa [STRIFE]

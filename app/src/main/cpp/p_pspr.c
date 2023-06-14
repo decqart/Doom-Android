@@ -13,10 +13,11 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Weapon sprite animation, weapon objects.
-//	Action functions for weapons.
+//  Weapon sprite animation, weapon objects.
+//  Action functions for weapons.
 //
 
+#include <stddef.h>
 
 #include "doomdef.h"
 #include "d_event.h"
@@ -35,8 +36,8 @@
 
 #include "p_pspr.h"
 
-#define LOWERSPEED		FRACUNIT*6
-#define RAISESPEED		FRACUNIT*6
+#define LOWERSPEED FRACUNIT*6
+#define RAISESPEED FRACUNIT*6
 
 #define WEAPONBOTTOM	128*FRACUNIT
 #define WEAPONTOP		32*FRACUNIT

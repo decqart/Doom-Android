@@ -22,9 +22,8 @@
 #include "doomdef.h"
 
 // Read events from all input devices
+void D_ProcessEvents(void);
 
-void D_ProcessEvents(void); 
-	
 
 //
 // BASE LEVEL
@@ -41,4 +40,4 @@ void D_StartTitle(void);
 
 extern gameaction_t gameaction;
 
-#endif
+#endif /* __D_MAIN__ */

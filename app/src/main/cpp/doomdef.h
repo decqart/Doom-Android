@@ -20,9 +20,6 @@
 #ifndef __DOOMDEF__
 #define __DOOMDEF__
 
-#include <stdio.h>
-#include <string.h>
-
 #include "doomtype.h"
 #include "i_timer.h"
 #include "d_mode.h"

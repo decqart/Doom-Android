@@ -21,4 +21,4 @@
 
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2);
 
-#endif
+#endif /* __R_SEGS__ */

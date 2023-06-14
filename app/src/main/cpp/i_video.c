@@ -19,26 +19,15 @@
  *
  *-----------------------------------------------------------------------------*/
 
-#include "config.h"
-#include "v_video.h"
-#include "m_argv.h"
-#include "d_event.h"
-#include "d_main.h"
+#include <stdio.h>
+#include <string.h>
+
 #include "i_video.h"
 #include "z_zone.h"
 
 #include "tables.h"
 #include "doomkeys.h"
-
 #include "doomgeneric.h"
-
-#include <stdlib.h>
-
-#include <fcntl.h>
-
-#include <stdarg.h>
-
-#include <sys/types.h>
 
 struct FB_BitField {
     uint32_t offset; /* beginning of bitfield */
@@ -74,11 +63,9 @@ static struct color colors[256];
 void I_GetEvent(void);
 
 // The screen buffer; this is modified to draw things to the screen
-
 byte *I_VideoBuffer = NULL;
 
 // If true, game is running as a screensaver
-
 boolean screensaver_mode = False;
 
 // Flag indicating whether the screen is currently visible:
@@ -114,11 +101,10 @@ static uint16_t rgb565_palette[256];
 
 void cmap_to_rgb565(uint16_t *out, uint8_t *in, int in_pixels)
 {
-    int i, j;
     struct color c;
     uint16_t r, g, b;
 
-    for (i = 0; i < in_pixels; i++)
+    for (int i = 0; i < in_pixels; i++)
     {
         c = colors[*in]; 
         r = ((uint16_t)(c.r >> 3)) << 11;
@@ -127,7 +113,7 @@ void cmap_to_rgb565(uint16_t *out, uint8_t *in, int in_pixels)
         *out = (r | g | b);
 
         in++;
-        for (j = 0; j < fb_scaling; j++) {
+        for (int j = 0; j < fb_scaling; j++) {
             out++;
         }
     }
@@ -135,14 +121,13 @@ void cmap_to_rgb565(uint16_t *out, uint8_t *in, int in_pixels)
 
 void cmap_to_fb(uint8_t *out, uint8_t *in, int in_pixels)
 {
-    int i, j, k;
     struct color c;
     uint32_t pix;
     uint16_t r, g, b;
 
-    for (i = 0; i < in_pixels; i++)
+    for (int i = 0; i < in_pixels; i++)
     {
-        c = colors[*in];  /* R:8 G:8 B:8 format! */
+        c = colors[*in]; /* R:8 G:8 B:8 format! */
         r = (uint16_t)(c.r >> (8 - s_Fb.red.length));
         g = (uint16_t)(c.g >> (8 - s_Fb.green.length));
         b = (uint16_t)(c.b >> (8 - s_Fb.blue.length));
@@ -150,8 +135,8 @@ void cmap_to_fb(uint8_t *out, uint8_t *in, int in_pixels)
         pix |= g << s_Fb.green.offset;
         pix |= b << s_Fb.blue.offset;
 
-        for (k = 0; k < fb_scaling; k++) {
-            for (j = 0; j < s_Fb.bits_per_pixel/8; j++) {
+        for (int k = 0; k < fb_scaling; k++) {
+            for (int j = 0; j < s_Fb.bits_per_pixel/8; j++) {
                 *out = (pix >> (j*8));
                 out++;
             }
@@ -185,19 +170,10 @@ void I_InitGraphics(void)
 
     printf("I_InitGraphics: DOOM screen size: w x h: %d x %d\n", SCREENWIDTH, SCREENHEIGHT);
 
-
-    int i = M_CheckParmWithArgs("-scaling", 1);
-    if (i > 0) {
-        i = atoi(myargv[i + 1]);
-        fb_scaling = i;
-        printf("I_InitGraphics: Scaling factor: %d\n", fb_scaling);
-    } else {
-        fb_scaling = s_Fb.xres / SCREENWIDTH;
-        if (s_Fb.yres / SCREENHEIGHT < fb_scaling)
-            fb_scaling = s_Fb.yres / SCREENHEIGHT;
-        printf("I_InitGraphics: Auto-scaling factor: %d\n", fb_scaling);
-    }
-
+    fb_scaling = s_Fb.xres / SCREENWIDTH;
+    if (s_Fb.yres / SCREENHEIGHT < fb_scaling)
+        fb_scaling = s_Fb.yres / SCREENHEIGHT;
+    printf("I_InitGraphics: Auto-scaling factor: %d\n", fb_scaling);
 
     /* Allocate screen to draw to */
     I_VideoBuffer = (byte *) Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);  // For DOOM to draw on
@@ -214,13 +190,12 @@ void I_StartTic(void)
 
 void I_FinishUpdate(void)
 {
-    int y;
     int x_offset, y_offset, x_offset_end;
     unsigned char *line_in, *line_out;
 
     /* Offsets in case FB is bigger than DOOM */
-    /* 600 = s_Fb heigt, 200 screenheight */
-    /* 600 = s_Fb heigt, 200 screenheight */
+    /* 600 = s_Fb height, 200 screenheight */
+    /* 600 = s_Fb height, 200 screenheight */
     /* 2048 =s_Fb width, 320 screenwidth */
     y_offset     = (((s_Fb.yres - (SCREENHEIGHT * fb_scaling)) * s_Fb.bits_per_pixel/8)) / 2;
     x_offset     = (((s_Fb.xres - (SCREENWIDTH  * fb_scaling)) * s_Fb.bits_per_pixel/8)) / 2; // XXX: siglent FB hack: /4 instead of /2, since it seems to handle the resolution in a funny way
@@ -230,11 +205,12 @@ void I_FinishUpdate(void)
     line_in  = (unsigned char *) I_VideoBuffer;
     line_out = (unsigned char *) DG_ScreenBuffer;
 
-    y = SCREENHEIGHT;
+    int y = SCREENHEIGHT;
 
     while (y--)
     {
-        for (int i = 0; i < fb_scaling; i++) {
+        for (int i = 0; i < fb_scaling; i++)
+        {
             line_out += x_offset;
 #ifdef CMAP256
             for (fb_scaling == 1) {
@@ -313,7 +289,7 @@ int I_GetPaletteIndex(int r, int g, int b)
     return best;
 }
 
-void I_SetWindowTitle(char *title)
+void I_SetWindowTitle(const char *title)
 {
     DG_SetWindowTitle(title);
 }

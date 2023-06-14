@@ -18,6 +18,7 @@
 //  See tables.c, too.
 //
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -31,10 +32,10 @@
 #include "r_sky.h"
 
 // Fineangles in the SCREENWIDTH wide window.
-#define FIELDOFVIEW	2048
+#define FIELDOFVIEW 2048
 
 
-int	viewangleoffset;
+int viewangleoffset;
 
 // increment every time a check is made
 int validcount = 1;
@@ -472,17 +473,16 @@ void R_InitTextureMapping(void)
 
 void R_InitLightTables(void)
 {
-    int j;
     int level;
     int startmap;
     int scale;
 
     // Calculate the light levels to use
     //  for each level / distance combination.
-    for (int i = 0; i< LIGHTLEVELS; i++)
+    for (int i = 0; i < LIGHTLEVELS; i++)
     {
         startmap = ((LIGHTLEVELS-1-i)*2)*NUMCOLORMAPS/LIGHTLEVELS;
-        for (j=0; j < MAXLIGHTZ; j++)
+        for (int j = 0; j < MAXLIGHTZ; j++)
         {
             scale = FixedDiv ((SCREENWIDTH/2*FRACUNIT), (j+1)<<LIGHTZSHIFT);
             scale >>= LIGHTSCALESHIFT;
@@ -573,18 +573,18 @@ void R_ExecuteSetViewSize(void)
     pspriteiscale = FRACUNIT*SCREENWIDTH/viewwidth;
     
     // thing clipping
-    for (i=0; i < viewwidth; i++)
+    for (i = 0; i < viewwidth; i++)
         screenheightarray[i] = viewheight;
     
     // planes
-    for (i=0; i < viewheight; i++)
+    for (i = 0; i < viewheight; i++)
     {
         dy = ((i-viewheight/2)<<FRACBITS)+FRACUNIT/2;
         dy = abs(dy);
         yslope[i] = FixedDiv((viewwidth<<detailshift)/2*FRACUNIT, dy);
     }
 
-    for (i = 0; i<viewwidth; i++)
+    for (i = 0; i < viewwidth; i++)
     {
         cosadj = abs(finecosine[xtoviewangle[i]>>ANGLETOFINESHIFT]);
         distscale[i] = FixedDiv(FRACUNIT, cosadj);
@@ -614,16 +614,15 @@ void R_Init(void)
 {
     R_InitData();
     // view width / view height / detailLevel are set by the defaults
-    printf(".");
+    putchar('.');
 
     R_SetViewSize(screenblocks, detailLevel);
-    R_InitPlanes();
-    printf(".");
+    putchar('.');
     R_InitLightTables();
-    printf(".");
+    putchar('.');
     R_InitSkyMap();
     R_InitTranslationTables();
-    printf(".");
+    putchar('.');
 
     framecount = 0;
 }

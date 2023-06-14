@@ -13,10 +13,11 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Moving object handling. Spawn functions.
+//  Moving object handling. Spawn functions.
 //
 
 #include <stdio.h>
+#include <string.h>
 
 #include "i_system.h"
 #include "z_zone.h"

@@ -57,7 +57,7 @@ void I_AtExit(atexit_func_t func, boolean run_if_error);
 void I_PrintStartupBanner(char *gamedescription);
 
 // Print a centered text banner displaying the given string.
-void I_PrintBanner(char *text);
+void I_PrintBanner(const char *text);
 
 // Print a dividing line for startup banners.
 void I_PrintDivider(void);

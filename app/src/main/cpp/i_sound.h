@@ -217,4 +217,4 @@ extern char *snd_musiccmd;
 
 void I_BindSoundVariables(void);
 
-#endif
+#endif /* __I_SOUND__ */

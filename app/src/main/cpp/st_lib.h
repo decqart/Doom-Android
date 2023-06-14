@@ -19,7 +19,6 @@
 #ifndef __STLIB__
 #define __STLIB__
 
-
 // We are referring to patches.
 #include "r_defs.h"
 
@@ -94,8 +93,7 @@ typedef struct {
 
 
 // Binary Icon widget
-typedef struct
-{
+typedef struct {
     // center-justified location of icon
     int x;
     int y;
@@ -128,12 +126,9 @@ void STlib_init(void);
 
 // Number widget routines
 void STlib_initNum
-(st_number_t *n,
- int x, int y,
- patch_t **pl,
- int *num,
- boolean *on,
- int width);
+(st_number_t *n, int x, int y,
+ patch_t **pl, int *num,
+ boolean *on, int width);
 
 void STlib_updateNum(st_number_t *n, boolean refresh);
 

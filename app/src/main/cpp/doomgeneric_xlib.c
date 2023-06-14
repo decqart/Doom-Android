@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <ctype.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -34,15 +34,19 @@ static unsigned char convertToDoomKey(unsigned int key)
     case XK_Escape:
         key = KEY_ESCAPE;
         break;
+    case XK_A:
     case XK_a:
         key = KEY_LEFTARROW;
         break;
+    case XK_D:
     case XK_d:
         key = KEY_RIGHTARROW;
         break;
+    case XK_W:
     case XK_w:
         key = KEY_UPARROW;
         break;
+    case XK_S:
     case XK_s:
         key = KEY_DOWNARROW;
         break;
@@ -50,6 +54,7 @@ static unsigned char convertToDoomKey(unsigned int key)
     case XK_Control_R:
         key = KEY_FIRE;
         break;
+    case XK_E:
     case XK_e:
         key = KEY_USE;
         break;
@@ -58,7 +63,7 @@ static unsigned char convertToDoomKey(unsigned int key)
         key = KEY_RSHIFT;
         break;
     default:
-        key = tolower(key);
+        key = 0;
         break;
     }
 

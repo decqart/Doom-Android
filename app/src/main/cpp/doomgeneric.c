@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "doomgeneric.h"
 
 #ifndef __ANDROID__

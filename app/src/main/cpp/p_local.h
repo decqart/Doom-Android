@@ -21,19 +21,19 @@
 
 #include "r_local.h"
 
-#define FLOATSPEED	(FRACUNIT*4)
+#define FLOATSPEED (FRACUNIT*4)
 
 
-#define MAXHEALTH		100
-#define VIEWHEIGHT		(41*FRACUNIT)
+#define MAXHEALTH 100
+#define VIEWHEIGHT (41*FRACUNIT)
 
 // mapblocks are used to check movement
 // against lines and things
-#define MAPBLOCKUNITS	128
-#define MAPBLOCKSIZE	(MAPBLOCKUNITS*FRACUNIT)
-#define MAPBLOCKSHIFT	(FRACBITS+7)
-#define MAPBMASK		(MAPBLOCKSIZE-1)
-#define MAPBTOFRAC		(MAPBLOCKSHIFT-FRACBITS)
+#define MAPBLOCKUNITS 128
+#define MAPBLOCKSIZE (MAPBLOCKUNITS*FRACUNIT)
+#define MAPBLOCKSHIFT (FRACBITS+7)
+#define MAPBMASK (MAPBLOCKSIZE-1)
+#define MAPBTOFRAC (MAPBLOCKSHIFT-FRACBITS)
 
 
 // player radius for movement checking

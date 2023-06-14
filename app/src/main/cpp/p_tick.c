@@ -13,8 +13,8 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Archiving: SaveGame I/O.
-//	Thinker, Ticker.
+//  Archiving: SaveGame I/O.
+//  Thinker, Ticker.
 //
 
 #include "z_zone.h"
@@ -23,7 +23,7 @@
 #include "doomstat.h"
 
 
-int	leveltime;
+int leveltime;
 
 //
 // THINKERS
@@ -94,22 +94,22 @@ void P_Ticker(void)
 {
     // run the tic
     if (paused) return;
-		
+
     // pause if in menu and at least one tic has been run
-    if (!netgame && menuactive && !demoplayback
-        && players[consoleplayer].viewz != 1)
+    if (!netgame && menuactive && !demoplayback &&
+        players[consoleplayer].viewz != 1)
     {
         return;
     }
-		
+
     for (int i = 0; i < MAXPLAYERS; i++)
         if (playeringame[i])
             P_PlayerThink(&players[i]);
-			
+
     P_RunThinkers();
     P_UpdateSpecials();
     P_RespawnSpecials();
 
     // for par times
-    leveltime++;	
+    leveltime++;
 }

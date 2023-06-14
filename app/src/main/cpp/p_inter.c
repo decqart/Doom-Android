@@ -13,8 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Handling interactions (i.e., collisions).
+//  Handling interactions (i.e., collisions).
 //
+
+#include <stddef.h>
 
 // Data.
 #include "doomdef.h"
@@ -40,8 +42,8 @@
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int	maxammo[NUMAMMO] = {200, 50, 300, 50};
-int	clipammo[NUMAMMO] = {10, 4, 20, 1};
+int maxammo[NUMAMMO] = {200, 50, 300, 50};
+int clipammo[NUMAMMO] = {10, 4, 20, 1};
 
 
 //
@@ -57,7 +59,7 @@ int	clipammo[NUMAMMO] = {10, 4, 20, 1};
 
 boolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 {
-    int		oldammo;
+    int oldammo;
 	
     if (ammo == am_noammo)
         return False;
@@ -79,8 +81,8 @@ boolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         // you'll need in nightmare
         num <<= 1;
     }
-    
-		
+
+
     oldammo = player->ammo[ammo];
     player->ammo[ammo] += num;
 

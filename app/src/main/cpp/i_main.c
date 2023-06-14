@@ -30,7 +30,6 @@ void DG_Create(void);
 int main(int argc, char **argv)
 {
     // save arguments
-
     myargc = argc;
     myargv = argv;
 

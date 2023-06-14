@@ -1,20 +1,19 @@
-#include "AndroidDriver.h"
-
-static struct android_app *gapp;
-static int OGLESStarted = 0;
-static int android_width, android_height;
-static int is_app_paused = 0;
+#include <stdio.h>
+#include <stdlib.h>
+#include <EGL/egl.h>
+#include <GLES2/gl2.h>
 
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android_native_app_glue.h>
 
 #include "AndroidRenderer.h"
+#include "AndroidDriver.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
+static struct android_app *gapp;
+static int OGLESStarted = 0;
+static int android_width, android_height;
+static int is_app_paused = 0;
 
 EGLNativeWindowType native_window;
 
@@ -139,13 +138,13 @@ void SetupApplication(void)
     if (egl_display == EGL_NO_DISPLAY)
     {
         printf("Error: No display found!\n");
-        exit(-1);
+        exit(1);
     }
 
     if (!eglInitialize(egl_display, &egl_major, &egl_minor))
     {
         printf("Error: eglInitialise failed!\n");
-        exit(-1);
+        exit(1);
     }
 
     eglChooseConfig(egl_display, config_attr_list, &config, 1,
@@ -156,7 +155,7 @@ void SetupApplication(void)
     if (egl_context == EGL_NO_CONTEXT)
     {
         printf("Error: eglCreateContext failed: 0x%08X\n", eglGetError());
-        exit(-1);
+        exit(1);
     }
 
     if (native_window && !gapp->window)
@@ -169,7 +168,7 @@ void SetupApplication(void)
     if (!native_window)
     {
         printf("FAULT: Cannot get window\n");
-        exit(-1);
+        exit(1);
     }
     android_width = ANativeWindow_getWidth(native_window);
     android_height = ANativeWindow_getHeight(native_window);
@@ -179,13 +178,13 @@ void SetupApplication(void)
     if (egl_surface == EGL_NO_SURFACE)
     {
         printf("Error: eglCreateWindowSurface failed: 0x%08X\n", eglGetError());
-        exit(-1);
+        exit(1);
     }
 
     if (!eglMakeCurrent(egl_display, egl_surface, egl_surface, egl_context))
     {
         printf("Error: eglMakeCurrent() failed: 0x%08X\n", eglGetError());
-        exit(-1);
+        exit(1);
     }
 
     SetupBatchInternal();
@@ -331,7 +330,7 @@ __attribute__((unused))
 void android_main(struct android_app *app)
 {
     int main(int argc, char **argv);
-    char *argv[] = { "main", 0 };
+    char *argv[] = { "main", NULL };
 
     gapp = app;
     app->onAppCmd = handle_cmd;

@@ -50,4 +50,4 @@ void M_StartControlPanel(void);
 extern int detailLevel;
 extern int screenblocks;
 
-#endif
+#endif /* __M_MENU__ */

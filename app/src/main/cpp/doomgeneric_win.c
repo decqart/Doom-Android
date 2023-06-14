@@ -1,10 +1,11 @@
-#include "doomkeys.h"
-
-#include "doomgeneric.h"
-
 #include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 #include <Windows.h>
+
+#include "doomkeys.h"
+#include "doomgeneric.h"
 
 static BITMAPINFO s_Bmi = { sizeof(BITMAPINFOHEADER), DOOMGENERIC_RESX, -DOOMGENERIC_RESY, 1, 32 };
 static HWND s_Hwnd = 0;
@@ -113,7 +114,7 @@ void DG_Init(void)
     if (!RegisterClassExA(&wc))
     {
         printf("Window Registration Failed!");
-        exit(-1);
+        exit(1);
     }
 
     RECT rect;
@@ -140,7 +141,7 @@ void DG_Init(void)
     memset(s_KeyQueue, 0, KEYQUEUE_SIZE * sizeof(unsigned short));
 }
 
-void DG_DrawFrame()
+void DG_DrawFrame(void)
 {
     MSG msg;
     memset(&msg, 0, sizeof(msg));

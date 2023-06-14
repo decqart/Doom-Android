@@ -56,8 +56,7 @@ void M_MakeDirectory(char *path)
 }
 
 // Check if a file exists
-
-boolean M_FileExists(char *filename)
+boolean M_FileExists(const char *filename)
 {
     FILE *fstream;
 
@@ -72,13 +71,10 @@ boolean M_FileExists(char *filename)
         fclose(fstream);
         return True;
     }
-    else
-    {
-        // If we can't open because the file is a directory, the 
-        // "file" exists at least!
 
-        return errno == EISDIR;
-    }
+    // If we can't open because the file is a directory, the
+    // "file" exists at least!
+    return errno == EISDIR;
 }
 
 // Determine the length of an open file.
@@ -86,7 +82,7 @@ long M_FileLength(FILE *handle)
 {
     // save the current position in the file
     long savedpos = ftell(handle);
-    
+
     // jump to the end and find the length
     fseek(handle, 0, SEEK_END);
     long length = ftell(handle);
@@ -118,18 +114,15 @@ boolean M_WriteFile(char *name, void *source, int length)
 
 char *M_TempFile(char *s)
 {
-    char *tempdir;
-
 #ifdef _WIN32
     // Check the TEMP environment variable to find the location.
-
-    tempdir = getenv("TEMP");
+    char *tempdir = getenv("TEMP");
 
     if (tempdir == NULL)
         tempdir = ".";
 #else
     // In Unix, just use /tmp.
-    tempdir = "/tmp";
+    char *tempdir = "/tmp";
 #endif
 
     return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);

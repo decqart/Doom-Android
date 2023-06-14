@@ -13,10 +13,10 @@
 // GNU General Public License for more details.
 //
 
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "doomtype.h"
 #include "i_system.h"
@@ -206,8 +206,6 @@ void M_FindResponseFile(void)
     for (int i = 1; i < myargc; i++)
     {
         if (myargv[i][0] == '@')
-        {
             LoadResponseFile(i);
-        }
     }
 }

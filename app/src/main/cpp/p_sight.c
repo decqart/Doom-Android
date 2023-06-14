@@ -13,8 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	LineOfSight/Visibility checks, uses REJECT Lookup Table.
+// LineOfSight/Visibility checks, uses REJECT Lookup Table.
 //
+
+#include <stddef.h>
 
 #include "doomdef.h"
 

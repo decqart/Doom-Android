@@ -35,7 +35,6 @@ int M_CheckParmWithArgs(char *check, int num_args);
 void M_FindResponseFile(void);
 
 // Parameter has been specified?
-
 boolean M_ParmExists(char *check);
 
 #endif /* __M_ARGV__ */

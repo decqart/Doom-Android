@@ -18,7 +18,7 @@
 // Events can be discarded if no responder claims them
 //
 
-#include <stdlib.h>
+#include <stddef.h>
 #include "d_event.h"
 
 #define MAXEVENTS 64
@@ -37,16 +37,11 @@ void D_PostEvent(event_t *ev)
 // Read an event from the queue.
 event_t *D_PopEvent(void)
 {
-    event_t *result;
-
     // No more events waiting.
-
     if (eventtail == eventhead)
-    {
         return NULL;
-    }
 
-    result = &events[eventtail];
+    event_t *result = &events[eventtail];
 
     // Advance to the next event in the queue.
 

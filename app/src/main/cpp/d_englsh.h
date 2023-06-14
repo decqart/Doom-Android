@@ -689,4 +689,4 @@
 #define CC_CYBER	"THE CYBERDEMON"
 #define CC_HERO	"OUR HERO"
 
-#endif
+#endif /* __D_ENGLSH__ */

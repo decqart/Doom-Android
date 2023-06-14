@@ -13,8 +13,10 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	BSP traversal, handling of LineSegs for rendering.
+//  BSP traversal, handling of LineSegs for rendering.
 //
+
+#include <stddef.h>
 
 #include "doomdef.h"
 

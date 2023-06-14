@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Map Objects, MObj, definition and handling.
+//  Map Objects, MObj, definition and handling.
 //
 
 #ifndef __P_MOBJ__
@@ -192,24 +192,23 @@ typedef enum
 
 
 // Map Object definition.
-typedef struct mobj_s
-{
+typedef struct mobj_s {
     // List: thinker links.
-    thinker_t		thinker;
+    thinker_t thinker;
 
     // Info for drawing: position.
-    fixed_t		x;
-    fixed_t		y;
-    fixed_t		z;
+    fixed_t x;
+    fixed_t y;
+    fixed_t z;
 
     // More list: links in sector (if needed)
-    struct mobj_s*	snext;
-    struct mobj_s*	sprev;
+    struct mobj_s *snext;
+    struct mobj_s *sprev;
 
     //More drawing info: to determine current sprite.
-    angle_t		angle;	// orientation
-    spritenum_t		sprite;	// used to find patch_t and flip value
-    int			frame;	// might be ORed with FF_FULLBRIGHT
+    angle_t		angle; // orientation
+    spritenum_t sprite; // used to find patch_t and flip value
+    int			frame; // might be ORed with FF_FULLBRIGHT
 
     // Interaction info, by BLOCKMAP.
     // Links in blocks (if needed).
@@ -273,4 +272,4 @@ typedef struct mobj_s
     
 } mobj_t;
 
-#endif
+#endif /* __P_MOBJ__ */

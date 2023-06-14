@@ -59,20 +59,16 @@ static void PlayerQuitGame(player_t *player)
 
     // TODO: check if it is sensible to do this:
 
-    if (demorecording) 
-    {
+    if (demorecording)
         G_CheckDemoStatus();
-    }
 }
 
 static void RunTic(ticcmd_t *cmds, const boolean *ingame)
 {
     extern boolean advancedemo;
-    unsigned int i;
 
     // Check for player quits.
-
-    for (i = 0; i < MAXPLAYERS; ++i)
+    for (int i = 0; i < MAXPLAYERS; ++i)
     {
         if (!demoplayback && playeringame[i] && !ingame[i])
         {
@@ -101,11 +97,8 @@ static loop_interface_t doom_loop_interface = {
 
 // Load game settings from the specified structure and
 // set global variables.
-
 static void LoadGameSettings(net_gamesettings_t *settings)
 {
-    unsigned int i;
-
     deathmatch = settings->deathmatch;
     startepisode = settings->episode;
     startmap = settings->map;
@@ -124,7 +117,7 @@ static void LoadGameSettings(net_gamesettings_t *settings)
                "because there is a client recording a Vanilla demo.\n");
     }
 
-    for (i = 0; i < MAXPLAYERS; ++i)
+    for (int i = 0; i < MAXPLAYERS; ++i)
     {
         playeringame[i] = i < settings->num_players;
     }
@@ -221,9 +214,7 @@ void D_ConnectNetGame(void)
     //
 
     if (M_CheckParm("-solo-net") > 0)
-    {
         netgame = True;
-    }
 }
 
 // Works out player numbers among the net participants
@@ -232,9 +223,7 @@ void D_CheckNetGame(void)
     net_gamesettings_t settings;
 
     if (netgame)
-    {
         autostart = True;
-    }
 
     D_RegisterLoopCallbacks(&doom_loop_interface);
 
@@ -249,7 +238,6 @@ void D_CheckNetGame(void)
            consoleplayer+1, settings.num_players, settings.num_players);
 
     // Show players here; the server might have specified a time limit
-
     if (timelimit > 0 && deathmatch)
     {
         // Gross hack to work like Vanilla:

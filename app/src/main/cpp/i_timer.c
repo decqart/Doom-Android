@@ -21,8 +21,6 @@
 
 #include "doomgeneric.h"
 
-#include <stdarg.h>
-
 static uint32_t basetime = 0;
 
 //was int

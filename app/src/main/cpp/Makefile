@@ -1,6 +1,6 @@
 CC=cc
 
-CFLAGS=-g -Wall -std=c99 -pedantic -Os -D_POSIX_C_SOURCE=200809L
+CFLAGS=-g -Wall -Wno-format -std=c99 -pedantic -Os -D_POSIX_C_SOURCE=200809L
 LDFLAGS=-Wl,--gc-sections -lm -lX11
 
 OBJDIR=build

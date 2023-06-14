@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "i_system.h"
 #include "z_zone.h"
@@ -78,10 +79,6 @@ fixed_t cachedheight[SCREENHEIGHT];
 fixed_t cacheddistance[SCREENHEIGHT];
 fixed_t cachedxstep[SCREENHEIGHT];
 fixed_t cachedystep[SCREENHEIGHT];
-
-
-// Only at game startup.
-void R_InitPlanes(void) {}
 
 
 // Uses global vars:

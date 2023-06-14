@@ -32,7 +32,7 @@ typedef struct {
 
 // Open the specified file. Returns a pointer to a new wad_file_t 
 // handle for the WAD file, or NULL if it could not be opened.
-wad_file_t *W_OpenFile(char *path);
+wad_file_t *W_OpenFile(const char *path);
 
 // Close the specified WAD file.
 void W_CloseFile(wad_file_t *wad);
@@ -40,6 +40,6 @@ void W_CloseFile(wad_file_t *wad);
 // Read data from the specified file into the provided buffer.  The
 // data is read from the specified offset from the start of the file.
 // Returns the number of bytes read.
-size_t W_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len);
+size_t W_Read(wad_file_t *wad, long offset, void *buffer, size_t buffer_len);
 
 #endif /* W_FILE_H */

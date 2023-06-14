@@ -22,7 +22,7 @@
 #include "r_defs.h"
 
 // font stuff
-#define HU_CHARERASE	KEY_BACKSPACE
+#define HU_CHARERASE KEY_BACKSPACE
 
 #define HU_MAXLINES		 4
 #define HU_MAXLINELENGTH 80
@@ -146,4 +146,4 @@ void HUlib_drawIText(hu_itext_t *it);
 // erases all itext lines
 void HUlib_eraseIText(hu_itext_t *it);
 
-#endif
+#endif /* __HULIB__ */

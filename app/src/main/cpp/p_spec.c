@@ -13,14 +13,15 @@
 // GNU General Public License for more details.
 //
 // DESCRIPTION:
-//	Implements special effects:
-//	Texture animation, height or lighting changes
-//	 according to adjacent sectors, respective
-//	 utility functions, etc.
-//	Line Tag handling. Line and Sector triggers.
+//  Implements special effects:
+//  Texture animation, height or lighting changes
+//  according to adjacent sectors, respective
+//  utility functions, etc.
+//  Line Tag handling. Line and Sector triggers.
 //
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "doomdef.h"
 #include "doomstat.h"

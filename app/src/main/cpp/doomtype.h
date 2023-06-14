@@ -20,14 +20,12 @@
 #ifndef __DOOMTYPE__
 #define __DOOMTYPE__
 
-// #define macros to provide functions missing in Windows.
-// Outside Windows, we use strings.h for str[n]casecmp.
-
 #ifdef __ANDROID__
 #include "AndroidDriver.h"
 #endif
 
 #ifdef _WIN32
+#include <string.h>
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 #else
