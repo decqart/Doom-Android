@@ -63,7 +63,6 @@ static unsigned char convertToDoomKey(unsigned int key)
         key = KEY_RSHIFT;
         break;
     default:
-        key = 0;
         break;
     }
 
@@ -87,6 +86,11 @@ void DG_Init(void)
 
     // window creation
     display = XOpenDisplay(NULL);
+    if (display == NULL)
+    {
+        puts("Failed to initialize display");
+        exit(1);
+    }
 
     screen = DefaultScreen(display);
 
@@ -104,10 +108,13 @@ void DG_Init(void)
 
     if (window == None)
     {
-        printf("Failed to create window");
+        puts("Failed to create window");
         XCloseDisplay(display);
         exit(1);
     }
+
+    Atom wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(display, window, &wm_delete_window, 1);
 
     XSelectInput(display, window, KeyPressMask | KeyReleaseMask);
 
@@ -118,6 +125,17 @@ void DG_Init(void)
     XSetForeground(display, window_gc, whiteColor);
 
     XkbSetDetectableAutoRepeat(display, 1, 0);
+
+    XSizeHints *size_hint = XAllocSizeHints();
+
+    size_hint->flags = PMinSize | PMaxSize;
+    size_hint->min_width = DOOMGENERIC_RESX;
+    size_hint->min_height = DOOMGENERIC_RESY;
+    size_hint->max_width = DOOMGENERIC_RESX;
+    size_hint->max_height = DOOMGENERIC_RESY;
+
+    XSetWMSizeHints(display, window, size_hint, XA_WM_NORMAL_HINTS);
+    XFree(size_hint);
 
     s_Image = XCreateImage(display, DefaultVisual(display, screen), depth, ZPixmap, 0, (char *) DG_ScreenBuffer, DOOMGENERIC_RESX, DOOMGENERIC_RESY, 32, 0);
 }
@@ -140,17 +158,13 @@ void DG_DrawFrame(void)
             KeySym sym = XkbKeycodeToKeysym(display, ev.xkey.keycode, 0, ev.xkey.state & ShiftMask ? 1 : 0);
             addKeyToQueue(0, sym);
         }
+        else if (ev.type == ClientMessage)
+        {
+            XDestroyWindow(display, window);
+            XCloseDisplay(display);
+            exit(0);
+        }
     }
-    XSizeHints *size_hint = XAllocSizeHints();
-
-    size_hint->flags = PMinSize | PMaxSize;
-    size_hint->min_width = DOOMGENERIC_RESX;
-    size_hint->min_height = DOOMGENERIC_RESY;
-    size_hint->max_width = DOOMGENERIC_RESX;
-    size_hint->max_height = DOOMGENERIC_RESY;
-
-    XSetWMSizeHints(display, window, size_hint, XA_WM_NORMAL_HINTS);
-    XFree(size_hint);
 
     /*
     XGetWindowAttributes(display, window, &win_attr);
