@@ -8,10 +8,7 @@
 
 #define KEYQUEUE_SIZE 16
 
-int DOOMGENERIC_RESY;
-int DOOMGENERIC_RESX;
-
-int screen_x, screen_y;
+static int screen_x, screen_y;
 
 static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
@@ -27,17 +24,6 @@ static bool pointer_touched_in(int x, int y, int x2, int y2, int *id)
         if (touched) break;
     }
     return touched;
-}
-
-static bool pointer_motion_in(int x, int y, int x2, int y2)
-{
-    bool motion = false;
-    for (int i = 0; i < 8; ++i)
-    {
-        motion = (x < motion_x[i] && motion_x[i] < x2) && (y < motion_y[i] && motion_y[i] < y2);
-        if (motion) break;
-    }
-    return motion;
 }
 
 static void addKeyToQueue(int pressed, unsigned char key)
@@ -61,8 +47,7 @@ static void VirtualButton(int x, int y, int id, unsigned char keycode)
         RenderCircle(x, y, 100, 0x808080ff);
 
     int idx;
-    if (pointer_motion_in(x, y, lw, lh) &&
-        pointer_touched_in(x, y, lw, lh, &idx) && !pressed[id])
+    if (pointer_touched_in(x, y, lw, lh, &idx) && !pressed[id])
     {
         addKeyToQueue(1, keycode);
         pressed[id] = true;
@@ -200,17 +185,15 @@ int DG_GetKey(int *pressed, unsigned char *doomKey)
 {
     if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
         return 0; //key queue is empty
-    else
-    {
-        unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
-        s_KeyQueueReadIndex++;
-        s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
 
-        *pressed = keyData >> 8;
-        *doomKey = keyData & 0xFF;
+    unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
+    s_KeyQueueReadIndex++;
+    s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
 
-        return 1;
-    }
+    *pressed = keyData >> 8;
+    *doomKey = keyData & 0xFF;
+
+    return 1;
 }
 
 void DG_SetWindowTitle(const char *title)

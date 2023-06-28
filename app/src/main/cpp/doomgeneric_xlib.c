@@ -11,6 +11,8 @@
 #include "doomkeys.h"
 #include "doomgeneric.h"
 
+#define KEYQUEUE_SIZE 16
+
 //XWindowAttributes win_attr;
 static Display *display = NULL;
 static Window  window;
@@ -18,11 +20,9 @@ static int     screen = 0;
 static GC      window_gc = 0;
 static XImage  *s_Image = NULL;
 
-#define KEYQUEUE_SIZE 16
-
 static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
-static unsigned int   s_KeyQueueWriteIndex = 0;
-static unsigned int   s_KeyQueueReadIndex = 0;
+static unsigned int s_KeyQueueWriteIndex = 0;
+static unsigned int s_KeyQueueReadIndex = 0;
 
 static unsigned char convertToDoomKey(unsigned int key)
 {
@@ -203,17 +203,15 @@ int DG_GetKey(int *pressed, unsigned char *doomKey)
 {
     if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
         return 0; //key queue is empty
-    else
-    {
-        unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
-        s_KeyQueueReadIndex++;
-        s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
 
-        *pressed = keyData >> 8;
-        *doomKey = keyData & 0xFF;
+    unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
+    s_KeyQueueReadIndex++;
+    s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
 
-        return 1;
-    }
+    *pressed = keyData >> 8;
+    *doomKey = keyData & 0xFF;
+
+    return 1;
 }
 
 void DG_SetWindowTitle(const char *title)

@@ -7,12 +7,11 @@
 #include "doomkeys.h"
 #include "doomgeneric.h"
 
+#define KEYQUEUE_SIZE 16
+
 static BITMAPINFO s_Bmi = { sizeof(BITMAPINFOHEADER), DOOMGENERIC_RESX, -DOOMGENERIC_RESY, 1, 32 };
 static HWND s_Hwnd = 0;
 static HDC s_Hdc = 0;
-
-
-#define KEYQUEUE_SIZE 16
 
 static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
@@ -170,21 +169,16 @@ uint32_t DG_GetTicksMs(void)
 int DG_GetKey(int *pressed, unsigned char *doomKey)
 {
     if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
-    {
-        //key queue is empty
-        return 0;
-    }
-    else
-    {
-        unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
-        s_KeyQueueReadIndex++;
-        s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
+        return 0; //key queue is empty
 
-        *pressed = keyData >> 8;
-        *doomKey = keyData & 0xFF;
+    unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
+    s_KeyQueueReadIndex++;
+    s_KeyQueueReadIndex %= KEYQUEUE_SIZE;
 
-        return 1;
-    }
+    *pressed = keyData >> 8;
+    *doomKey = keyData & 0xFF;
+
+    return 1;
 }
 
 void DG_SetWindowTitle(const char *title)

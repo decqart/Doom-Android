@@ -5,6 +5,9 @@
 #ifndef __ANDROID__
 uint32_t DG_ScreenBuffer[DOOMGENERIC_RESX * DOOMGENERIC_RESY];
 #else
+int DOOMGENERIC_RESY;
+int DOOMGENERIC_RESX;
+
 uint32_t *DG_ScreenBuffer = NULL;
 #endif
 
