@@ -202,10 +202,7 @@ uint32_t DG_GetTicksMs(void)
 int DG_GetKey(int *pressed, unsigned char *doomKey)
 {
     if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
-    {
-        //key queue is empty
-        return 0;
-    }
+        return 0; //key queue is empty
     else
     {
         unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];

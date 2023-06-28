@@ -11,6 +11,8 @@
 int DOOMGENERIC_RESY;
 int DOOMGENERIC_RESX;
 
+int screen_x, screen_y;
+
 static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
 static unsigned int s_KeyQueueReadIndex = 0;
@@ -47,52 +49,32 @@ static void addKeyToQueue(int pressed, unsigned char key)
     s_KeyQueueWriteIndex %= KEYQUEUE_SIZE;
 }
 
-int screen_x, screen_y;
-
-void DG_Init(void)
+static void VirtualButton(int x, int y, int id, unsigned char keycode)
 {
-    AndroidMakeFullscreen();
-    SetupApplication();
-    GetScreenDimensions(&screen_x, &screen_y);
-    DOOMGENERIC_RESY = screen_y;
-    DOOMGENERIC_RESX = DOOMGENERIC_RESY/10*16;
-}
-
-void VirtualButton(int x, int y, int id, unsigned char keycode)
-{
-    static bool pressable[2] = { false, false };
     static bool pressed[2] = { false, false };
     int lw = x + 200;
     int lh = y + 200;
-    RenderCircle(x, y, 100, 0x808080ff);
+
+    if (pressed[id])
+        RenderCircle(x, y, 100, 0x4c4c4cff);
+    else
+        RenderCircle(x, y, 100, 0x808080ff);
 
     int idx;
     if (pointer_motion_in(x, y, lw, lh) &&
-        pointer_touched_in(x, y, lw, lh, &idx))
+        pointer_touched_in(x, y, lw, lh, &idx) && !pressed[id])
     {
-        RenderCircle(x, y, 100, 0x4c4c4cff);
-        pressable[id] = true;
-    }
-
-    if (!pointer_motion_in(x, y, lw, lh))
-        pressable[id] = false;
-
-    if (pressed[id]) // after 1 cycle it returns pressed 0
-    {
-        pressed[id] = false;
-        addKeyToQueue(0, keycode);
-    }
-
-    if (pressable[id] && !button_down[idx])
-    {
-        pressable[id] = false;
-        pressed[id] = true;
         addKeyToQueue(1, keycode);
+        pressed[id] = true;
+    }
+    else if (!pointer_touched_in(x, y, lw, lh, &idx) && pressed[id])
+    {
+        addKeyToQueue(0, keycode);
+        pressed[id] = false;
     }
 }
 
-// event queue
-void VirtualJoystick(void)
+static void VirtualJoystick(void)
 {
     // make center of joystick do nothing
     static bool forward = false;
@@ -169,11 +151,15 @@ void VirtualJoystick(void)
             left = false;
         }
     }
-    if (menuactive)
-        VirtualButton(screen_x-400, screen_y-300, 0, KEY_ENTER);
-    else
-        VirtualButton(screen_x-400, screen_y-300, 0, KEY_FIRE);
-    VirtualButton(screen_x-250, screen_y-500, 1, KEY_USE);
+}
+
+void DG_Init(void)
+{
+    AndroidMakeFullscreen();
+    SetupApplication();
+    GetScreenDimensions(&screen_x, &screen_y);
+    DOOMGENERIC_RESY = screen_y;
+    DOOMGENERIC_RESX = DOOMGENERIC_RESY/10*16;
 }
 
 void DG_DrawFrame(void)
@@ -182,6 +168,13 @@ void DG_DrawFrame(void)
     RenderImage(DG_ScreenBuffer, screen_x / 2 - DOOMGENERIC_RESX / 2,
                 screen_y / 2 - DOOMGENERIC_RESY / 2, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
     VirtualJoystick();
+
+    if (menuactive)
+        VirtualButton(screen_x-400, screen_y-300, 0, KEY_ENTER);
+    else
+        VirtualButton(screen_x-400, screen_y-300, 0, KEY_FIRE);
+    VirtualButton(screen_x-250, screen_y-500, 1, KEY_USE);
+
     HandleInput();
     SwapBuffers();
 }
@@ -206,9 +199,7 @@ uint32_t DG_GetTicksMs(void)
 int DG_GetKey(int *pressed, unsigned char *doomKey)
 {
     if (s_KeyQueueReadIndex == s_KeyQueueWriteIndex)
-    {
         return 0; //key queue is empty
-    }
     else
     {
         unsigned short keyData = s_KeyQueue[s_KeyQueueReadIndex];
