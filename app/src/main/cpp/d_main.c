@@ -301,8 +301,6 @@ void D_Display(void)
 
 void D_BindVariables(void)
 {
-    I_BindSoundVariables();
-
     M_BindBaseControls();
     M_BindWeaponControls();
     M_BindMapControls();

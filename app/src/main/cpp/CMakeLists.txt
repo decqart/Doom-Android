@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.18.1)
 project("doom")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -ffunction-sections -fdata-sections -std=c99 -pedantic -D_BSD_SOURCE")
+set(CMAKE_C_FLAGS
+        "${CMAKE_C_FLAGS} -Os -ffunction-sections -fdata-sections -std=c99 -pedantic -D_BSD_SOURCE")
 
 add_library(native_app_glue OBJECT
         ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
@@ -30,6 +31,8 @@ add_library(main SHARED
         hu_stuff.c
         info.c
         i_sound.c
+        #i_mamusic.c
+        i_masound.c
         i_system.c
         i_timer.c
         m_argv.c
@@ -96,5 +99,4 @@ target_link_libraries(main
         native_app_glue
         EGL
         GLESv2
-        m
         log)

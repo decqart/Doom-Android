@@ -21,16 +21,14 @@
 
 #include "doomtype.h"
 
+#define MAX_VOLUME 100
 
-//
 // SoundFX struct.
-//
-typedef struct sfxinfo_struct sfxinfo_t;
+typedef struct sfxinfo_s sfxinfo_t;
 
-struct sfxinfo_struct {
+struct sfxinfo_s {
     // lump name.  If we are running with use_sfx_prefix=true, a
     // 'DS' (or 'DP' for PC speaker sounds) is prepended to this.
-
     char name[9];
 
     // Sfx priority
@@ -61,9 +59,7 @@ struct sfxinfo_struct {
     void *driver_data;
 };
 
-//
 // MusicInfo struct.
-//
 typedef struct {
     // up to 6-character name
     char *name;
@@ -93,51 +89,39 @@ typedef enum {
 } snddevice_t;
 
 // Interface for sound modules
-
 typedef struct {
     // List of sound devices that this sound module is used for.
-
     snddevice_t *sound_devices;
     int num_sound_devices;
 
     // Initialise sound module
     // Returns true if successfully initialised
-
     boolean (*Init)(boolean use_sfx_prefix);
 
     // Shutdown sound module
-
     void (*Shutdown)(void);
 
     // Returns the lump index of the given sound.
-
     int (*GetSfxLumpNum)(sfxinfo_t *sfxinfo);
 
     // Called periodically to update the subsystem.
-
     void (*Update)(void);
 
     // Update the sound settings on the given channel.
-
     void (*UpdateSoundParams)(int channel, int vol, int sep);
 
     // Start a sound on a given channel.  Returns the channel id
     // or -1 on failure.
-
-    int (*StartSound)(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
+    int (*StartSound)(sfxinfo_t *sfxinfo, int channel, int vol, int sep);
 
     // Stop the sound playing on the given channel.
-
     void (*StopSound)(int channel);
 
     // Query if a sound is playing on the given channel
-
     boolean (*SoundIsPlaying)(int channel);
 
     // Called on startup to precache sound effects (if necessary)
-
     void (*CacheSounds)(sfxinfo_t *sounds, int num_sounds);
-
 } sound_module_t;
 
 void I_InitSound(boolean use_sfx_prefix);
@@ -151,52 +135,40 @@ boolean I_SoundIsPlaying(int channel);
 void I_PrecacheSounds(sfxinfo_t *sounds, int num_sounds);
 
 // Interface for music modules
-
 typedef struct {
     // List of sound devices that this music module is used for.
-
     snddevice_t *sound_devices;
     int num_sound_devices;
 
     // Initialise the music subsystem
-
     boolean (*Init)(void);
 
     // Shutdown the music subsystem
-
     void (*Shutdown)(void);
 
     // Set music volume - range 0-127
-
     void (*SetMusicVolume)(int volume);
 
     // Pause music
-
     void (*PauseMusic)(void);
 
     // Un-pause music
-
     void (*ResumeMusic)(void);
 
     // Register a song handle from data
     // Returns a handle that can be used to play the song
-
     void *(*RegisterSong)(void *data, int len);
 
     // Un-register (free) song data
-
     void (*UnRegisterSong)(void *handle);
 
     // Play the song
-
     void (*PlaySong)(void *handle, boolean looping);
 
     // Stop playing the current song.
-
     void (*StopSong)(void);
 
     // Invoked periodically to poll.
-
     void (*Poll)(void);
 } music_module_t;
 
@@ -214,7 +186,5 @@ extern int snd_samplerate;
 extern int snd_cachesize;
 extern int snd_maxslicetime_ms;
 extern char *snd_musiccmd;
-
-void I_BindSoundVariables(void);
 
 #endif /* __I_SOUND__ */

@@ -24,10 +24,8 @@
 
 #include <stdio.h>
 
-//
 // ZONE MEMORY
 // PU - purge tags.
-
 enum {
     PU_STATIC = 1, // static entire execution time
     PU_SOUND,      // static while playing
@@ -35,14 +33,13 @@ enum {
     PU_FREE,       // a free block
     PU_LEVEL,      // static until level exited
     PU_LEVSPEC,    // a special thinker in a level
-    
+
     // Tags >= PU_PURGELEVEL are purgable whenever needed.
 
     PU_PURGELEVEL,
     PU_CACHE,
 
     // Total number of different tag types
-
     PU_NUM_TAGS
 };
 
@@ -58,10 +55,8 @@ void Z_ChangeUser(void *ptr, void **user);
 int Z_FreeMemory(void);
 unsigned int Z_ZoneSize(void);
 
-//
 // This is used to get the local FILE:LINE info from CPP
 // prior to really call the function in question.
-//
 #define Z_ChangeTag(p,t) Z_ChangeTag2((p), (t), __FILE__, __LINE__)
 
 #endif /* __Z_ZONE__ */

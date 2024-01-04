@@ -20,15 +20,12 @@
 #define DOOM_FEATURES_H
 
 // Enables wad merging (the '-merge' command line parameter)
-
 #undef FEATURE_WAD_MERGE
 
 // Enables multiplayer support (network games)
-
 #undef FEATURE_MULTIPLAYER
 
 // Enables sound output
-
 #undef FEATURE_SOUND
 
 #endif /* DOOM_FEATURES_H */
