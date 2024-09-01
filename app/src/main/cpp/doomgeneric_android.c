@@ -37,7 +37,7 @@ static void addKeyToQueue(int pressed, unsigned char key)
 
 static void VirtualButton(int x, int y, int id, unsigned char keycode)
 {
-    static bool pressed[2] = { false, false };
+    static bool pressed[3] = { false, false, false };
     int lw = x + 200;
     int lh = y + 200;
 
@@ -159,7 +159,7 @@ void DG_DrawFrame(void)
     else
         VirtualButton(screen_x-400, screen_y-300, 0, KEY_FIRE);
     VirtualButton(screen_x-250, screen_y-500, 1, KEY_USE);
-
+    VirtualButton(screen_x-250, screen_y-850, 2, KEY_ESCAPE);
     HandleInput();
     SwapBuffers();
 }
