@@ -1,16 +1,14 @@
 cmake_minimum_required(VERSION 3.18.1)
 project("doom")
 
-set(CMAKE_C_FLAGS
-        "${CMAKE_C_FLAGS} -Os -ffunction-sections -fdata-sections -std=c99 -pedantic -D_BSD_SOURCE")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -O3 -D_BSD_SOURCE -ffunction-sections -fdata-sections")
 
 add_library(native_app_glue OBJECT
         ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
 
 # Export ANativeActivity_onCreate(),
 # Refer to: https://github.com/android-ndk/ndk/issues/381.
-set(CMAKE_SHARED_LINKER_FLAGS
-        "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 
 add_library(main SHARED
         i_main.c
