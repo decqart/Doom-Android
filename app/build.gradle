@@ -4,7 +4,7 @@ android {
     namespace "com.deckart.doom"
     compileSdk {
         version = release(37) {
-            minorApiLevel = 2
+            minorApiLevel = 1
         }
     }
     ndkVersion "25.2.9519653"
@@ -30,17 +30,20 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt")
         }
-        /*android.applicationVariants.all { variant ->
-            variant.outputs.all { output ->
-                def builtType = variant.buildType.name
-                outputFileName = "Doom-${builtType}.apk"
-            }
-        }*/
     }
     externalNativeBuild {
         cmake {
             version "3.22.1"
             path file("src/main/cpp/CMakeLists.txt")
+        }
+    }
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        variant.outputs.forEach { output ->
+            def buildType = variant.buildType
+            output.outputFileName.set("Doom-${buildType}.apk")
         }
     }
 }
